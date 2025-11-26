@@ -264,7 +264,7 @@ const Footer = () => {
           <p className="text-[13px] text-center text-[rgba(0,0,0,0.4)]">© 2025 - Sahil Enterprises, Thawe</p>
 
           <div className="flex items-center">
-            <img src="visa.svg" alt="visa" />
+            <img src="/visa.svg" alt="visa" />
           </div>
         </div>
       </div>
