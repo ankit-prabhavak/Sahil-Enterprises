@@ -31,7 +31,7 @@ const ProductListing = () => {
             underline="hover"
             color="inherit"
             href="/"
-            className="link transition"
+            className="link transition text-[14px]!"
           >
             Home
           </Link>
@@ -39,7 +39,7 @@ const ProductListing = () => {
             underline="hover"
             color="inherit"
             href="/"
-            className="link transition"
+            className="link transition text-[14px]!"
           >
             Snacks
           </Link>
