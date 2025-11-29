@@ -13,4 +13,3 @@ Built using the MERN stack with plans for full product management, payments, and
 - Context API
 - Node.js + Express.js (upcoming)
 - MongoDB (upcoming)
-
