@@ -137,7 +137,7 @@ const ProductListing = () => {
             </div>
 
             {itemView === "grid" ? (
-              <div className="pl-2 grid grid-cols-5 md:grid-cols-5 gap-2.5">
+              <div className="grid grid-cols-5 md:grid-cols-5 gap-2.5">
                 <ProductItem
                   brand="Dettol"
                   title="Dettol Original Bathing Soap Bar"

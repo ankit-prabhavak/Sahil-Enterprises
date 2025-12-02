@@ -72,7 +72,7 @@ const Register = () => {
                   Already Registered?{" "}
                   <Link
                     className="link text-[14px] font-semibold text-[#ff5252]"
-                    to={"/register"}
+                    to={"/login"}
                   >
                     Login
                   </Link>
