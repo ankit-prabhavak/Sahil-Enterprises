@@ -20,6 +20,7 @@ import Register from "./Pages/Register";
 // Cart Panel
 import Drawer from "@mui/material/Drawer";
 import CartPanel from "./components/CartPanel";
+import CartPage from "./Pages/Cart";
 
 const MyContext = createContext();
 
@@ -56,6 +57,7 @@ export default function App() {
             <Route path="/product/:id" element={<ProductDetail />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/cart" element={<CartPage />} />
           </Routes>
           <Footer />
 
