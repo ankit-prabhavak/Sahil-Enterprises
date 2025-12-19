@@ -21,6 +21,13 @@ import Register from "./Pages/Register";
 import Drawer from "@mui/material/Drawer";
 import CartPanel from "./components/CartPanel";
 import CartPage from "./Pages/Cart";
+import Verify from "./Pages/Verify";
+
+// Toast
+import toast, { Toaster } from 'react-hot-toast';
+
+// forgot password
+import ForgotPassword from "./Pages/ForgotPassword";
 
 const MyContext = createContext();
 
@@ -41,11 +48,28 @@ export default function App() {
   const handleCloseProductDetail = () => {
     setOpenProductDetail(false);
   };
+  
+  // alert box
+  const openAlertBox = (status, message) => {
+    
+    if(status === "success")
+    {
+      toast.success(message);
+    }
+
+    if(status === "error")
+    {
+      toast.error(message);
+    }
+
+  };
 
   const values = {
     setOpenProductDetail,
     setOpenCartPanel,
+    openAlertBox,
   };
+
   return (
     <>
       <BrowserRouter>
@@ -58,6 +82,8 @@ export default function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/cart" element={<CartPage />} />
+            <Route path="/Verify" element={<Verify />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
           </Routes>
           <Footer />
 
@@ -109,6 +135,8 @@ export default function App() {
           </Drawer>
         </MyContext.Provider>
       </BrowserRouter>
+
+      <Toaster />
     </>
   );
 }
