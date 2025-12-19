@@ -68,7 +68,7 @@ const CartPage = () => {
             <br />
 
             <Button className="btn-org btn-lg w-full flex gap-2">
-              <BsFillBagCheckFill className="text-[20px]" />
+              <BsFillBagCheckFill className="text-[18px]" />
               CheckOut
             </Button>
           </div>
