@@ -3,12 +3,28 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { IoMdEye } from "react-icons/io";
 import { IoMdEyeOff } from "react-icons/io";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import "./style.css";
+import { MyContext } from "../../App";
 
 const Login = () => {
   const [isShowPassword, setIsShowPassword] = React.useState(false);
+  const [formFields, setFormFields] = React.useState({
+    email: "",
+    password: "",
+  });
+  
+  const context = React.useContext(MyContext);
+  const history = useNavigate();
+
+
+  const forgotPassword = () => {   
+   
+    context.openAlertBox("success", "OTP sent to your email address");
+    history("/verify");
+    
+  }
 
   return (
     <section className="section bg-white">
@@ -33,6 +49,8 @@ const Login = () => {
                     label="Email Id *"
                     variant="outlined"
                     className="w-full"
+                    name="name"
+                  
                   />
                 </div>
                 <div className="form-group w-full mb-5 relative">
@@ -42,6 +60,7 @@ const Login = () => {
                     label="Password"
                     variant="outlined"
                     className="w-full"
+                    name="password"
                   />
                   <Button
                     className="absolute! top-2.5 right-2.5 z-50 w-[35px]! h-[35px]! min-w-[35px]! rounded-full! text-black!"
@@ -55,7 +74,7 @@ const Login = () => {
                   </Button>
                 </div>
 
-                <a className="link cursor-pointer text-[14px] font-medium text-[#666]">
+                <a className="link cursor-pointer text-[14px] font-medium text-[#666]" onClick={forgotPassword}>
                   Forgot Password?
                 </a>
 
