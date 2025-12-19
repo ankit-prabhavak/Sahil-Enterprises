@@ -24,10 +24,12 @@ import CartPage from "./Pages/Cart";
 import Verify from "./Pages/Verify";
 
 // Toast
-import toast, { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from "react-hot-toast";
 
 // forgot password
 import ForgotPassword from "./Pages/ForgotPassword";
+// checkout page
+import Checkout from "./Pages/Checkout";
 
 const MyContext = createContext();
 
@@ -48,20 +50,16 @@ export default function App() {
   const handleCloseProductDetail = () => {
     setOpenProductDetail(false);
   };
-  
+
   // alert box
   const openAlertBox = (status, message) => {
-    
-    if(status === "success")
-    {
+    if (status === "success") {
       toast.success(message);
     }
 
-    if(status === "error")
-    {
+    if (status === "error") {
       toast.error(message);
     }
-
   };
 
   const values = {
@@ -84,6 +82,7 @@ export default function App() {
             <Route path="/cart" element={<CartPage />} />
             <Route path="/Verify" element={<Verify />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/checkout" element={<Checkout />} />
           </Routes>
           <Footer />
 
@@ -103,7 +102,7 @@ export default function App() {
                   className="w-10! h-10! min-w-10! rounded-full! text-black! absolute! top-0 right-0"
                   onClick={handleCloseProductDetail}
                 >
-                  <IoCloseSharp className="text-[20px]!"/>
+                  <IoCloseSharp className="text-[20px]!" />
                 </Button>
 
                 <div className="col1 w-[40%] h-full flex items-start justify-start">
