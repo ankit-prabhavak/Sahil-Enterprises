@@ -30,6 +30,7 @@ import toast, { Toaster } from "react-hot-toast";
 import ForgotPassword from "./Pages/ForgotPassword";
 // checkout page
 import Checkout from "./Pages/Checkout";
+import MyAccount from "./Pages/MyAccount";
 
 const MyContext = createContext();
 
@@ -37,6 +38,7 @@ export default function App() {
   const [openProductDetail, setOpenProductDetail] = React.useState(false);
   const [maxWidth, setMaxWidth] = React.useState("lg");
   const [fullWidth, setFullWidth] = React.useState(true);
+  const [isLoggedIn, setIsLoggedIn] = React.useState(true);                                                                                
 
   {
     /*Cart Panel */
@@ -66,6 +68,8 @@ export default function App() {
     setOpenProductDetail,
     setOpenCartPanel,
     openAlertBox,
+    isLoggedIn,
+    setIsLoggedIn,
   };
 
   return (
@@ -83,6 +87,7 @@ export default function App() {
             <Route path="/Verify" element={<Verify />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/checkout" element={<Checkout />} />
+            <Route path="/my-account" element={<MyAccount />} />
           </Routes>
           <Footer />
 
