@@ -31,6 +31,7 @@ import ForgotPassword from "./Pages/ForgotPassword";
 // checkout page
 import Checkout from "./Pages/Checkout";
 import MyAccount from "./Pages/MyAccount";
+import MyList from "./Pages/MyList";
 
 const MyContext = createContext();
 
@@ -88,6 +89,7 @@ export default function App() {
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/my-account" element={<MyAccount />} />
+            <Route path="/my-list" element={<MyList />} />
           </Routes>
           <Footer />
 
