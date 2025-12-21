@@ -49,15 +49,15 @@ const ProductItemListView = ({
         )}
 
         <div className="actions absolute top-[-200px] right-[5px] z-50 flex flex-col gap-2 transition-all duration-300 opacity-0 group-hover:opacity-100 group-hover:top-[15px]">
-          <Button className="!w-[35px] !h-[35px] !min-w-[35px] !rounded-full !bg-white !text-black hover:!bg-[#ff5252] hover:!text-white" onClick={()=>context.setOpenProductDetail(true)}>
+          <Button className="w-[35px]! h-[35px]! min-w-[35px]! rounded-full! bg-white! text-black! hover:bg-[#ff5252]! hover:text-white!" onClick={()=>context.setOpenProductDetail(true)}>
             <MdZoomOutMap />
           </Button>
 
-          <Button className="!w-[35px] !h-[35px] !min-w-[35px] !rounded-full !bg-white !text-black hover:!bg-[#ff5252] hover:!text-white">
+          <Button className="w-[35px]! h-[35px]! min-w-[35px]! rounded-full! bg-white! text-black! hover:bg-[#ff5252]! hover:text-white!">
             <IoGitCompareOutline />
           </Button>
 
-          <Button className="!w-[35px] !h-[35px] !min-w-[35px] !rounded-full !bg-white !text-black hover:!bg-[#ff5252] hover:!text-white">
+          <Button className="w-[35px]! h-[35px]! min-w-[35px]! rounded-full! bg-white! text-black! hover:bg-[#ff5252]! hover:text-white!">
             <FaRegHeart />
           </Button>
         </div>
