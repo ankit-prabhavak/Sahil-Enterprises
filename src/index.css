@@ -26,6 +26,20 @@ body {
 ::-webkit-scrollbar-track {
   background: #fff;
 }
+/* Horizontal scrollbar */
+.overflow-x-auto::-webkit-scrollbar {
+  height: 5px;
+}
+
+.overflow-x-auto::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 10px;
+}
+
+.overflow-x-auto::-webkit-scrollbar-track {
+  background: transparent;
+}
+
 
 
 .container {
