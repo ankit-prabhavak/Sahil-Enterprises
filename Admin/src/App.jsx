@@ -14,8 +14,13 @@ function App() {
           <section className="main">
             <Header />
             <div className="contentMain flex">
-              <div className="sidebarWrapper w-[18%]">
+              <div className="sidebarWrapper w-[20%]">
                 <Sidebar />
+              </div>
+              <div className="contentRight py-4 pr-8  w-[80%]">
+
+                <Dashboard />
+
               </div>
 
             </div>
