@@ -1,0 +1,14 @@
+.searchBox input::placeholder {
+    color: #282626 !important;
+}
+
+/* Default placeholder color */
+.searchBox input::placeholder {
+  color: #423f3f !important;  /* light gray */
+  opacity: 1;
+}
+
+/* Focus placeholder color */
+.searchBox input:focus::placeholder {
+  color: #7a7a7a !important;  /* slightly darker gray on focus */
+}
