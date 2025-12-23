@@ -26,7 +26,7 @@ This repository contains both **Client** and **Admin** applications, structured 
 
 ## Getting Started
 
-1. Clone the repository:
+Clone the repository:
 
    ```bash
    git clone https://github.com/ankit-prabhavak/Sahil-Enterprises.git
