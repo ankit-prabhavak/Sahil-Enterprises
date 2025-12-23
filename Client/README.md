@@ -1,7 +1,15 @@
-# Sahil-Enterprises
+# Sahil-Enterprises Client
 
-A modern e-commerce web application for small-scale local businesses.  
-Built using the MERN stack with plans for full product management, payments, and an admin panel.
+The **Client** application is the user-facing frontend of the Sahil-Enterprises e-commerce platform.  
+Users can browse products, add to cart, checkout, and manage their accounts.
+
+## Features
+
+- Browse product listings and details
+- Add/remove products to/from cart
+- Checkout flow with payment placeholders
+- User authentication & account management
+- Responsive UI with modern design
 
 ## Tech Stack
 
@@ -11,5 +19,10 @@ Built using the MERN stack with plans for full product management, payments, and
 - Material UI (MUI)
 - React Icons
 - Context API
-- Node.js + Express.js (upcoming)
-- MongoDB (upcoming)
+
+## Getting Started
+
+1. Navigate to the Client folder:
+
+   ```bash
+   cd Client
