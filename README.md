@@ -1,4 +1,4 @@
-# Sahil-Enterprises
+# Sahil Enterprises
 
 A modern e-commerce web application for small-scale local businesses.  
 This repository contains both **Client** and **Admin** applications, structured for maintainability and scalability.
