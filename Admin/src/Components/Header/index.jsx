@@ -34,7 +34,7 @@ const Header = () => {
   };
 
   return (
-    <header className="w-full h-auto py-2 pl-71 pr-7 shadow-md bg-white flex items-center justify-between">
+    <header className="w-full h-auto py-2 pl-71 pr-8 shadow-md bg-white flex items-center justify-between">
       <div className="part1">
         <Button className="w-10! h-10! min-w-10! rounded-full! text-[rgba(0,0,0,0.8)]!">
           <RiMenu2Line className="text-[18px] text-[rgba(0,0,0,0.8)]" />
@@ -112,7 +112,7 @@ const Header = () => {
 
                 <div className="info">
                     <h3 className="text-[14px] font-medium leading-4">Ankit Kumar</h3>
-                    <p className="text-[12px] font-normal opacity-70">username@exampl.com</p>
+                    <p className="text-[12px] font-normal opacity-70">username@example.com</p>
                 </div>
               </div>
             </MenuItem>
