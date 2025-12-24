@@ -1,3 +1,7 @@
+:root {
+  --primary: #ff5252;
+}
+
 body {
     font-family: "Montserrat", sans-serif;
     background: #f9f9f9;
@@ -9,6 +13,10 @@ body {
     transition: height 400ms;
 }
 
+.btn-green { background: #00a66f !important; color: #fff !important; padding: 8px 20px; }
+.btn-green:hover { background: #0ca471 !important; }
+
+.btn-sm { padding: 6px 20px !important; font-size: 14px !important;}
 
 .btn-blue {background: #3872fa !important; color: #fff !important; padding: 8px 20px;}
 .btn-blue:hover{background: #3067e5 !important;}

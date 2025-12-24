@@ -5,7 +5,21 @@ import Dashboard from "./Pages/Dashboard";
 import Header from "./Components/Header";
 import Sidebar from "./Components/Sidebar";
 
+import { createContext } from "react";
+
+const MyContext = createContext();
+
 function App() {
+
+  const [isSidebarOpen, setIsSidebarOpen ] = React.useState(true);
+  
+  
+   
+  const values = {
+    isSidebarOpen,
+    setIsSidebarOpen,
+  };
+
   const router = createBrowserRouter([
     {
       path: "/",
@@ -14,10 +28,10 @@ function App() {
           <section className="main">
             <Header />
             <div className="contentMain flex">
-              <div className="sidebarWrapper w-[20%]">
+              <div className={`overflow-hidden sidebarWrapper ${isSidebarOpen === true ? 'w-[20%]' : 'w-0 opacity-0'} transition-all`}>
                 <Sidebar />
               </div>
-              <div className="contentRight py-4 pr-8  w-[80%]">
+              <div className={`contentRight py-4 pr-8  ${isSidebarOpen === false ? 'w-full pl-8' : 'w-[80%]'} transition-all`}>
 
                 <Dashboard />
 
@@ -32,9 +46,12 @@ function App() {
 
   return (
     <>
-      <RouterProvider router={router} />
+      <MyContext value={values}>
+          <RouterProvider router={router} />
+      </MyContext>
     </>
   );
 }
 
 export default App;
+export { MyContext };
