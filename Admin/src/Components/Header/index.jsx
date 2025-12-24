@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import Button from "@mui/material/Button";
 import { RiMenu2Line } from "react-icons/ri";
 import Badge from "@mui/material/Badge";
@@ -12,6 +12,7 @@ import { FaRegUser } from "react-icons/fa";
 import { IoLogOutOutline } from "react-icons/io5";
 import { LuActivity } from "react-icons/lu";
 import { IoSettingsOutline } from "react-icons/io5";
+import { MyContext } from "../../App";
 
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
@@ -33,10 +34,12 @@ const Header = () => {
     setAnchorMyAccount(null);
   };
 
+  const context = useContext(MyContext);
+
   return (
-    <header className="w-full h-auto py-2 pl-71 pr-8 shadow-md bg-white flex items-center justify-between">
+    <header className={`w-full h-auto py-2 ${context.isSidebarOpen === true ? 'pl-71' : 'pl-8'} transition-all pr-8 shadow-md bg-white flex items-center justify-between`}>
       <div className="part1">
-        <Button className="w-10! h-10! min-w-10! rounded-full! text-[rgba(0,0,0,0.8)]!">
+        <Button className="w-10! h-10! min-w-10! cursor-pointer!  rounded-full! text-[rgba(0,0,0,0.8)]!" onClick={() => context.setIsSidebarOpen(!context.isSidebarOpen)}>
           <RiMenu2Line className="text-[18px] text-[rgba(0,0,0,0.8)]" />
         </Button>
       </div>
