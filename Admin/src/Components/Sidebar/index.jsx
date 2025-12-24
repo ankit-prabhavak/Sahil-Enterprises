@@ -13,6 +13,7 @@ import { TbCategory } from "react-icons/tb";
 import { IoBagCheckOutline } from "react-icons/io5";
 import { FaAngleDown } from "react-icons/fa6";
 import { Collapse } from "react-collapse";
+import { MyContext } from "../../App";
 
 const Sidebar = () => {
   const [submenuIdx, setSubmenuIdx] = React.useState(null);
@@ -24,10 +25,12 @@ const Sidebar = () => {
       setSubmenuIdx(index);
     }
   };
+  
+  const context = React.useContext(MyContext);
 
   return (
     <>
-      <div className="sidebar py-2 px-4 fixed top-0 left-0 bg-white w-[18%] h-full border-r border-[rgba(0,0,0,0.1)]">
+      <div className={`sidebar py-2 px-4 fixed top-0 left-0 bg-white ${context.isSidebarOpen === true ? 'w-[18%]' : 'w-0'} h-full border-r border-[rgba(0,0,0,0.1)]`}>
         <div className="py-2 w-full">
           <Link to="/">
             <img src="Sahil.png" alt="logo" className="w-[140px]" />
@@ -180,7 +183,7 @@ const Sidebar = () => {
                   <Link to="category/subCatList">
                   <Button className="text-[rgba(0,0,0,0.7)]! w-full! capitalize! justify-start! text-[13px]! font-medium! pl-9! flex gap-3">
                     <span className="block w-[5px] h-[5px] rounded-full bg-[rgba(0,0,0,0.2)]"></span>
-                    Subcategory List
+                    Sub Category List
                   </Button>
                   </Link>
                 </li>
@@ -188,7 +191,7 @@ const Sidebar = () => {
                   <Link to="/category/subCatAdd/">
                   <Button className="text-[rgba(0,0,0,0.7)]! w-full! capitalize! justify-start! text-[13px]! font-medium! pl-9! flex gap-3">
                     <span className="block w-[5px] h-[5px] rounded-full bg-[rgba(0,0,0,0.2)]"></span>
-                    Add Subcategory
+                    Add Sub Category
                   </Button>
                   </Link>
                 </li>
