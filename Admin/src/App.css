@@ -18,6 +18,8 @@ body {
 
 .btn-sm { padding: 6px 20px !important; font-size: 14px !important;}
 
+.btn-lg { padding: 8px 20px !important; font-size: 16px !important;}
+
 .btn-blue {background: #3872fa !important; color: #fff !important; padding: 8px 20px;}
 .btn-blue:hover{background: #3067e5 !important;}
 
@@ -33,4 +35,16 @@ body {
 
 .overflow-x-auto::-webkit-scrollbar-track {
   background: transparent;
+}
+
+a.active button{background: #e8e8e8 !important;}
+
+.MuiButton-icon svg {font-size: 27px !important;}
+
+.css-vuhw6e-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root.Mui-checked, .css-vuhw6e-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root.MuiCheckbox-indeterminate {
+    color: #3872fa !important;
+}
+
+.css-rizt0-MuiTypography-root {
+  font-size: 14px !important;
 }

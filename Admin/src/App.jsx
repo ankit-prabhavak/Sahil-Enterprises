@@ -6,18 +6,22 @@ import Header from "./Components/Header";
 import Sidebar from "./Components/Sidebar";
 
 import { createContext } from "react";
+import Login from "./Pages/Login";
+import SignUp from "./Pages/SignUp";
 
 const MyContext = createContext();
 
 function App() {
 
   const [isSidebarOpen, setIsSidebarOpen ] = React.useState(true);
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   
   
-   
   const values = {
     isSidebarOpen,
     setIsSidebarOpen,
+    isLoggedIn,
+    setIsLoggedIn,
   };
 
   const router = createBrowserRouter([
@@ -42,6 +46,23 @@ function App() {
         </>
       ),
     },
+    {
+      path:'/login',
+      element: (
+        <>
+          <Login/>
+        </>
+      )
+
+    },
+    {
+      path: '/signUp',
+      element: (
+        <>
+          <SignUp />
+        </>
+      )
+    }
   ]);
 
   return (
