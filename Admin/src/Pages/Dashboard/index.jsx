@@ -9,10 +9,10 @@ import { CiEdit } from "react-icons/ci";
 import { IoEyeOutline } from "react-icons/io5";
 import { GoTrash } from "react-icons/go";
 import Checkbox from "@mui/material/Checkbox";
-import Tooltip from "@mui/material/Tooltip";
 import Pagination from "@mui/material/Pagination";
 import { AiOutlineExport } from "react-icons/ai";
 import { IoMdAdd } from "react-icons/io";
+import Tooltip from "@mui/material/Tooltip";
 
 const label = { slotProps: { input: { "aria-label": "Checkbox demo" } } };
 
@@ -22,7 +22,95 @@ import Progress from "../../Components/Progress";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 
+// Recharts
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip as RechartsTooltip,
+  Legend,
+} from "recharts";
+import { RechartsDevtools } from "@recharts/devtools";
+
+
 const Dashboard = () => {
+  const [chart1Data, setChart1Data] = React.useState([
+    {
+      month: "Jan",
+      customers: 110,
+      sales: 2200,
+      amount: 1150,
+    },
+    {
+      month: "Feb",
+      customers: 240,
+      sales: 2600,
+      amount: 1300,
+    },
+    {
+      month: "Mar",
+      customers: 590,
+      sales: 3400,
+      amount: 1700,
+    },
+    {
+      month: "Apr",
+      customers: 1130,
+      sales: 4200,
+      amount: 2100,
+    },
+    {
+      month: "May",
+      customers: 1260,
+      sales: 4800,
+      amount: 2400,
+    },
+    {
+      month: "Jun",
+      customers: 1540,
+      sales: 4500,
+      amount: 2250,
+    },
+    {
+      month: "Jul",
+      customers: 770,
+      sales: 5100,
+      amount: 2550,
+    },
+    {
+      month: "Aug",
+      customers: 100,
+      sales: 5600,
+      amount: 2800,
+    },
+    {
+      month: "Sep",
+      customers: 340,
+      sales: 6200,
+      amount: 3100,
+    },
+    {
+      month: "Oct",
+      customers: 720,
+      sales: 7600,
+      amount: 3800,
+    },
+    {
+      month: "Nov",
+      customers: 880,
+      sales: 8400,
+      amount: 4200,
+    },
+    {
+      month: "Dec",
+      customers: 520,
+      sales: 9200,
+      amount: 4600,
+    },
+  ]);
+
   const [isOpenShowProductDetails, setIsOpenShowProductDetails] =
     React.useState(null);
 
@@ -105,12 +193,13 @@ const Dashboard = () => {
 
           <div className="col2 w-[25%] ml-auto flex items-center gap-2">
             <Button className="btn-green btn-sm capitalize!">
-              <AiOutlineExport className="text-[16px]"/>
-              <span className="pl-2">Export</span> </Button>
+              <AiOutlineExport className="text-[16px]" />
+              <span className="pl-2">Export</span>{" "}
+            </Button>
             <Button className="btn-blue btn-sm capitalize!">
-              <IoMdAdd className="text-[16px]"/>
-              <span className="pl-2">Add New</span></Button>
-
+              <IoMdAdd className="text-[16px]" />
+              <span className="pl-2">Add New</span>
+            </Button>
           </div>
         </div>
 
@@ -1031,6 +1120,59 @@ const Dashboard = () => {
             </tbody>
           </table>
         </div>
+      </div>
+
+      <div className="card my-4 p-3 shadow-md sm:rounded-lg bg-white">
+        <div className="flex items-center justify-between px-5 py-5 pb-2">
+          <h2 className="text-[20px] font-semibold ">
+            Total Customers & Sales
+          </h2>
+        </div>
+
+        <div className="flex items-center gap-5 px-5 py-5 pt-1">
+          <span className="flex items-center gap-1 text-[14px] font-medium">
+            <span className="block w-2 h-2 rounded-full bg-green-600"></span>
+            Total Customers
+          </span>
+
+          <span className="flex items-center gap-1 text-[14px] font-medium">
+            <span className="block w-2 h-2 rounded-full bg-purple-600"></span>
+            Total Sales
+          </span>
+        </div>
+
+        <LineChart
+          width={1000}
+          height={500}
+          responsive
+          data={chart1Data}
+          margin={{
+            top: 5,
+            right: 30,
+            left: 20,
+            bottom: 5,
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" stroke="none" />
+          <XAxis dataKey="month" tick={{ fontSize: 12 }} />
+          <YAxis width="auto" tick={{ fontSize: 12 }} />
+          <RechartsTooltip />
+          <Legend />
+          <Line
+            type="monotone"
+            dataKey="customers"
+            stroke="#8884d8"
+            strokeWidth={3}
+            activeDot={{ r: 8 }}
+          />
+          <Line
+            type="monotone"
+            dataKey="sales"
+            strokeWidth={3}
+            stroke="#82ca9d"
+          />
+          <RechartsDevtools />
+        </LineChart>
       </div>
     </>
   );
