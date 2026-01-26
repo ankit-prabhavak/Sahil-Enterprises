@@ -8,6 +8,7 @@ import Sidebar from "./Components/Sidebar";
 import { createContext } from "react";
 import Login from "./Pages/Login";
 import SignUp from "./Pages/SignUp";
+import Products from "./Pages/Products";
 
 const MyContext = createContext();
 
@@ -62,7 +63,28 @@ function App() {
           <SignUp />
         </>
       )
-    }
+    },
+    {
+      path: "/products",
+      element: (
+        <>
+          <section className="main">
+            <Header />
+            <div className="contentMain flex">
+              <div className={`overflow-hidden sidebarWrapper ${isSidebarOpen === true ? 'w-[20%]' : 'w-0 opacity-0'} transition-all`}>
+                <Sidebar />
+              </div>
+              <div className={`contentRight py-4 pr-8  ${isSidebarOpen === false ? 'w-full pl-8' : 'w-[80%]'} transition-all`}>
+
+                <Products />
+
+              </div>
+
+            </div>
+          </section>
+        </>
+      ),
+    },
   ]);
 
   return (
