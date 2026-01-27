@@ -20,10 +20,14 @@ import Progress from "../../Components/Progress";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 
+import { MyContext } from "../../App";
+
 const Products = () => {
 
   const [category, setCategory] = React.useState("");
   const [openCategory, setOpenCategory] = React.useState(false);
+
+  const context  = React.useContext(MyContext);
 
   const handleChangeFilter = (event) => {
     setCategory(event.target.value);
@@ -48,7 +52,7 @@ const Products = () => {
               <AiOutlineExport className="text-[16px]" />
               <span className="pl-2">Export</span>{" "}
             </Button>
-            <Button className="btn-blue btn-sm capitalize!">
+            <Button className="btn-blue btn-sm capitalize!" onClick={() => context.setIsOpenFullScreenPanel({open: true, model: 'Add Product'})}>
               <IoMdAdd className="text-[16px]" />
               <span className="pl-2">Add New</span>
             </Button>

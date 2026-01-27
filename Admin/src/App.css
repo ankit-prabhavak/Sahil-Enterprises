@@ -48,3 +48,9 @@ a.active button{background: #e8e8e8 !important;}
 .css-rizt0-MuiTypography-root {
   font-size: 14px !important;
 }
+
+/* Custome style for full screen panel */
+.MuiAppBar-colorPrimary {
+  background-color: #fff !important;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 10%) !important;
+}
