@@ -9,6 +9,7 @@ import { createContext } from "react";
 import Login from "./Pages/Login";
 import SignUp from "./Pages/SignUp";
 import Products from "./Pages/Products";
+import AddProduct from "./Pages/Products/addProduct";
 
 // MUI imports for full screen dialog
 import { Button } from "@mui/material";
@@ -138,23 +139,19 @@ function App() {
               <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
                 <span className="text-gray-800">{isOpenFullScreenPanel.model}</span>
               </Typography>
-              <Button autoFocus color="inherit" onClick={() => setIsOpenFullScreenPanel({open: false, model: ''})}>
-                <span className="text-gray-800">Save</span>
-              </Button>
+              
             </Toolbar>
           </AppBar>
-          <List>
-            <ListItemButton>
-              <ListItemText primary="Phone ringtone" secondary="Titania" />
-            </ListItemButton>
-            <Divider />
-            <ListItemButton>
-              <ListItemText
-                primary="Default notification ringtone"
-                secondary="Tethys"
-              />
-            </ListItemButton>
-          </List>
+
+            {
+              isOpenFullScreenPanel.model === 'Add Product' && (
+                <AddProduct />
+              )
+            }
+          
+
+
+
         </Dialog>
       </MyContext.Provider>
     </>

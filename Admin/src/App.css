@@ -54,3 +54,11 @@ a.active button{background: #e8e8e8 !important;}
   background-color: #fff !important;
   box-shadow: 0 2px 4px rgb(0 0 0 / 10%) !important;
 }
+
+
+/* Chrome, Edge, Safari */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
