@@ -33,7 +33,7 @@ const Sidebar = () => {
       <div className={`sidebar py-2 px-4 fixed top-0 left-0 bg-white ${context.isSidebarOpen === true ? 'w-[18%]' : 'w-0'} h-full border-r border-[rgba(0,0,0,0.1)]`}>
         <div className="py-2 w-full">
           <Link to="/">
-            <img src="Sahil.png" alt="logo" className="w-[140px]" />
+            <img src="/Sahil.png" alt="logo" className="w-[140px]" />
           </Link>
         </div>
 
@@ -135,12 +135,12 @@ const Sidebar = () => {
                   </Link>
                 </li>
                 <li className="w-full">
-                  <Link to="product/add/">
-                  <Button className="text-[rgba(0,0,0,0.7)]! w-full! capitalize! justify-start! text-[13px]! font-medium! pl-9! flex gap-3">
+                  
+                  <Button className="text-[rgba(0,0,0,0.7)]! w-full! capitalize! justify-start! text-[13px]! font-medium! pl-9! flex gap-3" onClick={() => context.setIsOpenFullScreenPanel({open: true, model: 'Add Product'})}>
                     <span className="block w-[5px] h-[5px] rounded-full bg-[rgba(0,0,0,0.2)]"></span>
                     Upload Product
                   </Button>
-                  </Link>
+                  
                 </li>
               </ul>
             </Collapse>
