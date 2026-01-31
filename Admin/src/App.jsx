@@ -12,18 +12,15 @@ import Products from "./Pages/Products";
 import AddProduct from "./Pages/Products/addProduct";
 
 // MUI imports for full screen dialog
-import { Button } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
-import ListItemText from "@mui/material/ListItemText";
-import ListItemButton from "@mui/material/ListItemButton";
-import List from "@mui/material/List";
-import Divider from "@mui/material/Divider";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import { IoMdClose } from "react-icons/io";
 import Slide from "@mui/material/Slide";
+import HomeSliderBanner from "./Pages/HomeSliderBanner";
+import AddHomeSlide from "./Pages/HomeSliderBanner/addHomeSlide";
 
 const MyContext = createContext();
 
@@ -111,6 +108,28 @@ function App() {
         </>
       ),
     },
+    {
+      path: "/homeSliderBanner/list",
+      element: (
+        <>
+          <section className="main">
+            <Header />
+            <div className="contentMain flex">
+              <div
+                className={`overflow-hidden sidebarWrapper ${isSidebarOpen === true ? "w-[20%]" : "w-0 opacity-0"} transition-all`}
+              >
+                <Sidebar />
+              </div>
+              <div
+                className={`contentRight py-4 pr-8  ${isSidebarOpen === false ? "w-full pl-8" : "w-[80%]"} transition-all`}
+              >
+                <HomeSliderBanner />
+              </div>
+            </div>
+          </section>
+        </>
+      ),
+    },
   ]);
 
   return (
@@ -146,6 +165,12 @@ function App() {
             {
               isOpenFullScreenPanel.model === 'Add Product' && (
                 <AddProduct />
+              )
+            }
+
+            {
+              isOpenFullScreenPanel.model === 'Add Home Slider Banner' && (
+                <AddHomeSlide />
               )
             }
           
