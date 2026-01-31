@@ -22,6 +22,9 @@ import Progress from "../../Components/Progress";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 
+import { useContext } from "react";
+import { MyContext } from "../../App";
+
 // Recharts
 import {
   LineChart,
@@ -137,6 +140,8 @@ const Dashboard = () => {
     setOpenCategory(true);
   };
 
+  const context = useContext(MyContext);
+
   return (
     <>
       <div className="w-full bg-white py-2 px-5 border border-[rgba(0,0,0,0.1)] flex items-center gap-8 mb-5 justify-between rounded-md">
@@ -151,7 +156,7 @@ const Dashboard = () => {
             once.
           </p>
           <br />
-          <Button className="btn-blue capitalize! gap-1">
+          <Button className="btn-blue capitalize! gap-1" onClick={() => context.setIsOpenFullScreenPanel({open: true, model: 'Add Product'})}>
             <FaPlus />
             Add Products
           </Button>
@@ -196,7 +201,7 @@ const Dashboard = () => {
               <AiOutlineExport className="text-[16px]" />
               <span className="pl-2">Export</span>{" "}
             </Button>
-            <Button className="btn-blue btn-sm capitalize!">
+            <Button className="btn-blue btn-sm capitalize!" onClick={() => context.setIsOpenFullScreenPanel({open: true, model: 'Add Product'})}>
               <IoMdAdd className="text-[16px]" />
               <span className="pl-2">Add New</span>
             </Button>
@@ -707,7 +712,7 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <div className="card my-4 p-3 shadow-md sm:rounded-lg bg-white">
+      <div className="card my-4 p-4 shadow-md sm:rounded-lg bg-white">
         <div className="flex items-center justify-between px-5 py-5">
           <h2 className="text-[20px] font-semibold ">Recent Orders</h2>
         </div>
