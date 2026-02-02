@@ -33,10 +33,12 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip as RechartsTooltip,
+  ResponsiveContainer,
   Legend,
 } from "recharts";
 import { RechartsDevtools } from "@recharts/devtools";
-
+import TwoLevelPieChart from "../../Components/TwoLevelPieChart";
+import ComposedChartGraph from "../../Components/ComposedChartGraph";
 
 const Dashboard = () => {
   const [chart1Data, setChart1Data] = React.useState([
@@ -156,7 +158,15 @@ const Dashboard = () => {
             once.
           </p>
           <br />
-          <Button className="btn-blue capitalize! gap-1" onClick={() => context.setIsOpenFullScreenPanel({open: true, model: 'Add Product'})}>
+          <Button
+            className="btn-blue capitalize! gap-1"
+            onClick={() =>
+              context.setIsOpenFullScreenPanel({
+                open: true,
+                model: "Add Product",
+              })
+            }
+          >
             <FaPlus />
             Add Products
           </Button>
@@ -186,6 +196,7 @@ const Dashboard = () => {
               value={category}
               label="Category"
               onChange={handleChangeFilter}
+              
             >
               <MenuItem value="">
                 <em>None</em>
@@ -201,7 +212,15 @@ const Dashboard = () => {
               <AiOutlineExport className="text-[16px]" />
               <span className="pl-2">Export</span>{" "}
             </Button>
-            <Button className="btn-blue btn-sm capitalize!" onClick={() => context.setIsOpenFullScreenPanel({open: true, model: 'Add Product'})}>
+            <Button
+              className="btn-blue btn-sm capitalize!"
+              onClick={() =>
+                context.setIsOpenFullScreenPanel({
+                  open: true,
+                  model: "Add Product",
+                })
+              }
+            >
               <IoMdAdd className="text-[16px]" />
               <span className="pl-2">Add New</span>
             </Button>
@@ -1127,7 +1146,7 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <div className="card my-4 p-3 shadow-md sm:rounded-lg bg-white">
+      {/* <div className="card my-4 p-3 shadow-md sm:rounded-lg bg-white">
         <div className="flex items-center justify-between px-5 py-5 pb-2">
           <h2 className="text-[20px] font-semibold ">
             Total Customers & Sales
@@ -1178,6 +1197,131 @@ const Dashboard = () => {
           />
           <RechartsDevtools />
         </LineChart>
+      </div> */}
+
+      <div className="chartsWrapper grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div className="card w-full my-4 p-3 shadow-md sm:rounded-lg bg-white">
+          <div className="flex items-center justify-between px-5 py-5 pb-2">
+            <h2 className="text-[20px] font-semibold ">
+              Total Customers & Sales
+            </h2>
+          </div>
+
+          <div className="flex items-center gap-5 px-5 py-5 pt-1">
+            <span className="flex items-center gap-1 text-[14px] font-medium">
+              <span className="block w-2 h-2 rounded-full bg-green-600"></span>
+              Total Customers
+            </span>
+
+            <span className="flex items-center gap-1 text-[14px] font-medium">
+              <span className="block w-2 h-2 rounded-full bg-purple-600"></span>
+              Total Sales
+            </span>
+          </div>
+          <ResponsiveContainer width="100%" height={350}>
+            <LineChart
+              data={chart1Data}
+              margin={{ top: 10, right: 20, left: 10, bottom: 0 }}
+            >
+
+              {/* X Axis */}
+              <XAxis
+                dataKey="month"
+                tickLine={false}
+                axisLine={false}
+                tick={{ fontSize: 12, fill: "#64748b" }}
+              />
+
+              {/* Y Axis */}
+              <YAxis
+                tickLine={false}
+                axisLine={false}
+                tick={{ fontSize: 12, fill: "#64748b" }}
+              />
+
+              {/* Tooltip */}
+              <RechartsTooltip
+                contentStyle={{
+                  borderRadius: "8px",
+                  border: "none",
+                  boxShadow: "0 10px 25px rgba(0,0,0,0.1)",
+                }}
+                labelStyle={{ fontWeight: 600 }}
+              />
+
+              {/* Customers */}
+              <Line
+                type="monotone"
+                dataKey="customers"
+                stroke="#16a34a"
+                strokeWidth={3}
+                dot={false}
+                activeDot={{ r: 6 }}
+              />
+
+              {/* Sales */}
+              <Line
+                type="monotone"
+                dataKey="sales"
+                stroke="#6366f1"
+                strokeWidth={3}
+                dot={false}
+              />
+
+              <RechartsDevtools />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+
+        <div className="card w-full my-4 p-3 shadow-md sm:rounded-lg bg-white">
+          <div className="flex items-center justify-between px-5 py-5 pb-2">
+            <h2 className="text-[20px] font-semibold ">
+              Total Categories & Subcategories
+            </h2>
+          </div>
+
+          <div className="flex items-center gap-5 px-5 py-5 pt-1">
+            <span className="flex items-center gap-1 text-[14px] font-medium">
+              <span className="block w-2 h-2 rounded-full bg-[#ff5252]"></span>
+              Total Categories
+            </span>
+
+            <span className="flex items-center gap-1 text-[14px] font-medium">
+              <span className="block w-2 h-2 rounded-full bg-[#3872fa]"></span>
+              Total Subcategories
+            </span>
+          </div>
+
+          <div className="h-[350px] flex items-center justify-center">
+            <TwoLevelPieChart />
+          </div>
+        </div>
+      </div>
+
+      <div className="card my-4 p-3 shadow-md sm:rounded-lg bg-white">
+        <div className="flex items-center justify-between px-5 py-5 pb-2">
+          <h2 className="text-[20px] font-semibold ">
+            Monthly Performance Overview
+          </h2>
+        </div>
+        <div className="flex items-center gap-6 px-5 py-3 text-sm font-medium">
+          <span className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-indigo-500"></span>
+            Revenue
+          </span>
+          <span className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-green-500"></span>
+            Orders
+          </span>
+          <span className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-orange-500"></span>
+            Profit
+          </span>
+        </div>
+
+        <div className="p-4">
+          <ComposedChartGraph />
+        </div>
       </div>
     </>
   );
