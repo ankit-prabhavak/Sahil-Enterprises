@@ -10,6 +10,7 @@ import Login from "./Pages/Login";
 import SignUp from "./Pages/SignUp";
 import Products from "./Pages/Products";
 import AddProduct from "./Pages/Products/addProduct";
+import Users from "./Pages/Users";
 
 // MUI imports for full screen dialog
 import Dialog from "@mui/material/Dialog";
@@ -21,6 +22,12 @@ import { IoMdClose } from "react-icons/io";
 import Slide from "@mui/material/Slide";
 import HomeSliderBanner from "./Pages/HomeSliderBanner";
 import AddHomeSlide from "./Pages/HomeSliderBanner/addHomeSlide";
+import CategoryList from "./Pages/CategoryList";
+import AddCategory from "./Pages/CategoryList/addCategory";
+import SubCategoryList from "./Pages/SubCategoryList";
+import AddSubCategory from "./Pages/SubCategoryList/addSubCategory";
+import Orders from "./Pages/Orders";
+
 
 const MyContext = createContext();
 
@@ -34,9 +41,8 @@ function App() {
 
   const [isOpenFullScreenPanel, setIsOpenFullScreenPanel] = React.useState({
     open: false,
-    model: ''
+    model: "",
   });
-  
 
   const values = {
     isSidebarOpen,
@@ -130,6 +136,94 @@ function App() {
         </>
       ),
     },
+    {
+      path: "/category/list",
+      element: (
+        <>
+          <section className="main">
+            <Header />
+            <div className="contentMain flex">
+              <div
+                className={`overflow-hidden sidebarWrapper ${isSidebarOpen === true ? "w-[20%]" : "w-0 opacity-0"} transition-all`}
+              >
+                <Sidebar />
+              </div>
+              <div
+                className={`contentRight py-4 pr-8  ${isSidebarOpen === false ? "w-full pl-8" : "w-[80%]"} transition-all`}
+              >
+                <CategoryList />
+              </div>
+            </div>
+          </section>
+        </>
+      ),
+    },
+    {
+      path: "/subCategory/list",
+      element: (
+        <>
+          <section className="main">
+            <Header />
+            <div className="contentMain flex">
+              <div
+                className={`overflow-hidden sidebarWrapper ${isSidebarOpen === true ? "w-[20%]" : "w-0 opacity-0"} transition-all`}
+              >
+                <Sidebar />
+              </div>
+              <div
+                className={`contentRight py-4 pr-8  ${isSidebarOpen === false ? "w-full pl-8" : "w-[80%]"} transition-all`}
+              >
+                <SubCategoryList />
+              </div>
+            </div>
+          </section>
+        </>
+      ),
+    },
+    {
+      path: "/orders",
+      element: (
+        <>
+          <section className="main">
+            <Header />
+            <div className="contentMain flex">
+              <div
+                className={`overflow-hidden sidebarWrapper ${isSidebarOpen === true ? "w-[20%]" : "w-0 opacity-0"} transition-all`}
+              >
+                <Sidebar />
+              </div>
+              <div
+                className={`contentRight py-4 pr-8  ${isSidebarOpen === false ? "w-full pl-8" : "w-[80%]"} transition-all`}
+              >
+                <Orders />
+              </div>
+            </div>
+          </section>
+        </>
+      ),
+    },
+    {
+      path: "/users",
+      element: (
+        <>
+          <section className="main">
+            <Header />
+            <div className="contentMain flex">
+              <div
+                className={`overflow-hidden sidebarWrapper ${isSidebarOpen === true ? "w-[20%]" : "w-0 opacity-0"} transition-all`}
+              >
+                <Sidebar />
+              </div>
+              <div
+                className={`contentRight py-4 pr-8  ${isSidebarOpen === false ? "w-full pl-8" : "w-[80%]"} transition-all`}
+              >
+                <Users />
+              </div>
+            </div>
+          </section>
+        </>
+      ),
+    },
   ]);
 
   return (
@@ -140,7 +234,7 @@ function App() {
         <Dialog
           fullScreen
           open={isOpenFullScreenPanel.open}
-          onClose={() => setIsOpenFullScreenPanel({open: false, model: ''})}
+          onClose={() => setIsOpenFullScreenPanel({ open: false, model: "" })}
           slots={{
             transition: Transition,
           }}
@@ -150,33 +244,36 @@ function App() {
               <IconButton
                 edge="start"
                 color="inherit"
-                onClick={() => setIsOpenFullScreenPanel({open: false, model: ''})}
+                onClick={() =>
+                  setIsOpenFullScreenPanel({ open: false, model: "" })
+                }
                 aria-label="close"
               >
                 <IoMdClose className="text-gray-800" />
               </IconButton>
               <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-                <span className="text-gray-800">{isOpenFullScreenPanel.model}</span>
+                <span className="text-gray-800">
+                  {isOpenFullScreenPanel.model}
+                </span>
               </Typography>
-              
             </Toolbar>
           </AppBar>
 
-            {
-              isOpenFullScreenPanel.model === 'Add Product' && (
-                <AddProduct />
-              )
-            }
+          {isOpenFullScreenPanel.model === "Add Product" && <AddProduct />}
 
-            {
-              isOpenFullScreenPanel.model === 'Add Home Slider Banner' && (
-                <AddHomeSlide />
-              )
-            }
-          
+          {isOpenFullScreenPanel.model === "Add Home Slider Banner" && (
+            <AddHomeSlide />
+          )}
 
+          {isOpenFullScreenPanel.model === "Add New Category" && (
+            <AddCategory />
+          )}
 
+          {isOpenFullScreenPanel.model === "Add New Sub Category" && (
+            <AddSubCategory />
+          )
 
+          }
         </Dialog>
       </MyContext.Provider>
     </>
