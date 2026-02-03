@@ -1,8 +1,7 @@
 import React from "react";
 import { Button } from "@mui/material";
 import { IoMdAdd } from "react-icons/io";
-import SearchBox from "../../Components/SearchBox";
-
+import SearchBox from "../../components/SearchBox";
 
 import { CiEdit } from "react-icons/ci";
 import { IoEyeOutline } from "react-icons/io5";

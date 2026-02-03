@@ -1,6 +1,7 @@
 import React from "react";
 import { Button } from "@mui/material";
 import { IoMdAdd } from "react-icons/io";
+import Chip from '@mui/material/Chip';
 
 import { CiEdit } from "react-icons/ci";
 import { IoEyeOutline } from "react-icons/io5";
@@ -16,15 +17,15 @@ import { Link } from "react-router-dom";
 
 import { MyContext } from "../../App";
 
-const HomeSliderBanner = () => {
+const CategoryList = () => {
   const context = React.useContext(MyContext);
 
   return (
     <>
       <div className="flex items-center justify-between px-2 py-0 mt-3">
-        <h2 className="text-[20px] font-semibold ">Home Slider Banners</h2>
+        <h2 className="text-[20px] font-semibold ">Category List</h2>
 
-        <div className="col2 w-[25%] ml-auto flex items-center justify-end gap-2">
+        <div className="col2 w-[30%] ml-auto flex items-center justify-end gap-2">
           <Button className="btn-green btn-sm capitalize!">
             <AiOutlineExport className="text-[16px]" />
             <span className="pl-2">Export</span>{" "}
@@ -34,12 +35,12 @@ const HomeSliderBanner = () => {
             onClick={() =>
               context.setIsOpenFullScreenPanel({
                 open: true,
-                model: "Add Home Slider Banner",
+                model: "Add New Category",
               })
             }
           >
             <IoMdAdd className="text-[16px]" />
-            <span className="pl-2">Add Home Slide</span>
+            <span className="pl-2">Add New Category</span>
           </Button>
         </div>
       </div>
@@ -62,6 +63,12 @@ const HomeSliderBanner = () => {
                 </th>
                 <th
                   scope="col"
+                  className="px-1 py-3 font-semibold whitespace-nowrap"
+                >
+                  Category Name
+                </th>
+                <th
+                  scope="col"
                   className="px-6 py-3 font-semibold whitespace-nowrap"
                 >
                   Action
@@ -78,17 +85,21 @@ const HomeSliderBanner = () => {
                 </td>
 
                 <td className="px-1 py-2">
-                  <div className="flex items-center gap-4 w-[325px]">
+                  <div className="flex items-center gap-4 w-[125px]">
                     <div className="img w-full h-auto rounded-md overflow-hidden group">
                       <Link to="/product/45">
                         <img
-                          src="https://tbn-prod-assets.s3.dualstack.ap-south-1.amazonaws.com/UI_Enhancement/Winter%20Banner%201200-400%20Web%20GIF/Personal%20care.gif"
+                          src="https://tbn-prod-assets.s3.ap-south-1.amazonaws.com/MENU_1752752398821.png"
                           alt="product img"
                           className="w-full group-hover:scale-105 transition-all"
                         />
                       </Link>
                     </div>
                   </div>
+                </td>
+                <td className="px-2 py-2 text-[14px] text-[#666] font-medium whitespace-nowrap">
+                  
+                  <Chip label="Cleaning & Laundry" />
                 </td>
                 <td className="px-6 py-2">
                   <div className="flex items-center gap-2">
@@ -122,7 +133,7 @@ const HomeSliderBanner = () => {
                 </td>
               </tr>
 
-              <tr className="bg-neutral-primary  border-b border-[rgba(0,0,0,0.1)]">
+               <tr className="bg-neutral-primary  border-b border-[rgba(0,0,0,0.1)]">
                 <td className="px-2 py-2">
                   <div className="w-15">
                     <Checkbox {...label} size="small" />
@@ -130,17 +141,21 @@ const HomeSliderBanner = () => {
                 </td>
 
                 <td className="px-1 py-2">
-                  <div className="flex items-center gap-4 w-[325px]">
+                  <div className="flex items-center gap-4 w-[125px]">
                     <div className="img w-full h-auto rounded-md overflow-hidden group">
                       <Link to="/product/45">
                         <img
-                          src="https://tbn-prod-assets.s3.dualstack.ap-south-1.amazonaws.com/UI_Enhancement/Winter%20Banner%201200-400%20Web%20GIF/Beverages.gif"
+                          src="https://tbn-prod-assets.s3.ap-south-1.amazonaws.com/MENU_1752752639337.png"
                           alt="product img"
                           className="w-full group-hover:scale-105 transition-all"
                         />
                       </Link>
                     </div>
                   </div>
+                </td>
+                <td className="px-2 py-2 text-[14px] text-[#666] font-medium whitespace-nowrap">
+                 
+                  <Chip label="Stationary & Electrical" />
                 </td>
                 <td className="px-6 py-2">
                   <div className="flex items-center gap-2">
@@ -174,7 +189,7 @@ const HomeSliderBanner = () => {
                 </td>
               </tr>
 
-              <tr className="bg-neutral-primary  border-b border-[rgba(0,0,0,0.1)]">
+               <tr className="bg-neutral-primary  border-b border-[rgba(0,0,0,0.1)]">
                 <td className="px-2 py-2">
                   <div className="w-15">
                     <Checkbox {...label} size="small" />
@@ -182,17 +197,22 @@ const HomeSliderBanner = () => {
                 </td>
 
                 <td className="px-1 py-2">
-                  <div className="flex items-center gap-4 w-[325px]">
+                  <div className="flex items-center gap-4 w-[125px]">
                     <div className="img w-full h-auto rounded-md overflow-hidden group">
                       <Link to="/product/45">
                         <img
-                          src="https://tbn-prod-assets.s3.dualstack.ap-south-1.amazonaws.com/UI_Enhancement/Banner/Puja%20Article%20Banners%20Web.gif"
+                          src="https://tbn-prod-assets.s3.ap-south-1.amazonaws.com/MENU_1752752514120.png"
                           alt="product img"
                           className="w-full group-hover:scale-105 transition-all"
                         />
                       </Link>
                     </div>
                   </div>
+                </td>
+                <td className="px-2 py-2 text-[14px] text-[#666] font-medium whitespace-nowrap">
+                 
+                  <Chip label="Hair & Body Care" />
+                  
                 </td>
                 <td className="px-6 py-2">
                   <div className="flex items-center gap-2">
@@ -226,7 +246,7 @@ const HomeSliderBanner = () => {
                 </td>
               </tr>
 
-              <tr className="bg-neutral-primary  border-b border-[rgba(0,0,0,0.1)]">
+               <tr className="bg-neutral-primary  border-b border-[rgba(0,0,0,0.1)]">
                 <td className="px-2 py-2">
                   <div className="w-15">
                     <Checkbox {...label} size="small" />
@@ -234,17 +254,21 @@ const HomeSliderBanner = () => {
                 </td>
 
                 <td className="px-1 py-2">
-                  <div className="flex items-center gap-4 w-[325px]">
+                  <div className="flex items-center gap-4 w-[125px]">
                     <div className="img w-full h-auto rounded-md overflow-hidden group">
                       <Link to="/product/45">
                         <img
-                          src="https://tbn-prod-assets.s3.ap-south-1.amazonaws.com/cms_1764763639109.webp"
+                          src="https://tbn-prod-assets.s3.ap-south-1.amazonaws.com/MENU_1752752571216.png"
                           alt="product img"
                           className="w-full group-hover:scale-105 transition-all"
                         />
                       </Link>
                     </div>
                   </div>
+                </td>
+                <td className="px-2 py-2 text-[14px] text-[#666] font-medium whitespace-nowrap">
+                  
+                   <Chip label=" Instant Packaged Food" />
                 </td>
                 <td className="px-6 py-2">
                   <div className="flex items-center gap-2">
@@ -277,6 +301,8 @@ const HomeSliderBanner = () => {
                   </div>
                 </td>
               </tr>
+            
+
 
               <div className="mb"></div>
             </tbody>
@@ -291,4 +317,4 @@ const HomeSliderBanner = () => {
   );
 };
 
-export default HomeSliderBanner;
+export default CategoryList;
