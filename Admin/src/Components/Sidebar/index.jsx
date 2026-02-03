@@ -25,12 +25,14 @@ const Sidebar = () => {
       setSubmenuIdx(index);
     }
   };
-  
+
   const context = React.useContext(MyContext);
 
   return (
     <>
-      <div className={`sidebar py-2 px-4 fixed top-0 left-0 bg-white ${context.isSidebarOpen === true ? 'w-[18%]' : 'w-0'} h-full border-r border-[rgba(0,0,0,0.1)]`}>
+      <div
+        className={`sidebar py-2 px-4 fixed top-0 left-0 bg-white ${context.isSidebarOpen === true ? "w-[18%]" : "w-0"} h-full border-r border-[rgba(0,0,0,0.1)]`}
+      >
         <div className="py-2 w-full">
           <Link to="/">
             <img src="/Sahil.png" alt="logo" className="w-[140px]" />
@@ -55,10 +57,10 @@ const Sidebar = () => {
         <ul className="mt-4">
           <li>
             <Link to="/">
-            <Button className="w-full capitalize! justify-start! flex gap-3 text-[14px] text-[rgba(0,0,0,0.8)]! font-medium! items-center py-2! hover:bg-[#f1f1f1]!">
-              <RxDashboard className="text-[20px]" />
-              <span>Dashboard</span>
-            </Button>
+              <Button className="w-full capitalize! justify-start! flex gap-3 text-[14px] text-[rgba(0,0,0,0.8)]! font-medium! items-center py-2! hover:bg-[#f1f1f1]!">
+                <RxDashboard className="text-[20px]" />
+                <span>Dashboard</span>
+              </Button>
             </Link>
           </li>
 
@@ -80,20 +82,26 @@ const Sidebar = () => {
             <Collapse isOpened={submenuIdx === 1 ? true : false}>
               <ul className="w-full">
                 <li className="w-full">
-                  <Link to="/homeSlides/bannerList">
-                  <Button className="text-[rgba(0,0,0,0.7)]! w-full! capitalize! justify-start! text-[13px]! font-medium! pl-9! flex gap-3">
-                    <span className="block w-[5px] h-[5px] rounded-full bg-[rgba(0,0,0,0.2)]"></span>
-                    Home Banner List
-                  </Button>
+                  <Link to="/homeSliderBanner/list">
+                    <Button className="text-[rgba(0,0,0,0.7)]! w-full! capitalize! justify-start! text-[13px]! font-medium! pl-9! flex gap-3">
+                      <span className="block w-[5px] h-[5px] rounded-full bg-[rgba(0,0,0,0.2)]"></span>
+                      Home Banner List
+                    </Button>
                   </Link>
                 </li>
                 <li className="w-full">
-                  <Link to="/homeSlides/bannerAdd">
-                  <Button className="text-[rgba(0,0,0,0.7)]! w-full! capitalize! justify-start! text-[13px]! font-medium! pl-9! flex gap-3">
+                  <Button
+                    className="text-[rgba(0,0,0,0.7)]! w-full! capitalize! justify-start! text-[13px]! font-medium! pl-9! flex gap-3"
+                    onClick={() =>
+                      context.setIsOpenFullScreenPanel({
+                        open: true,
+                        model: "Add Home Slider Banner",
+                      })
+                    }
+                  >
                     <span className="block w-[5px] h-[5px] rounded-full bg-[rgba(0,0,0,0.2)]"></span>
                     Add Home Banner Slide
                   </Button>
-                  </Link>
                 </li>
               </ul>
             </Collapse>
@@ -101,10 +109,10 @@ const Sidebar = () => {
 
           <li>
             <Link to="/users">
-            <Button className="w-full capitalize! justify-start! flex gap-3 text-[14px] text-[rgba(0,0,0,0.8)]! font-medium! items-center py-2! hover:bg-[#f1f1f1]!">
-              <LuUsers className="text-[20px]" />
-              <span>Users</span>
-            </Button>
+              <Button className="w-full capitalize! justify-start! flex gap-3 text-[14px] text-[rgba(0,0,0,0.8)]! font-medium! items-center py-2! hover:bg-[#f1f1f1]!">
+                <LuUsers className="text-[20px]" />
+                <span>Users</span>
+              </Button>
             </Link>
           </li>
 
@@ -126,21 +134,26 @@ const Sidebar = () => {
             <Collapse isOpened={submenuIdx === 2 ? true : false}>
               <ul className="w-full">
                 <li className="w-full">
-                  <Link to="product/list/">
-                  <Button className="text-[rgba(0,0,0,0.7)]! w-full! capitalize! justify-start! text-[13px]! font-medium! pl-9! flex gap-3">
-                    <span className="block w-[5px] h-[5px] rounded-full bg-[rgba(0,0,0,0.2)]"></span>
-                    Product List
-                  </Button>
-                  
+                  <Link to="/products">
+                    <Button className="text-[rgba(0,0,0,0.7)]! w-full! capitalize! justify-start! text-[13px]! font-medium! pl-9! flex gap-3">
+                      <span className="block w-[5px] h-[5px] rounded-full bg-[rgba(0,0,0,0.2)]"></span>
+                      Product List
+                    </Button>
                   </Link>
                 </li>
                 <li className="w-full">
-                  
-                  <Button className="text-[rgba(0,0,0,0.7)]! w-full! capitalize! justify-start! text-[13px]! font-medium! pl-9! flex gap-3" onClick={() => context.setIsOpenFullScreenPanel({open: true, model: 'Add Product'})}>
+                  <Button
+                    className="text-[rgba(0,0,0,0.7)]! w-full! capitalize! justify-start! text-[13px]! font-medium! pl-9! flex gap-3"
+                    onClick={() =>
+                      context.setIsOpenFullScreenPanel({
+                        open: true,
+                        model: "Add Product",
+                      })
+                    }
+                  >
                     <span className="block w-[5px] h-[5px] rounded-full bg-[rgba(0,0,0,0.2)]"></span>
                     Upload Product
                   </Button>
-                  
                 </li>
               </ul>
             </Collapse>
@@ -164,36 +177,48 @@ const Sidebar = () => {
             <Collapse isOpened={submenuIdx === 3 ? true : false}>
               <ul className="w-full">
                 <li className="w-full">
-                  <Link to="category/list/">
-                  <Button className="text-[rgba(0,0,0,0.7)]! w-full! capitalize! justify-start! text-[13px]! font-medium! pl-9! flex gap-3">
-                    <span className="block w-[5px] h-[5px] rounded-full bg-[rgba(0,0,0,0.2)]"></span>
-                    Category List
-                  </Button>
+                  <Link to="/category/list/">
+                    <Button className="text-[rgba(0,0,0,0.7)]! w-full! capitalize! justify-start! text-[13px]! font-medium! pl-9! flex gap-3">
+                      <span className="block w-[5px] h-[5px] rounded-full bg-[rgba(0,0,0,0.2)]"></span>
+                      Category List
+                    </Button>
                   </Link>
                 </li>
                 <li className="w-full">
-                  <Link to="category/add/">
-                  <Button className="text-[rgba(0,0,0,0.7)]! w-full! capitalize! justify-start! text-[13px]! font-medium! pl-9! flex gap-3">
+                  <Button
+                    className="text-[rgba(0,0,0,0.7)]! w-full! capitalize! justify-start! text-[13px]! font-medium! pl-9! flex gap-3"
+                    onClick={() =>
+                      context.setIsOpenFullScreenPanel({
+                        open: true,
+                        model: "Add New Category",
+                      })
+                    }
+                  >
                     <span className="block w-[5px] h-[5px] rounded-full bg-[rgba(0,0,0,0.2)]"></span>
                     Add Category
                   </Button>
+                </li>
+                <li className="w-full">
+                  <Link to="/subCategory/list">
+                    <Button className="text-[rgba(0,0,0,0.7)]! w-full! capitalize! justify-start! text-[13px]! font-medium! pl-9! flex gap-3">
+                      <span className="block w-[5px] h-[5px] rounded-full bg-[rgba(0,0,0,0.2)]"></span>
+                      Sub Category List
+                    </Button>
                   </Link>
                 </li>
                 <li className="w-full">
-                  <Link to="category/subCatList">
-                  <Button className="text-[rgba(0,0,0,0.7)]! w-full! capitalize! justify-start! text-[13px]! font-medium! pl-9! flex gap-3">
-                    <span className="block w-[5px] h-[5px] rounded-full bg-[rgba(0,0,0,0.2)]"></span>
-                    Sub Category List
-                  </Button>
-                  </Link>
-                </li>
-                <li className="w-full">
-                  <Link to="/category/subCatAdd/">
-                  <Button className="text-[rgba(0,0,0,0.7)]! w-full! capitalize! justify-start! text-[13px]! font-medium! pl-9! flex gap-3">
+                  <Button
+                    className="text-[rgba(0,0,0,0.7)]! w-full! capitalize! justify-start! text-[13px]! font-medium! pl-9! flex gap-3"
+                    onClick={() =>
+                      context.setIsOpenFullScreenPanel({
+                        open: true,
+                        model: "Add New Sub Category",
+                      })
+                    }
+                  >
                     <span className="block w-[5px] h-[5px] rounded-full bg-[rgba(0,0,0,0.2)]"></span>
                     Add Sub Category
                   </Button>
-                  </Link>
                 </li>
               </ul>
             </Collapse>
@@ -201,37 +226,37 @@ const Sidebar = () => {
 
           <li>
             <Link to="/orders">
-            <Button className="w-full capitalize! justify-start! flex gap-3 text-[14px] text-[rgba(0,0,0,0.8)]! font-medium! items-center py-2! hover:bg-[#f1f1f1]!">
-              <IoBagCheckOutline className="text-[20px]" />
-              <span>Orders</span>
-            </Button>
+              <Button className="w-full capitalize! justify-start! flex gap-3 text-[14px] text-[rgba(0,0,0,0.8)]! font-medium! items-center py-2! hover:bg-[#f1f1f1]!">
+                <IoBagCheckOutline className="text-[20px]" />
+                <span>Orders</span>
+              </Button>
             </Link>
           </li>
           <Divider className="mb-2! mt-2!" />
           <li>
             <Link to="/settings">
-            <Button className="w-full capitalize! justify-start! flex gap-3 text-[14px] text-[rgba(0,0,0,0.8)]! font-medium! items-center py-2! hover:bg-[#f1f1f1]!">
-              <IoSettingsOutline className="text-[20px]" />
-              <span>Settings</span>
-            </Button>
+              <Button className="w-full capitalize! justify-start! flex gap-3 text-[14px] text-[rgba(0,0,0,0.8)]! font-medium! items-center py-2! hover:bg-[#f1f1f1]!">
+                <IoSettingsOutline className="text-[20px]" />
+                <span>Settings</span>
+              </Button>
             </Link>
           </li>
 
           <li>
             <Link to="/help">
-            <Button className="w-full capitalize! justify-start! flex gap-3 text-[14px] text-[rgba(0,0,0,0.8)]! font-medium! items-center py-2! hover:bg-[#f1f1f1]!">
-              <PiHeadphones className="text-[20px]" />
-              <span>Help & Support</span>
-            </Button>
+              <Button className="w-full capitalize! justify-start! flex gap-3 text-[14px] text-[rgba(0,0,0,0.8)]! font-medium! items-center py-2! hover:bg-[#f1f1f1]!">
+                <PiHeadphones className="text-[20px]" />
+                <span>Help & Support</span>
+              </Button>
             </Link>
           </li>
 
           <li>
             <Link to="/logout">
-            <Button className="w-full capitalize! justify-start! flex gap-3 text-[14px] text-[rgba(0,0,0,0.8)]! font-medium! items-center py-2! hover:bg-[#f1f1f1]!">
-              <MdLogout className="text-[20px]" />
-              <span>Logout</span>
-            </Button>
+              <Button className="w-full capitalize! justify-start! flex gap-3 text-[14px] text-[rgba(0,0,0,0.8)]! font-medium! items-center py-2! hover:bg-[#f1f1f1]!">
+                <MdLogout className="text-[20px]" />
+                <span>Logout</span>
+              </Button>
             </Link>
           </li>
         </ul>
