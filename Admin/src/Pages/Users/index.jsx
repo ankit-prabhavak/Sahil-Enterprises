@@ -3,6 +3,7 @@ import React from "react";
 import SearchBox from "../../components/SearchBox";
 import Checkbox from "@mui/material/Checkbox";
 import Pagination from "@mui/material/Pagination";
+import { SlCalender } from "react-icons/sl";
 
 import { Link } from "react-router-dom";
 
@@ -59,6 +60,12 @@ const Users = () => {
                 >
                   Phone
                 </th>
+                <th
+                  scope="col"
+                  className="px-6 py-3 font-semibold whitespace-nowrap"
+                >
+                  User Since
+                </th>
               </tr>
             </thead>
 
@@ -98,6 +105,12 @@ const Users = () => {
                     +91 9876543210
                   </span>
                 </td>
+                <td className="px-6 py-2 text-[14px] text-[#666] font-medium whitespace-nowrap">
+                  <span className="flex items-center gap-2">
+                    <SlCalender className="text-[16px]" />
+                    19 Jan 2023
+                  </span>
+                </td>
               </tr>
               <tr className="bg-neutral-primary  border-b border-[rgba(0,0,0,0.1)]">
                 <td className="px-2 py-2">
@@ -132,6 +145,12 @@ const Users = () => {
                   <span className="flex items-center gap-2">
                     <FaPhone className="text-[16px]" />
                     +91 9876543210
+                  </span>
+                </td>
+                <td className="px-6 py-2 text-[14px] text-[#666] font-medium whitespace-nowrap">
+                  <span className="flex items-center gap-2">
+                    <SlCalender className="text-[16px]" />
+                    12 Jan 2023
                   </span>
                 </td>
               </tr>
@@ -170,6 +189,12 @@ const Users = () => {
                     +91 9876543210
                   </span>
                 </td>
+                <td className="px-6 py-2 text-[14px] text-[#666] font-medium whitespace-nowrap">
+                  <span className="flex items-center gap-2">
+                    <SlCalender className="text-[16px]" />
+                    15 Jan 2023
+                  </span>
+                </td>
               </tr>
               <tr className="bg-neutral-primary  border-b border-[rgba(0,0,0,0.1)]">
                 <td className="px-2 py-2">
@@ -204,6 +229,12 @@ const Users = () => {
                   <span className="flex items-center gap-2">
                     <FaPhone className="text-[16px]" />
                     +91 9876543210
+                  </span>
+                </td>
+                <td className="px-6 py-2 text-[14px] text-[#666] font-medium whitespace-nowrap">
+                  <span className="flex items-center gap-2">
+                    <SlCalender className="text-[16px]" />
+                    01 Jan 2023
                   </span>
                 </td>
               </tr>
