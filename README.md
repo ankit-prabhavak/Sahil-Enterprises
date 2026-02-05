@@ -7,6 +7,7 @@ This repository contains both **Client** and **Admin** applications, structured 
 
 - `Client/` – The frontend user-facing application.
 - `Admin/` – The admin panel for managing products, orders, and users.
+- `Server/` – The backend service built using Node.js, Express, and MongoDB. It handles user authentication, product and order management, file uploads, security middleware, and provides REST APIs consumed by both Client and Admin applications.
 
 ## Tech Stack
 
