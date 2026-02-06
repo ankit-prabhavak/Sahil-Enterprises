@@ -25,11 +25,6 @@ export async function registerUserController(request, response) {
     const salt = await bycrptjs.genSalt(10);
     const hashPassword = await bycrptjs.hash(password, salt);
 
-    
-
-
-
-
   } catch (error) {
     return response.status(500).json({
       message: error.message || error,
