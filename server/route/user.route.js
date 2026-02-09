@@ -1,14 +1,18 @@
 import { Router } from "express";
-import { loginUserController, logoutController, registerUserController, verifyEmailController } from "../controllers/user.controller.js";
+import { loginUserController, logoutController, registerUserController, removeImageFromCloudinary, userAvatarController, verifyEmailController } from "../controllers/user.controller.js";
 import auth from "../middlewares/auth.js"; // middleware
+import upload from "../middlewares/multer.js";
 
 
 const userRouter = Router();
 
-userRouter.post('/register', registerUserController)
-userRouter.post('/verifyEmail', verifyEmailController)
-userRouter.post('/login', loginUserController)
-userRouter.get('/logout', auth, logoutController)
+userRouter.post('/register', registerUserController);
+userRouter.post('/verifyEmail', verifyEmailController);
+userRouter.post('/login', loginUserController);
+userRouter.get('/logout', auth, logoutController);
+userRouter.put('/user-avatar', auth, upload.array('avatar'), userAvatarController);
+userRouter.delete('/deleteImage', auth, removeImageFromCloudinary);
+
 
 
 export default userRouter;
