@@ -9,6 +9,8 @@ import generatedRefreshToken from "../utils/generatedRefreshToken.js";
 import { v2 as cloudinary } from "cloudinary";
 import fs from "fs";
 import { url } from "inspector";
+import bcrypt from "bcryptjs";
+import { error } from "console";
 
 // Configuration
 cloudinary.config({
@@ -60,7 +62,7 @@ export async function registerUserController(request, response) {
       email,
       "Email Verification For Sahil Enterprises",
       "",
-      VerificationEmail(name, verifyCode),
+      VerificationEmail(user.name, verifyCode),
     );
 
     // create a jwt token for verification purposes
@@ -151,6 +153,14 @@ export async function loginUserController(request, response) {
     if (user.status !== "Active") {
       return response.status(400).json({
         message: "Please contact to admin",
+        error: true,
+        success: false,
+      });
+    }
+
+    if (user.verify_email !== true) {
+      return response.status(400).json({
+        message: "Your email not verified. Please verify your email first",
         error: true,
         success: false,
       });
@@ -302,7 +312,7 @@ export async function userAvatarController(request, response) {
 
 export async function removeImageFromCloudinary(request, response) {
   try {
-    const userId = request.userId;
+    const userId = request.userId; // from middleware
 
     const user = await UserModel.findOne({ _id: userId });
 
@@ -356,3 +366,306 @@ export async function removeImageFromCloudinary(request, response) {
     });
   }
 }
+
+// update user details
+export async function updateUserDetails(request, response) {
+  try {
+    const userId = request.userId; // auth middleware
+    const { name, email, mobile, password } = request.body;
+
+    const userExist = await UserModel.findById(userId);
+
+    if (!userExist) {
+      return response.status(400).send("The user cannot be updated!");
+    }
+
+    let verifyCode = "";
+
+    if (email !== userExist.email) {
+      verifyCode = Math.floor(100000 + Math.random() * 900000).toString();
+    }
+
+    let hashPassword = "";
+
+    if (password) {
+      const salt = await bcrypt.genSalt(10);
+      hashPassword = await bcrypt.hash(password, salt);
+    } else {
+      hashPassword = userExist.password;
+    }
+
+    const updateUser = await UserModel.findByIdAndUpdate(
+      userId,
+      {
+        name: name,
+        mobile: mobile,
+        email: email,
+        verify_email: email !== userExist.email ? false : true,
+        password: hashPassword,
+        otp: verifyCode !== "" ? verifyCode : null,
+        otpExpires: verifyCode !== "" ? Date.now() + 600000 : "",
+      },
+      { new: true },
+    );
+
+    if (email !== userExist.email) {
+      await sendEmailFun(
+        email,
+        "Email Verification For Sahil Enterprises",
+        "",
+        VerificationEmail(userExist.name, verifyCode),
+      );
+    }
+
+    return response.json({
+      message: "User Updated Successfully",
+      error: false,
+      success: true,
+      user: updateUser,
+    });
+  } catch (error) {
+    return response.status(500).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+}
+
+// forgot password
+export async function forgotPasswordController(request, response) {
+  try {
+    const { email } = request.body;
+
+    const user = await UserModel.findOne({ email: email });
+
+    if (!user) {
+      return response.status(400).json({
+        message: "Email not registered",
+        error: true,
+        success: false,
+      });
+    }
+
+    let verifyCode = Math.floor(100000 + Math.random() * 900000).toString();
+    let otpExpiry = Date.now() + 600000;
+
+    user.otp = verifyCode;
+    user.otpExpires = otpExpiry;
+
+    await user.save();
+
+    await sendEmailFun(
+      email,
+      "OTP For Password Reset",
+      "",
+      VerificationEmail(user.name, verifyCode),
+    );
+
+    return response.json({
+      message: "check your email",
+      error: false,
+      success: true,
+    });
+  } catch (error) {
+    return response.status(500).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+}
+
+// verify otp for forgot password
+export async function verifyForgotPassword(request, response) {
+  try {
+    const { email, otp } = request.body;
+
+    if (!email || otp === undefined) {
+      return response.status(400).json({
+        message: "Please provide email and otp",
+        error: true,
+        success: false,
+      });
+    }
+
+    const user = await UserModel.findOne({ email: email });
+
+    if (!user) {
+      return response.status(400).json({
+        message: "Email not registered",
+        error: true,
+        success: false,
+      });
+    }
+
+    const now = new Date();
+
+    if (!user.otpExpires || new Date(user.otpExpires) < now) {
+      return response.status(400).json({
+        message: "Expired OTP",
+        error: true,
+        success: false,
+      });
+    }
+
+    if (otp !== user.otp) {
+      return response.status(400).json({
+        message: "Invalid OTP",
+        error: true,
+        success: false,
+      });
+    }
+
+    user.otp = "";
+    user.otpExpires = "";
+
+    await user.save();
+
+    return response.status(200).json({
+      message: "OTP verified!",
+      error: false,
+      success: true,
+    });
+  } catch (error) {
+    return response.status(500).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+}
+
+// reset password controller
+export async function resetPassword(request, response) {
+  try {
+    const { email, newPassword, confirmPassword } = request.body;
+
+    if (!email || !newPassword || !confirmPassword) {
+      return response.status(400).json({
+        message: "provide required fields email, newPassword, confirmPassword",
+        error: true,
+        success: false,
+      });
+    }
+
+    const user = await UserModel.findOne({ email: email });
+
+    if (!user) {
+      return response.status(400).json({
+        message: "Email not registered",
+        error: true,
+        success: false,
+      });
+    }
+
+    if (newPassword !== confirmPassword) {
+      return response.status(400).json({
+        message: "new and confirm passwords must be same",
+        error: true,
+        success: false,
+      });
+    }
+
+    const salt = await bycrptjs.genSalt(10);
+    const hashPassword = await bycrptjs.hash(confirmPassword, salt);
+
+    user.password = hashPassword;
+    await user.save();
+
+    return response.status(200).json({
+      message: "Password reset successful!",
+      error: false,
+      success: true,
+    });
+  } catch (error) {
+    return response.status(500).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+}
+
+// refresh token controller
+export async function refreshToken(request, response) {
+  try {
+    const refreshToken =
+      request.cookies.refreshToken ||
+      request?.headers?.authorization?.split(" ")[1]; // [bearer token]
+
+    if (!refreshToken) {
+      return response.status(400).json({
+        message: "Invalid Token",
+        error: true,
+        success: false,
+      });
+    }
+
+    const verifyToken = await jwt.verify(
+      refreshToken,
+      process.env.SECRET_KEY_REFRESH_TOKEN,
+    );
+
+    if (!verifyToken) {
+      return response.status(400).json({
+        message: "Token is expired!",
+        error: true,
+        success: false,
+      });
+    }
+
+    const userId = verifyToken?._id;
+
+    const newAccessToken = await generatedAccessToken(userId);
+
+    const cookiesOption = {
+      httpOnly: true,
+      secure: true,
+      sameSite: "None",
+    };
+
+    response.cookie("accessToken", newAccessToken, cookiesOption);
+
+    return response.json({
+      message: "New Access token generated",
+      error: false,
+      success: true,
+      data: {
+        accessToken: newAccessToken,
+      },
+    });
+  } catch (error) {
+    return response.status(500).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+}
+
+// get login user details
+export async function userDetails(request, response) {
+  try {
+    const userId = request.userId;
+
+    const user = await UserModel.findById(userId).select(
+      "-password -refresh_token",
+    );
+
+    return response.json({
+      message: "user details",
+      data: user,
+      error: false,
+      success: true,
+    });
+  } catch (error) {
+    return response.status(500).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+}
+
+// The End
