@@ -9,6 +9,7 @@ import helmet from "helmet";
 import connectDB from "./Config/connectionDB.js";
 
 import userRouter from "./route/user.route.js";
+import categoryRouter from "./route/category.route.js";
 
 const PORT = process.env.PORT || 8000;
 
@@ -35,6 +36,7 @@ app.get("/", (request, response) => {
 });
 
 app.use('/api/user', userRouter)
+app.use('/api/category', categoryRouter)
 
 connectDB().then(() => {
     app.listen(PORT, () => {
