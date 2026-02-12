@@ -1,7 +1,7 @@
 import CategoryModel from "../models/category.model.js";
-
 import { v2 as cloudinary } from "cloudinary";
 import fs from "fs";
+
 
 // Configuration
 cloudinary.config({
@@ -87,5 +87,36 @@ export async function createCategory(request, response) {
 
 // get category
 export async function getCategory(reqest, response) {
+  try {
+    const categories = await CategoryModel.find();
 
+    const categoryMap = {};
+
+    categories.forEach((cat) => {
+      categoryMap[cat._id] = { ...cat._doc, children: [] };
+    });
+
+    const rootCategories = [];
+
+    categories.forEach((cat) => {
+      if (cat.parentId) {
+        categoryMap[cat.parentId].children.push(categoryMap[cat._id]);
+      } else {
+        rootCategories.push(categoryMap[cat._id]);
+      }
+    });
+
+    return response.status(200).json({
+      message: "Successfully fetched category data.",
+      error: false,
+      success: true,
+      data: rootCategories,
+    });
+  } catch (error) {
+    return response.status(500).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
 }
