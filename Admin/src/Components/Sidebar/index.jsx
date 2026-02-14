@@ -41,7 +41,7 @@ const Sidebar = () => {
 
         <Divider />
 
-        <div className="w-full p-5 flex items-center justify-center flex-col">
+        {/* <div className="w-full p-5 flex items-center justify-center flex-col">
           <div className="w-24 h-24 rounded-full overflow-hidden mb-3 relative group">
             <img
               src="https://static.vecteezy.com/system/resources/thumbnails/027/554/917/small/shinchan-sleepy-face-illustration-free-vector.jpg"
@@ -52,7 +52,7 @@ const Sidebar = () => {
 
           <h4 className="text-[18px] font-semibold leading-4">Ankit Kumar</h4>
           <h6 className="text-[12px] font-medium">username@example.com</h6>
-        </div>
+        </div> */}
 
         <ul className="mt-4">
           <li>
