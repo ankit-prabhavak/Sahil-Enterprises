@@ -19,6 +19,7 @@ import { IoIosLogOut } from "react-icons/io";
 import { RiHandbagLine } from "react-icons/ri";
 import { IoMdHeartEmpty } from "react-icons/io";
 
+
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
     right: -3,
@@ -92,7 +93,9 @@ const Header = () => {
 
           <div className="col3 w-[35%] flex items-center pl-5 pr-15">
             <ul className="flex items-center justify-end gap-4 w-full">
+              
               {context.isLoggedIn === false ? (
+                
                 <li className="list-none">
                   <Link
                     to="/login"

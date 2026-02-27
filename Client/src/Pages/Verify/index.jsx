@@ -1,17 +1,36 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import "./style.css";
 import OtpBox from "../../components/OtpBox";
+import { postData } from "../../utils/api";
+import { MyContext } from "../../App";
+import { useNavigate } from "react-router-dom";
 
 const Verify = () => {
   const [otp, setOtp] = React.useState("");
   const handleChange = (value) => {
     setOtp(value);
   };
+  
+  const context = useContext(MyContext);
+  const history = useNavigate();
 
   const verifyOtp = (e) => {
     // Add OTP verification logic here
     e.preventDefault();
-    alert(`Verifying OTP: ${otp}`);
+    // alert(`Verifying OTP: ${otp}`);
+    postData("/api/user/verifyEmail", {
+      email : localStorage.getItem("userEmail"),
+      otp : otp
+    }).then((response)=>{
+      
+      if (response?.error === false) {
+        context.openAlertBox("success", response.message);
+        localStorage.removeItem("userEmail")
+        history("/login");
+      } else {
+        context.openAlertBox("error", response.message);
+      }
+    })
   };
 
   return (
@@ -37,7 +56,7 @@ const Verify = () => {
               <p className="text-center text-[#666]">
                 OTP sent to{" "}
                 <span className="text-[#ff5252] font-medium">
-                  user@example.com
+                  {localStorage.getItem("userEmail")}
                 </span>
                 <p>Please enter the OTP below to verify.</p>
               </p>
@@ -62,9 +81,9 @@ const Verify = () => {
           </div>
         </section>
       </div>
+      {/* <br />
       <br />
-      <br />
-      <br />
+      <br /> */}
     </section>
   );
 };

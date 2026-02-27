@@ -1,10 +1,8 @@
 import "./App.css";
 import React, { createContext } from "react";
-import Header from "./components/Header";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./Pages/Home";
 import ProductListing from "./Pages/ProductListing";
-import Footer from "./components/Footer";
 import ProductDetail from "./Pages/ProductDetail";
 
 // context special
@@ -33,6 +31,7 @@ import Checkout from "./Pages/Checkout";
 import MyAccount from "./Pages/MyAccount";
 import MyList from "./Pages/MyList";
 import Orders from "./Pages/Orders";
+import MainLayout from "./layouts/MainLayout";
 
 const MyContext = createContext();
 
@@ -40,7 +39,9 @@ export default function App() {
   const [openProductDetail, setOpenProductDetail] = React.useState(false);
   const [maxWidth, setMaxWidth] = React.useState("lg");
   const [fullWidth, setFullWidth] = React.useState(true);
-  const [isLoggedIn, setIsLoggedIn] = React.useState(true);                                                                                
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+
+  const apiUrl = import.meta.env.VITE_APP_URL;
 
   {
     /*Cart Panel */
@@ -78,7 +79,7 @@ export default function App() {
     <>
       <BrowserRouter>
         <MyContext.Provider value={values}>
-          <Header />
+          {/* <Header />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/personal-care" element={<ProductListing />} />
@@ -93,7 +94,27 @@ export default function App() {
             <Route path="/my-list" element={<MyList />} />
             <Route path="/my-orders" element={<Orders />} />
           </Routes>
-          <Footer />
+          <Footer /> */}
+
+          <Routes>
+            {/* Routes WITH Header + Footer */}
+            <Route element={<MainLayout />}>
+              <Route path="/" element={<Home />} />
+              <Route path="/personal-care" element={<ProductListing />} />
+              <Route path="/product/:id" element={<ProductDetail />} />
+              <Route path="/cart" element={<CartPage />} />
+              <Route path="/checkout" element={<Checkout />} />
+              <Route path="/my-account" element={<MyAccount />} />
+              <Route path="/my-list" element={<MyList />} />
+              <Route path="/my-orders" element={<Orders />} />
+            </Route>
+
+            {/* Routes WITHOUT Header + Footer */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/verify" element={<Verify />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+          </Routes>
 
           {/* Product Model */}
           <Dialog
