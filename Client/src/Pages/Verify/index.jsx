@@ -10,27 +10,45 @@ const Verify = () => {
   const handleChange = (value) => {
     setOtp(value);
   };
-  
+
   const context = useContext(MyContext);
   const history = useNavigate();
 
   const verifyOtp = (e) => {
     // Add OTP verification logic here
     e.preventDefault();
-    // alert(`Verifying OTP: ${otp}`);
-    postData("/api/user/verifyEmail", {
-      email : localStorage.getItem("userEmail"),
-      otp : otp
-    }).then((response)=>{
-      
-      if (response?.error === false) {
-        context.openAlertBox("success", response.message);
-        localStorage.removeItem("userEmail")
-        history("/login");
-      } else {
-        context.openAlertBox("error", response.message);
-      }
-    })
+
+    const action = localStorage.getItem("actionType");
+
+    if (action !== "forgot-password") {
+      // alert(`Verifying OTP: ${otp}`);
+      postData("/api/user/verifyEmail", {
+        email: localStorage.getItem("userEmail"),
+        otp: otp,
+      }).then((response) => {
+        if (response?.error === false) {
+          context.openAlertBox("success", response.message);
+          localStorage.removeItem("userEmail");
+          history("/login");
+        } else {
+          context.openAlertBox("error", response.message);
+        }
+      });
+    } else {
+      // alert(`Verifying OTP: ${otp}`);
+      postData("/api/user/verify-forgot-password-otp", {
+        email: localStorage.getItem("userEmail"),
+        otp: otp,
+      }).then((response) => {
+        if (response?.error === false) {
+          context.openAlertBox("success", response.message);
+          // localStorage.removeItem("userEmail");
+          history("/forgot-password");
+        } else {
+          context.openAlertBox("error", response.message);
+        }
+      });
+    }
   };
 
   return (

@@ -54,10 +54,10 @@ const Login = () => {
     if (response) {
       // console.log(response);
 
-      if (response?.error !== true) {
+      if (response?.success == true) {
         setIsLoading(false);
         context.openAlertBox("success", response.message);
-        
+
         setFormFields({
           email: "",
           password: "",
@@ -67,15 +67,33 @@ const Login = () => {
         context.setIsLoggedIn(true);
         history("/");
       } else {
-        context.openAlertBox("success", response.message);
+        context.openAlertBox("error", response.message);
         setIsLoading(false);
       }
     }
   };
 
   const forgotPassword = () => {
-    context.openAlertBox("success", "OTP sent to your email address");
-    history("/verify");
+    if (formFields.email === "") {
+      context.openAlertBox("error", "Please enter your email address");
+      return false;
+    } else {
+      localStorage.setItem("userEmail", formFields.email);
+      localStorage.setItem("actionType", "forgot-password");
+      context.openAlertBox("success", `OTP sent to ${formFields.email}`);
+      // alert(`Verifying OTP: ${otp}`);
+      postData("/api/user/forgot-password", {
+        email: formFields.email,
+      }).then((response) => {
+        if (response?.error === false) {
+          context.openAlertBox("success", response.message);
+          // localStorage.removeItem("userEmail");
+          history("/verify");
+        } else {
+          context.openAlertBox("error", response.message);
+        }
+      });
+    }
   };
 
   return (

@@ -183,10 +183,11 @@ export async function loginUserController(request, response) {
       last_login_date: new Date(),
     });
 
+   // only for development, need to change for production
     const cookiesOption = {
       httpOnly: true,
-      secure: true,
-      sameSite: "None",
+      secure: false,
+      sameSite: "Lax",
     };
 
     response.cookie("accessToken", accessToken, cookiesOption);

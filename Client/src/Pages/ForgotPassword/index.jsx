@@ -7,14 +7,68 @@ import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import "./style.css";
 import { MyContext } from "../../App";
+import CircularProgress from "@mui/material/CircularProgress";
+import { postData } from "../../utils/api";
+import { useState } from "react";
 
 const ForgotPassword = () => {
   const [isShowPassword, setIsShowPassword] = React.useState(false);
   const [isShowConfirmPassword, setIsShowConfirmPassword] =
     React.useState(false);
 
+  const [isLoading, setIsLoading] = useState(false);
+  const [formFields, setFormFields] = React.useState({
+    newPassword: "",
+    confirmPassword: "",
+  });
+
   const context = React.useContext(MyContext);
   const history = useNavigate();
+
+  const validateValue = Object.values(formFields).every((el) => el);
+
+  const onChangeInput = (e) => {
+    const { name, value } = e.target;
+    setFormFields(() => {
+      return {
+        ...formFields,
+        [name]: value,
+      };
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!formFields.newPassword || !formFields.confirmPassword) {
+      context.openAlertBox("error", "All fields are required!");
+      return;
+    }
+
+    if (formFields.newPassword !== formFields.confirmPassword) {
+      context.openAlertBox("error", "Passwords do not match!");
+      return;
+    }
+
+    setIsLoading(true);
+
+    const response = await postData("/api/user/reset-password", {
+      email: localStorage.getItem("userEmail"),
+      newPassword: formFields.newPassword,
+      confirmPassword: formFields.confirmPassword,
+    });
+
+    setIsLoading(false);
+
+    if (response?.error === false) {
+      context.openAlertBox("success", response.message);
+      localStorage.removeItem("userEmail");
+      localStorage.removeItem("actionType");
+      history("/login");
+    } else {
+      context.openAlertBox("error", response.message);
+    }
+  };
 
   return (
     <section className="section bg-white">
@@ -40,7 +94,7 @@ const ForgotPassword = () => {
                 </p>
               </div>
 
-              <form className="w-full mt-2.5">
+              <form className="w-full mt-2.5" onSubmit={handleSubmit}>
                 <div className="form-group w-full mb-5 relative">
                   <TextField
                     type={isShowPassword === false ? "password" : "text"}
@@ -48,7 +102,10 @@ const ForgotPassword = () => {
                     label="New Password"
                     variant="outlined"
                     className="w-full"
-                    name="name"
+                    name="newPassword"
+                    value={formFields.newPassword}
+                    disabled={isLoading === true ? true : false}
+                    onChange={onChangeInput}
                   />
                   <Button
                     className="absolute! top-2.5 right-2.5 z-50 w-[35px]! h-[35px]! min-w-[35px]! rounded-full! text-black!"
@@ -68,7 +125,10 @@ const ForgotPassword = () => {
                     label="Confirm Password"
                     variant="outlined"
                     className="w-full"
-                    name="password"
+                    name="confirmPassword"
+                    value={formFields.confirmPassword}
+                    disabled={isLoading === true ? true : false}
+                    onChange={onChangeInput}
                   />
                   <Button
                     className="absolute! top-2.5 right-2.5 z-50 w-[35px]! h-[35px]! min-w-[35px]! rounded-full! text-black!"
@@ -85,8 +145,16 @@ const ForgotPassword = () => {
                 </div>
 
                 <div className="flex items-center w-full mt-3 mb-1.5">
-                  <Button className="btn-org btn-lg w-full">
-                    Change Password
+                  <Button
+                    className="btn-org btn-lg w-full"
+                    type="submit"
+                    disabled={!validateValue}
+                  >
+                    {isLoading === true ? (
+                      <CircularProgress color="inherit" />
+                    ) : (
+                      "Change Password"
+                    )}
                   </Button>
                 </div>
 
