@@ -18,7 +18,8 @@ import MenuItem from "@mui/material/MenuItem";
 import { IoIosLogOut } from "react-icons/io";
 import { RiHandbagLine } from "react-icons/ri";
 import { IoMdHeartEmpty } from "react-icons/io";
-
+import { fetchDataFromAPI } from "../../utils/api";
+import { useNavigate } from "react-router-dom";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -31,6 +32,8 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 
 const Header = () => {
   const context = useContext(MyContext);
+  const history = useNavigate();
+
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -40,6 +43,13 @@ const Header = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleLogout = async () => {
+    await fetchDataFromAPI("/api/user/logout");
+    context.setIsLoggedIn(false);
+    history("/login");
+  };
+
   return (
     <header className="bg-white">
       <div className="top-strip py-2 border-t border-gray-200 border-b">
@@ -93,9 +103,7 @@ const Header = () => {
 
           <div className="col3 w-[35%] flex items-center pl-5 pr-15">
             <ul className="flex items-center justify-end gap-4 w-full">
-              
               {context.isLoggedIn === false ? (
-                
                 <li className="list-none">
                   <Link
                     to="/login"
@@ -123,10 +131,10 @@ const Header = () => {
 
                     <div className="info flex flex-col">
                       <h4 className="leading-3 text-[14px] text-[rgba(0,0,0,0.6)] font-medium mb-0 capitalize text-left justify-start">
-                        Ankit Kumar
+                        {context?.userData.name}
                       </h4>
                       <span className="text-[12px] text-[rgba(0,0,0,0.6)] font-normal lowercase text-left justify-start">
-                        username@example.com
+                        {context?.userData.email}
                       </span>
                     </div>
                   </Button>
@@ -169,29 +177,40 @@ const Header = () => {
                     anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
                   >
                     <Link to="/my-account" className="w-full block">
-                    <MenuItem onClick={handleClose} className="flex gap-2 py-2!">
-                      <FaRegUser className="text-[18px]" />
-                      <span className="text-[14px]">My account</span>
-                    </MenuItem>
+                      <MenuItem
+                        onClick={handleClose}
+                        className="flex gap-2 py-2!"
+                      >
+                        <FaRegUser className="text-[18px]" />
+                        <span className="text-[14px]">My account</span>
+                      </MenuItem>
                     </Link>
                     <Link to="/my-orders" className="w-full block">
-                    <MenuItem onClick={handleClose} className="flex gap-2 py-2!">
-                      <RiHandbagLine className="text-[18px]" />
-                      <span className="text-[14px]">My Orders</span>
-                    </MenuItem>
+                      <MenuItem
+                        onClick={handleClose}
+                        className="flex gap-2 py-2!"
+                      >
+                        <RiHandbagLine className="text-[18px]" />
+                        <span className="text-[14px]">My Orders</span>
+                      </MenuItem>
                     </Link>
                     <Link to="/wishlist" className="w-full block">
-                    <MenuItem onClick={handleClose} className="flex gap-2 py-2!">
-                      <IoMdHeartEmpty className="text-[18px]" />
-                      <span className="text-[14px]">Wishlist</span>
-                    </MenuItem>
+                      <MenuItem
+                        onClick={handleClose}
+                        className="flex gap-2 py-2!"
+                      >
+                        <IoMdHeartEmpty className="text-[18px]" />
+                        <span className="text-[14px]">Wishlist</span>
+                      </MenuItem>
                     </Link>
-                    <Link to="/logout" className="w-full block">
-                    <MenuItem onClick={handleClose} className="flex gap-2 py-2!">
+
+                    <MenuItem
+                      onClick={handleLogout}
+                      className="flex gap-2 py-2!"
+                    >
                       <IoIosLogOut className="text-[18px]" />
                       <span className="text-[14px]">Logout</span>
                     </MenuItem>
-                    </Link>
                   </Menu>
                 </>
               )}

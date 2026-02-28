@@ -213,11 +213,12 @@ export async function loginUserController(request, response) {
 export async function logoutController(request, response) {
   try {
     const userId = request.userId; //middleware
-
+    
+    // only for development, need to change for production
     const cookiesOption = {
       httpOnly: true,
-      secure: true,
-      sameSite: "None",
+      secure: false,
+      sameSite: "Lax",
     };
 
     response.clearCookie("accessToken", cookiesOption);

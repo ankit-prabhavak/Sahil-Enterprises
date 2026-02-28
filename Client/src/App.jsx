@@ -1,5 +1,5 @@
 import "./App.css";
-import React, { createContext } from "react";
+import React, { createContext, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./Pages/Home";
 import ProductListing from "./Pages/ProductListing";
@@ -32,6 +32,7 @@ import MyAccount from "./Pages/MyAccount";
 import MyList from "./Pages/MyList";
 import Orders from "./Pages/Orders";
 import MainLayout from "./layouts/MainLayout";
+import { fetchDataFromAPI } from "./utils/api";
 
 const MyContext = createContext();
 
@@ -40,6 +41,7 @@ export default function App() {
   const [maxWidth, setMaxWidth] = React.useState("lg");
   const [fullWidth, setFullWidth] = React.useState(true);
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  const [userData, setUserData] = React.useState(null);
 
   const apiUrl = import.meta.env.VITE_APP_URL;
 
@@ -55,6 +57,22 @@ export default function App() {
   const handleCloseProductDetail = () => {
     setOpenProductDetail(false);
   };
+
+  useEffect(() => {
+  const checkAuth = async () => {
+    const response = await fetchDataFromAPI("/api/user/user-details");
+    
+    if (response?.success) {
+      setIsLoggedIn(true);
+      setUserData(response.data);
+
+    } else {
+      setIsLoggedIn(false);
+    }
+  };
+
+  checkAuth();
+}, []);
 
   // alert box
   const openAlertBox = (status, message) => {
@@ -73,6 +91,8 @@ export default function App() {
     openAlertBox,
     isLoggedIn,
     setIsLoggedIn,
+    userData,
+    setUserData,
   };
 
   return (
