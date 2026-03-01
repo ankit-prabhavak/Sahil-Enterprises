@@ -65,6 +65,8 @@ const Login = () => {
         // localStorage.setItem("accessToken", response?.data?.accessToken);
         // localStorage.setItem("refreshToken", response?.data?.refreshToken);
         context.setIsLoggedIn(true);
+        context.setUserData(response.data.userDetails);
+        
         history("/");
       } else {
         context.openAlertBox("error", response.message);

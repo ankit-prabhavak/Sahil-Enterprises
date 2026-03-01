@@ -47,37 +47,47 @@ api.interceptors.request.use((config) => {
 
 export default api;
 
-export const postData = async (url, formData) => {
+// POST
+export const postData = async (url, body) => {
   try {
-    const { data } = await api.post(url, formData);
+    const { data } = await api.post(url, body);
     return data;
   } catch (error) {
-    console.error("POST ERROR:", error);
-
-    return {
-      success: false,
-      message:
-        error.response?.data?.message ||
-        error.message ||
-        "Something went wrong",
-    };
+    return handleError(error);
   }
 };
 
+// GET
 export const fetchDataFromAPI = async (url, params = {}) => {
   try {
     const { data } = await api.get(url, { params });
     return data;
   } catch (error) {
-    console.error("GET ERROR:", error);
-
-    return {
-      success: false,
-      message:
-        error.response?.data?.message ||
-        error.message ||
-        "Something went wrong",
-    };
+    return handleError(error);
   }
 };
 
+// PUT
+export const editData = async (url, body) => {
+  try {
+    const { data } = await api.put(url, body);
+    return data;
+  } catch (error) {
+    return handleError(error);
+  }
+};
+
+// shared error handler
+const handleError = (error) => {
+  console.error("API ERROR:", error);
+
+  return {
+    success: false,
+    error: true,
+    message:
+      error?.response?.data?.message ||
+      error?.response?.data?.error ||
+      error.message ||
+      "Something went wrong",
+  };
+};

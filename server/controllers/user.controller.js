@@ -193,6 +193,8 @@ export async function loginUserController(request, response) {
     response.cookie("accessToken", accessToken, cookiesOption);
     response.cookie("refreshToken", refreshToken, cookiesOption);
 
+    const userDetails = await UserModel.findById(user._id).select("-password -refresh_token");
+
     return response.json({
       message: "Login successful",
       error: false,
@@ -200,6 +202,7 @@ export async function loginUserController(request, response) {
       data: {
         accessToken,
         refreshToken,
+        userDetails
       },
     });
   } catch (error) {
@@ -419,11 +422,15 @@ export async function updateUserDetails(request, response) {
       );
     }
 
+    const user = await UserModel.findById(userId).select(
+      "-password -refresh_token",
+    );
+
     return response.json({
       message: "User Updated Successfully",
       error: false,
       success: true,
-      user: updateUser,
+      user: user,
     });
   } catch (error) {
     return response.status(500).json({

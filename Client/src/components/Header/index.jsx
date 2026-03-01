@@ -47,6 +47,7 @@ const Header = () => {
   const handleLogout = async () => {
     await fetchDataFromAPI("/api/user/logout");
     context.setIsLoggedIn(false);
+    context.setUserData(null); // add this
     history("/login");
   };
 

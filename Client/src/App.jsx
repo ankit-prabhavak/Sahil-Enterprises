@@ -33,6 +33,7 @@ import MyList from "./Pages/MyList";
 import Orders from "./Pages/Orders";
 import MainLayout from "./layouts/MainLayout";
 import { fetchDataFromAPI } from "./utils/api";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const MyContext = createContext();
 
@@ -59,20 +60,19 @@ export default function App() {
   };
 
   useEffect(() => {
-  const checkAuth = async () => {
-    const response = await fetchDataFromAPI("/api/user/user-details");
-    
-    if (response?.success) {
-      setIsLoggedIn(true);
-      setUserData(response.data);
+    const checkAuth = async () => {
+      const response = await fetchDataFromAPI("/api/user/user-details");
 
-    } else {
-      setIsLoggedIn(false);
-    }
-  };
+      if (response?.success) {
+        setIsLoggedIn(true);
+        setUserData(response.data);
+      } else {
+        setIsLoggedIn(false);
+      }
+    };
 
-  checkAuth();
-}, []);
+    checkAuth();
+  }, []);
 
   // alert box
   const openAlertBox = (status, message) => {
@@ -118,7 +118,7 @@ export default function App() {
 
           <Routes>
             {/* Routes WITH Header + Footer */}
-            <Route element={<MainLayout />}>
+            {/* <Route element={<MainLayout />}>
               <Route path="/" element={<Home />} />
               <Route path="/personal-care" element={<ProductListing />} />
               <Route path="/product/:id" element={<ProductDetail />} />
@@ -127,6 +127,40 @@ export default function App() {
               <Route path="/my-account" element={<MyAccount />} />
               <Route path="/my-list" element={<MyList />} />
               <Route path="/my-orders" element={<Orders />} />
+            </Route> */}
+            <Route element={<MainLayout />}>
+              <Route path="/" element={<Home />} />
+              <Route path="/personal-care" element={<ProductListing />} />
+              <Route path="/product/:id" element={<ProductDetail />} />
+              <Route path="/cart" element={<CartPage />} />
+              <Route path="/checkout" element={<Checkout />} />
+
+              <Route
+                path="/my-account"
+                element={
+                  <ProtectedRoute>
+                    <MyAccount />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/my-list"
+                element={
+                  <ProtectedRoute>
+                    <MyList />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/my-orders"
+                element={
+                  <ProtectedRoute>
+                    <Orders />
+                  </ProtectedRoute>
+                }
+              />
             </Route>
 
             {/* Routes WITHOUT Header + Footer */}
@@ -185,7 +219,16 @@ export default function App() {
         </MyContext.Provider>
       </BrowserRouter>
 
-      <Toaster />
+      <Toaster
+        toastOptions={{
+          duration: 3000, // toast visible for 3 seconds
+          style: {
+            maxWidth: "420px",
+            wordBreak: "break-word",
+            whiteSpace: "normal",
+          },
+        }}
+      />
     </>
   );
 }
