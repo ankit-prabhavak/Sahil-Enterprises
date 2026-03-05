@@ -677,4 +677,69 @@ export async function userDetails(request, response) {
   }
 }
 
+// change password controller
+export async function changePassword(request, response) {
+  try {
+    const userId = request.userId; // coming from auth middleware
+    const { oldPassword, newPassword, confirmPassword } = request.body;
+
+    if (!oldPassword || !newPassword || !confirmPassword) {
+      return response.status(400).json({
+        message: "provide required fields oldPassword, newPassword, confirmPassword",
+        error: true,
+        success: false,
+      });
+    }
+
+    const user = await UserModel.findById(userId);
+
+    if (!user) {
+      return response.status(404).json({
+        message: "User not found",
+        error: true,
+        success: false,
+      });
+    }
+
+    // check old password
+    const isPasswordMatch = await bycrptjs.compare(oldPassword, user.password);
+
+    if (!isPasswordMatch) {
+      return response.status(400).json({
+        message: "Old password is incorrect",
+        error: true,
+        success: false,
+      });
+    }
+
+    // check new password match
+    if (newPassword !== confirmPassword) {
+      return response.status(400).json({
+        message: "New password and confirm password must be same",
+        error: true,
+        success: false,
+      });
+    }
+
+    const salt = await bycrptjs.genSalt(10);
+    const hashPassword = await bycrptjs.hash(newPassword, salt);
+
+    user.password = hashPassword;
+    await user.save();
+
+    return response.status(200).json({
+      message: "Password changed successfully",
+      error: false,
+      success: true,
+    });
+
+  } catch (error) {
+    return response.status(500).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+}
+
 // The End
