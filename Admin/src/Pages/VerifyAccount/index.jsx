@@ -3,19 +3,59 @@ import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import { CgLogIn } from "react-icons/cg";
 import { FaRegUser } from "react-icons/fa6";
-
+import { useContext, useState } from "react";
 import OtpBox from "../../components/OtpBox";
+import { postData } from "../../utils/api";
+import { MyContext } from "../../App";
+import { useNavigate } from "react-router-dom";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const VerifyAccount = () => {
+  const [isLoading, setIsLoading] = React.useState(false);
   const [otp, setOtp] = React.useState("");
   const handleChange = (value) => {
     setOtp(value);
   };
+  const isValidOtp = otp.length === 6;
 
-  const verifyOtp = (e) => {
-    // Add OTP verification logic here
+  const context = useContext(MyContext);
+  const history = useNavigate();
+
+  const verifyOtp = async (e) => {
     e.preventDefault();
-    alert(`Verifying OTP: ${otp}`);
+
+    try {
+      setIsLoading(true);
+
+      const action = localStorage.getItem("actionType");
+
+      const url =
+        action !== "forgot-password"
+          ? "/api/user/verifyEmail"
+          : "/api/user/verify-forgot-password-otp";
+
+      const response = await postData(url, {
+        email: localStorage.getItem("userEmail"),
+        otp: otp,
+      });
+
+      if (response?.error === false) {
+        context.openAlertBox("success", response.message);
+
+        if (action !== "forgot-password") {
+          localStorage.removeItem("userEmail");
+          history("/login");
+        } else {
+          history("/change-password");
+        }
+      } else {
+        context.openAlertBox("error", response.message);
+      }
+    } catch (error) {
+      context.openAlertBox("error", "Something went wrong");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -67,32 +107,45 @@ const VerifyAccount = () => {
         </h1>
 
         <br />
-         <div className="card w-[400px] m-auto  p-5 px-10">
-              <div className="flex items-center flex-col justify-between">
+        <div className="card w-[400px] m-auto  p-5 px-10">
+          <div className="flex items-center flex-col justify-between">
+            <p className="text-center text-[#666]">
+              OTP sent to{" "}
+              <span className="text-[#3872fa] font-medium">
+                {localStorage.getItem("userEmail")}
+              </span>
+              <p>Please enter the OTP below to verify.</p>
+            </p>
 
-        <p className="text-center text-[#666]">
-          OTP sent to{" "}
-          <span className="text-[#3872fa] font-medium">user@example.com</span>
-          <p>Please enter the OTP below to verify.</p>
-        </p>
+            <form className="w-full mt-5" onSubmit={verifyOtp}>
+              <OtpBox
+                length={6}
+                disabled={isLoading === true ? true : false}
+                onChange={handleChange}
+              />
 
-        <form className="w-full mt-5" onSubmit={verifyOtp}>
-          <OtpBox length={6} onChange={handleChange} />
+              <div className="form-group w-full mt-8">
+                <Button
+                  type="submit"
+                  disabled={!isValidOtp}
+                  className="btn-blue btn-lg w-full py-3 rounded-md cursor-pointer uppercase"
+                >
+                  {isLoading === true ? (
+                    <CircularProgress color="inherit" />
+                  ) : (
+                    "Verify OTP"
+                  )}
+                </Button>
+              </div>
 
-          <div className="form-group w-full mt-8">
-            <button className="btn-blue btn-lg w-full py-3 rounded-md cursor-pointer uppercase">
-              Verify OTP
-            </button>
+              <p className="text-[#666] mt-4 mb-4">
+                Didn't receive the OTP?{" "}
+                <a className="link cursor-pointer text-[#3872fa] font-medium">
+                  Resend OTP
+                </a>
+              </p>
+            </form>
           </div>
-
-          <p className="text-[#666] mt-4 mb-4">
-            Didn't receive the OTP?{" "}
-            <a className="link cursor-pointer text-[#3872fa] font-medium">
-              Resend OTP
-            </a>
-          </p>
-        </form>
-        </div>
         </div>
       </div>
     </section>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const OtpBox = ({ length, onChange }) => {
+const OtpBox = ({ length, disabled, onChange }) => {
   const [otp, setOtp] = useState(new Array(length).fill(""));
 
   const handleChange = (element, index) => {
@@ -28,6 +28,7 @@ const OtpBox = ({ length, onChange }) => {
       {otp.map((_, index) => (
         <input
           key={index}
+          disabled={disabled}
           id={`otp-input-${index}`}
           type="text"
           maxLength="1"

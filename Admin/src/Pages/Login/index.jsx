@@ -1,6 +1,6 @@
 import Button from "@mui/material/Button";
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { CgLogIn } from "react-icons/cg";
 import { FaRegUser } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
@@ -10,9 +10,100 @@ import Checkbox from "@mui/material/Checkbox";
 import { IoMdEye } from "react-icons/io";
 import { IoMdEyeOff } from "react-icons/io";
 
+import { MyContext } from "../../App";
+import CircularProgress from "@mui/material/CircularProgress";
+import { postData } from "../../utils/api";
+import { useState } from "react";
+
 const Login = () => {
   const [loadingGoogle, setLoadingGoogle] = React.useState(false);
   const [isShowPassword, setIsShowPassword] = React.useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [formFields, setFormFields] = React.useState({
+    email: "",
+    password: "",
+  });
+
+  const context = React.useContext(MyContext);
+  const history = useNavigate();
+
+  const validateValue = Object.values(formFields).every((el) => el);
+
+  const onChangeInput = (e) => {
+    const { name, value } = e.target;
+    setFormFields(() => {
+      return {
+        ...formFields,
+        [name]: value,
+      };
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    setIsLoading(true);
+
+    if (!formFields.email) {
+      context.openAlertBox("error", "Please Enter Email!");
+      return;
+    }
+
+    if (!formFields.password) {
+      context.openAlertBox("error", "Please Enter Password!");
+      return;
+    }
+
+    const response = await postData("/api/user/login", formFields);
+
+    if (response) {
+      // console.log(response);
+
+      if (response?.success == true) {
+        setIsLoading(false);
+        context.openAlertBox("success", response.message);
+
+        setFormFields({
+          email: "",
+          password: "",
+        });
+        // localStorage.setItem("accessToken", response?.data?.accessToken);
+        // localStorage.setItem("refreshToken", response?.data?.refreshToken);
+        context.setIsLoggedIn(true);
+        context.setUserData(response.data.userDetails);
+
+        history("/");
+      } else {
+        context.openAlertBox("error", response.message);
+        setIsLoading(false);
+      }
+    }
+  };
+
+  const forgotPassword = () => {
+    if (formFields.email === "") {
+      context.openAlertBox("error", "Please enter your email address");
+      return false;
+    } else {
+      localStorage.setItem("userEmail", formFields.email);
+      localStorage.setItem("actionType", "forgot-password");
+      // context.openAlertBox("success", `OTP sent to ${formFields.email}`);
+      // alert(`Verifying OTP: ${otp}`);
+      postData("/api/user/forgot-password", {
+        email: formFields.email,
+      }).then((response) => {
+        if (response?.error === false) {
+          context.openAlertBox("success", response.message);
+          // localStorage.removeItem("userEmail");
+          // show only one message
+          // context.openAlertBox("success", `OTP sent to ${formFields.email}`);
+          history("/verify-account");
+        } else {
+          context.openAlertBox("error", response.message);
+        }
+      });
+    }
+  };
 
   function handleClickGoogle() {
     setLoadingGoogle(true);
@@ -109,12 +200,16 @@ const Login = () => {
 
         <br />
 
-        <form className="w-full px-20 mt-3">
+        <form className="w-full px-20 mt-3" onSubmit={handleSubmit}>
           <div className="form-group mb-4 w-full">
             <h4 className="text-[14px] font-medium mb-1">Email</h4>
             <input
               type="email"
               className="w-full h-12.5 border-2 border-[rgba(0,0,0,0.1)] rounded-md focus:border-[rgba(0,0,0,0.7)] focus:outline-none px-3"
+              name="email"
+              value={formFields.email}
+              disabled={isLoading === true ? true : false}
+              onChange={onChangeInput}
             />
           </div>
 
@@ -124,6 +219,10 @@ const Login = () => {
               <input
                 type={isShowPassword === false ? "password" : "text"}
                 className="w-full h-12.5 border-2 border-[rgba(0,0,0,0.1)] rounded-md focus:border-[rgba(0,0,0,0.7)] focus:outline-none px-3"
+                name="password"
+                value={formFields.password}
+                disabled={isLoading === true ? true : false}
+                onChange={onChangeInput}
               />
 
               <Button
@@ -145,15 +244,25 @@ const Login = () => {
               label="Remember Me"
             />
 
-            <Link
-              to="/forgot-password"
-              className="text-[#3872fa] font-semibold text-[14px] hover:underline hover:text-[#666]"
+            <a
+              onClick={forgotPassword}
+              className="text-[#3872fa] cursor-pointer font-semibold text-[14px] hover:underline hover:text-[#666]"
             >
               Forgot Password?
-            </Link>
+            </a>
           </div>
 
-          <Button className="btn-blue btn-lg w-full">Sign In</Button>
+          <Button
+            type="submit"
+            disabled={!validateValue}
+            className="btn-blue btn-lg w-full"
+          >
+            {isLoading === true ? (
+              <CircularProgress color="inherit" />
+            ) : (
+              "Sign In"
+            )}
+          </Button>
         </form>
       </div>
     </section>

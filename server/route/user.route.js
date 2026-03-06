@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { changePassword, forgotPasswordController, loginUserController, logoutController, refreshToken, registerUserController, removeImageFromCloudinary, resetPassword, updateUserDetails, userAvatarController, userDetails, verifyEmailController, verifyForgotPassword } from "../controllers/user.controller.js";
+import { changePassword, forgotPasswordController, loginUserController, logoutController, refreshToken, registerAdminController, registerUserController, removeImageFromCloudinary, resetPassword, updateUserDetails, userAvatarController, userDetails, verifyEmailController, verifyForgotPassword } from "../controllers/user.controller.js";
 import auth from "../middlewares/auth.js"; // middleware
 import upload from "../middlewares/multer.js";
 
@@ -7,6 +7,7 @@ import upload from "../middlewares/multer.js";
 const userRouter = Router();
 
 userRouter.post('/register', registerUserController);
+userRouter.post('/admin/register', registerAdminController);
 userRouter.post('/verifyEmail', verifyEmailController);
 userRouter.post('/login', loginUserController);
 userRouter.get('/logout', auth, logoutController);

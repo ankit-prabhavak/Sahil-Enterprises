@@ -66,7 +66,7 @@ const Login = () => {
         // localStorage.setItem("refreshToken", response?.data?.refreshToken);
         context.setIsLoggedIn(true);
         context.setUserData(response.data.userDetails);
-        
+
         history("/");
       } else {
         context.openAlertBox("error", response.message);
@@ -82,13 +82,15 @@ const Login = () => {
     } else {
       localStorage.setItem("userEmail", formFields.email);
       localStorage.setItem("actionType", "forgot-password");
-      context.openAlertBox("success", `OTP sent to ${formFields.email}`);
+      // context.openAlertBox("success", `OTP sent to ${formFields.email}`);
       // alert(`Verifying OTP: ${otp}`);
       postData("/api/user/forgot-password", {
         email: formFields.email,
       }).then((response) => {
         if (response?.error === false) {
           context.openAlertBox("success", response.message);
+          // show only one message
+          // context.openAlertBox("success", `OTP sent to ${formFields.email}`);
           // localStorage.removeItem("userEmail");
           history("/verify");
         } else {

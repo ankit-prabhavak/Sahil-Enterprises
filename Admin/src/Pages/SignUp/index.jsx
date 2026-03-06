@@ -9,10 +9,81 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import { IoMdEye } from "react-icons/io";
 import { IoMdEyeOff } from "react-icons/io";
+import { postData } from "../../utils/api";
+import { MyContext } from "../../App";
+import CircularProgress from "@mui/material/CircularProgress";
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { useState } from "react";
 
 const SignUp = () => {
   const [loadingGoogle, setLoadingGoogle] = React.useState(false);
   const [isShowPassword, setIsShowPassword] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
+
+  const context = useContext(MyContext);
+  const history = useNavigate();
+
+  const [formFields, setFormFields] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  const validateValue = Object.values(formFields).every((el) => el);
+
+  const onChangeInput = (e) => {
+    const { name, value } = e.target;
+    setFormFields(() => {
+      return {
+        ...formFields,
+        [name]: value,
+      };
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    setIsLoading(true);
+
+    if (!formFields.name) {
+      context.openAlertBox("error", "Please Enter Full Name!");
+      return;
+    }
+
+    if (!formFields.email) {
+      context.openAlertBox("error", "Please Enter Email!");
+      return;
+    }
+
+    if (!formFields.password) {
+      context.openAlertBox("error", "Please Enter Password!");
+      return;
+    }
+
+    const response = await postData("/api/user/admin/register", formFields);
+
+    if (response) {
+      // console.log(response);
+
+      if (response?.error !== true) {
+        setIsLoading(false);
+        context.openAlertBox("success", response.message);
+        localStorage.setItem("userEmail", formFields.email);
+        setFormFields({
+          name: "",
+          email: "",
+          password: "",
+        });
+
+        history("/verify-account");
+      } else {
+        context.openAlertBox("success", response.message);
+        setIsLoading(false);
+      }
+    }
+  };
 
   function handleClickGoogle() {
     setLoadingGoogle(true);
@@ -67,11 +138,8 @@ const SignUp = () => {
         </div>
 
         <h1 className="text-center text-[35px] font-bold mt-4">
-          Join us today!
-          
-          Get special<br /> benefits and stay
-          
-          up-to-date.
+          Join us today! Get special
+          <br /> benefits and stay up-to-date.
         </h1>
 
         <div className="flex items-center justify-center w-full mt-5 gap-4">
@@ -111,12 +179,16 @@ const SignUp = () => {
 
         <br />
 
-        <form className="w-full px-20 mt-3">
+        <form className="w-full px-20 mt-3" onSubmit={handleSubmit}>
           <div className="form-group mb-4 w-full">
             <h4 className="text-[14px] font-medium mb-1">Full Name</h4>
             <input
               type="text"
               className="w-full h-12.5 border-2 border-[rgba(0,0,0,0.1)] rounded-md focus:border-[rgba(0,0,0,0.7)] focus:outline-none px-3"
+              name="name"
+              value={formFields.name}
+              disabled={isLoading === true ? true : false}
+              onChange={onChangeInput}
             />
           </div>
           <div className="form-group mb-4 w-full">
@@ -124,15 +196,23 @@ const SignUp = () => {
             <input
               type="email"
               className="w-full h-12.5 border-2 border-[rgba(0,0,0,0.1)] rounded-md focus:border-[rgba(0,0,0,0.7)] focus:outline-none px-3"
+              name="email"
+              value={formFields.email}
+              disabled={isLoading === true ? true : false}
+              onChange={onChangeInput}
             />
           </div>
 
-          <div className="form-group mb-2 w-full">
+          <div className="form-group mb-4 w-full">
             <h4 className="text-[14px] font-medium mb-1">Password</h4>
             <div className="w-full relative">
               <input
                 type={isShowPassword === false ? "password" : "text"}
                 className="w-full h-12.5 border-2 border-[rgba(0,0,0,0.1)] rounded-md focus:border-[rgba(0,0,0,0.7)] focus:outline-none px-3"
+                name="password"
+                value={formFields.password}
+                disabled={isLoading === true ? true : false}
+                onChange={onChangeInput}
               />
 
               <Button
@@ -148,7 +228,7 @@ const SignUp = () => {
             </div>
           </div>
 
-          <div className="form-group mb-4 p-1  w-full flex items-center justify-between">
+          {/* <div className="form-group mb-4 p-1  w-full flex items-center justify-between">
             <FormControlLabel
               control={<Checkbox defaultChecked size="small" />}
               label="Remember Me"
@@ -160,9 +240,20 @@ const SignUp = () => {
             >
               Forgot Password?
             </Link>
-          </div>
+          </div> */}
+          {/* <br/> */}
 
-          <Button className="btn-blue btn-lg w-full">Sign Up</Button>
+          <Button
+            type="submit"
+            disabled={!validateValue}
+            className="btn-blue btn-lg w-full"
+          >
+            {isLoading === true ? (
+              <CircularProgress color="inherit" />
+            ) : (
+              "Sign Up"
+            )}
+          </Button>
         </form>
       </div>
     </section>

@@ -1,14 +1,73 @@
 import Button from "@mui/material/Button";
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate  } from "react-router-dom";
 import { CgLogIn } from "react-icons/cg";
 import { FaRegUser } from "react-icons/fa6";
 import { IoMdEye } from "react-icons/io";
 import { IoMdEyeOff } from "react-icons/io";
+import { MyContext } from "../../App";
+import CircularProgress from "@mui/material/CircularProgress";
+import { postData } from "../../utils/api";
+import { useState } from "react";
 
 const ChangePassword = () => {
   const [isShowPassword, setIsShowPassword] = React.useState(false);
-  const [isShowPassword2, setIsShowPassword2] = React.useState(false);
+  const [isShowConfirmPassword, setIsShowConfirmPassword] =
+    React.useState(false);
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [formFields, setFormFields] = React.useState({
+    newPassword: "",
+    confirmPassword: "",
+  });
+
+  const context = React.useContext(MyContext);
+  const history = useNavigate();
+
+  const validateValue = Object.values(formFields).every((el) => el);
+
+  const onChangeInput = (e) => {
+    const { name, value } = e.target;
+    setFormFields(() => {
+      return {
+        ...formFields,
+        [name]: value,
+      };
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!formFields.newPassword || !formFields.confirmPassword) {
+      context.openAlertBox("error", "All fields are required!");
+      return;
+    }
+
+    if (formFields.newPassword !== formFields.confirmPassword) {
+      context.openAlertBox("error", "Passwords do not match!");
+      return;
+    }
+
+    setIsLoading(true);
+
+    const response = await postData("/api/user/reset-password", {
+      email: localStorage.getItem("userEmail"),
+      newPassword: formFields.newPassword,
+      confirmPassword: formFields.confirmPassword,
+    });
+
+    setIsLoading(false);
+
+    if (response?.error === false) {
+      context.openAlertBox("success", response.message);
+      localStorage.removeItem("userEmail");
+      localStorage.removeItem("actionType");
+      history("/login");
+    } else {
+      context.openAlertBox("error", response.message);
+    }
+  };
 
   return (
     <section className="bg-[#ffffff] w-full min-h-screen">
@@ -60,22 +119,26 @@ const ChangePassword = () => {
 
         <br />
         <br />
-          <div className="w-full flex items-center justify-center gap-3">
-            <span className="flex items-center w-25 h-px bg-[rgba(0,0,0,0.2)]"></span>
-            <span className="text-[14px] font-medium">
-              Make a strong and secure password.
-            </span>
-            <span className="flex items-center w-25 h-px bg-[rgba(0,0,0,0.2)]"></span>
-          </div>
-          <br />
+        <div className="w-full flex items-center justify-center gap-3">
+          <span className="flex items-center w-25 h-px bg-[rgba(0,0,0,0.2)]"></span>
+          <span className="text-[14px] font-medium">
+            Make a strong and secure password.
+          </span>
+          <span className="flex items-center w-25 h-px bg-[rgba(0,0,0,0.2)]"></span>
+        </div>
+        <br />
 
-        <form className="w-full px-20 mt-3">
+        <form className="w-full px-20 mt-3" onSubmit={handleSubmit}>
           <div className="form-group mb-2 w-full">
             <h4 className="text-[14px] font-medium mb-1">New Password</h4>
             <div className="w-full relative">
               <input
                 type={isShowPassword === false ? "password" : "text"}
                 className="w-full h-12.5 border-2 border-[rgba(0,0,0,0.1)] rounded-md focus:border-[rgba(0,0,0,0.7)] focus:outline-none px-3"
+                name="newPassword"
+                value={formFields.newPassword}
+                disabled={isLoading === true ? true : false}
+                onChange={onChangeInput}
               />
 
               <Button
@@ -97,15 +160,19 @@ const ChangePassword = () => {
             </h4>
             <div className="w-full relative">
               <input
-                type={isShowPassword2 === false ? "password" : "text"}
+                type={isShowConfirmPassword === false ? "password" : "text"}
                 className="w-full h-12.5 border-2 border-[rgba(0,0,0,0.1)] rounded-md focus:border-[rgba(0,0,0,0.7)] focus:outline-none px-3"
+                name="confirmPassword"
+                value={formFields.confirmPassword}
+                disabled={isLoading === true ? true : false}
+                onChange={onChangeInput}
               />
 
               <Button
                 className="absolute! top-2 right-2.5 z-50 w-8.75! h-8.75! min-w-8.75! rounded-full! text-black!"
-                onClick={() => setIsShowPassword2(!isShowPassword2)}
+                onClick={() => setIsShowConfirmPassword(!isShowConfirmPassword)}
               >
-                {isShowPassword2 === false ? (
+                {isShowConfirmPassword === false ? (
                   <IoMdEye className="text-[20px] opacity-75" />
                 ) : (
                   <IoMdEyeOff className="text-[20px] opacity-75" />
@@ -114,7 +181,17 @@ const ChangePassword = () => {
             </div>
           </div>
           <br />
-          <Button className="btn-blue btn-lg w-full">Change Password</Button>
+          <Button
+            type="submit"
+            disabled={!validateValue}
+            className="btn-blue btn-lg w-full"
+          >
+            {isLoading === true ? (
+              <CircularProgress color="inherit" />
+            ) : (
+              "Change Password"
+            )}
+          </Button>
           <br />
         </form>
       </div>

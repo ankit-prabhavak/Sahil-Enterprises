@@ -14,6 +14,8 @@ import { LuActivity } from "react-icons/lu";
 import { IoSettingsOutline } from "react-icons/io5";
 import { MyContext } from "../../App";
 import { Link } from "react-router-dom";
+import { fetchDataFromAPI } from "../../utils/api";
+import { useNavigate } from "react-router-dom";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -34,7 +36,16 @@ const Header = () => {
     setAnchorMyAccount(null);
   };
 
-  const context = useContext(MyContext);
+   const context = useContext(MyContext);
+    const history = useNavigate();
+
+ const handleLogout = async () => {
+    await fetchDataFromAPI("/api/user/logout");
+    context.setIsLoggedIn(false);
+    context.setUserData(null); // add this
+    history("/login");
+  };
+
 
   return (
     <header
@@ -120,10 +131,10 @@ const Header = () => {
 
                   <div className="info">
                     <h3 className="text-[14px] font-medium leading-4">
-                      Ankit Kumar
+                      {context.userData?.name}
                     </h3>
                     <p className="text-[12px] font-normal opacity-70">
-                      username@example.com
+                      {context.userData?.email}
                     </p>
                   </div>
                 </div>
@@ -154,7 +165,7 @@ const Header = () => {
               </MenuItem>
               <Divider />
               <MenuItem
-                onClick={handleCloseMyAccount}
+                onClick={handleLogout}
                 className="flex items-center gap-3"
               >
                 <IoLogOutOutline className="text-[18px]" />

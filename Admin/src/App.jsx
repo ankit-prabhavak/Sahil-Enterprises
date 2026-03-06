@@ -32,6 +32,9 @@ import VerifyAccount from "./Pages/VerifyAccount";
 import ChangePassword from "./Pages/ChangePassword";
 
 
+// Toast
+import toast, { Toaster } from "react-hot-toast";
+
 const MyContext = createContext();
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -41,11 +44,40 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = React.useState(true);
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  const [userData, setUserData] = React.useState(null);
+
+  const apiUrl = import.meta.env.VITE_APP_URL;
 
   const [isOpenFullScreenPanel, setIsOpenFullScreenPanel] = React.useState({
     open: false,
     model: "",
   });
+
+  React.useEffect(() => {
+      const checkAuth = async () => {
+        const response = await fetchDataFromAPI("/api/user/user-details");
+  
+        if (response?.success) {
+          setIsLoggedIn(true);
+          setUserData(response.data);
+        } else {
+          setIsLoggedIn(false);
+        }
+      };
+  
+      checkAuth();
+    }, []);
+
+  // alert box
+  const openAlertBox = (status, message) => {
+    if (status === "success") {
+      toast.success(message);
+    }
+
+    if (status === "error") {
+      toast.error(message);
+    }
+  };
 
   const values = {
     isSidebarOpen,
@@ -54,6 +86,9 @@ function App() {
     setIsLoggedIn,
     isOpenFullScreenPanel,
     setIsOpenFullScreenPanel,
+    openAlertBox,
+    userData,
+    setUserData,
   };
 
   const router = createBrowserRouter([
@@ -303,6 +338,17 @@ function App() {
           }
         </Dialog>
       </MyContext.Provider>
+
+      <Toaster
+        toastOptions={{
+          duration: 3000, // toast visible for 3 seconds
+          style: {
+            maxWidth: "420px",
+            wordBreak: "break-word",
+            whiteSpace: "normal",
+          },
+        }}
+      />
     </>
   );
 }
