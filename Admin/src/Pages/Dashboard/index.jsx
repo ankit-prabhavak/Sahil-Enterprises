@@ -151,7 +151,7 @@ const Dashboard = () => {
           <h1 className="text-[35px] font-bold leading-10 mb-3">
             Good Morning,
             <br />
-            Ankit Kumar
+            {context.userData?.name}
           </h1>
           <p>
             Here's What happening on your store today. See the statistics at

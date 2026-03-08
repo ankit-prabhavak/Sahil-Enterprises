@@ -13,6 +13,7 @@ import categoryRouter from "./route/category.route.js";
 import productRouter from "./route/product.route.js";
 import cartRouter from "./route/cart.route.js";
 import myListRouter from "./route/myList.route.js";
+import addressRoute from "./route/address.route.js";
 
 const PORT = process.env.PORT || 8000;
 
@@ -48,6 +49,7 @@ app.use('/api/category', categoryRouter)
 app.use('/api/product', productRouter);
 app.use('/api/cart', cartRouter);
 app.use('/api/myList', myListRouter);
+app.use("/api/address", addressRoute);
 
 connectDB().then(() => {
     app.listen(PORT, () => {

@@ -36,16 +36,15 @@ const Header = () => {
     setAnchorMyAccount(null);
   };
 
-   const context = useContext(MyContext);
-    const history = useNavigate();
+  const context = useContext(MyContext);
+  const history = useNavigate();
 
- const handleLogout = async () => {
+  const handleLogout = async () => {
     await fetchDataFromAPI("/api/user/logout");
     context.setIsLoggedIn(false);
     context.setUserData(null); // add this
     history("/login");
   };
-
 
   return (
     <header
@@ -75,11 +74,19 @@ const Header = () => {
               className="rounded-full w-[35px] h-[35px] overflow-hidden cursor-pointer"
               onClick={handleClickMyAccount}
             >
-              <img
-                src="https://static.vecteezy.com/system/resources/thumbnails/027/554/917/small/shinchan-sleepy-face-illustration-free-vector.jpg"
-                alt="profile img"
-                className="w-full h-full object-cover"
-              />
+              {context?.userData.avatar !== "" ? (
+                <img
+                  src={context?.userData.avatar}
+                  alt="Profile Image"
+                  className="w-full h-full object-cover cursor-pointer group-hover:scale-105"
+                />
+              ) : (
+                <img
+                  src="https://static.vecteezy.com/system/resources/thumbnails/027/554/917/small/shinchan-sleepy-face-illustration-free-vector.jpg"
+                  alt="Profile Image"
+                  className="w-full h-full object-cover cursor-pointer group-hover:scale-105"
+                />
+              )}
             </div>
 
             <Menu
@@ -122,11 +129,19 @@ const Header = () => {
               <MenuItem onClick={handleCloseMyAccount} className="bg-white!">
                 <div className="flex items-center gap-3">
                   <div className="rounded-full w-[35px] h-[35px] overflow-hidden cursor-pointer">
-                    <img
-                      src="https://static.vecteezy.com/system/resources/thumbnails/027/554/917/small/shinchan-sleepy-face-illustration-free-vector.jpg"
-                      alt="profile img"
-                      className="w-full h-full object-cover"
-                    />
+                    {context?.userData.avatar !== "" ? (
+                      <img
+                        src={context?.userData.avatar}
+                        alt="Profile Image"
+                        className="w-full h-full object-cover cursor-pointer group-hover:scale-105"
+                      />
+                    ) : (
+                      <img
+                        src="https://static.vecteezy.com/system/resources/thumbnails/027/554/917/small/shinchan-sleepy-face-illustration-free-vector.jpg"
+                        alt="Profile Image"
+                        className="w-full h-full object-cover cursor-pointer group-hover:scale-105"
+                      />
+                    )}
                   </div>
 
                   <div className="info">
@@ -142,13 +157,15 @@ const Header = () => {
 
               <Divider />
 
-              <MenuItem
-                onClick={handleCloseMyAccount}
-                className="flex items-center gap-3"
-              >
-                <FaRegUser className="text-[18px]" />
-                <span className="text-[14px]">Profile</span>
-              </MenuItem>
+              <Link to="/profile">
+                <MenuItem
+                  onClick={handleCloseMyAccount}
+                  className="flex items-center gap-3"
+                >
+                  <FaRegUser className="text-[18px]" />
+                  <span className="text-[14px]">Profile</span>
+                </MenuItem>
+              </Link>
               <MenuItem
                 onClick={handleCloseMyAccount}
                 className="flex items-center gap-3"
@@ -174,10 +191,10 @@ const Header = () => {
             </Menu>
           </div>
         ) : (
-          <Link to='/login'>
-          <Button className="btn-blue btn-sm rounded-full! capitalize!">
-            Login
-          </Button>
+          <Link to="/login">
+            <Button className="btn-blue btn-sm rounded-full! capitalize!">
+              Login
+            </Button>
           </Link>
         )}
       </div>

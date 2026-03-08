@@ -255,12 +255,13 @@ export async function loginUserController(request, response) {
       httpOnly: true,
       secure: false,
       sameSite: "Lax",
+      maxAge: 30 * 60 * 1000 // 30 minutes
     };
 
     response.cookie("accessToken", accessToken, cookiesOption);
     response.cookie("refreshToken", refreshToken, cookiesOption);
 
-    const userDetails = await UserModel.findById(user._id).select("-password -refresh_token");
+    const userDetails = await UserModel.findById(user._id).select("-password -refresh_token").populate("address_details");
 
     return response.json({
       message: "Login successful",
@@ -721,20 +722,44 @@ export async function refreshToken(request, response) {
 }
 
 // get login user details
+// export async function userDetails(request, response) {
+//   try {
+//     const userId = request.userId;
+
+//     const user = await UserModel.findById(userId).select(
+//       "-password -refresh_token",
+//     );
+
+//     return response.json({
+//       message: "user details",
+//       data: user,
+//       error: false,
+//       success: true,
+//     });
+//   } catch (error) {
+//     return response.status(500).json({
+//       message: error.message || error,
+//       error: true,
+//       success: false,
+//     });
+//   }
+// }
 export async function userDetails(request, response) {
   try {
     const userId = request.userId;
 
-    const user = await UserModel.findById(userId).select(
-      "-password -refresh_token",
-    );
-
+    const user = await UserModel.findById(userId)
+      .select("-password -refresh_token")
+      .populate("address_details");
+    
+    
     return response.json({
       message: "user details",
       data: user,
       error: false,
       success: true,
     });
+
   } catch (error) {
     return response.status(500).json({
       message: error.message || error,

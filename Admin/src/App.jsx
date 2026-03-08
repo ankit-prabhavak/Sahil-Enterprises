@@ -22,6 +22,7 @@ import { IoMdClose } from "react-icons/io";
 import Slide from "@mui/material/Slide";
 import HomeSliderBanner from "./Pages/HomeSliderBanner";
 import AddHomeSlide from "./Pages/HomeSliderBanner/addHomeSlide";
+import AddAddress from "./Pages/Address/addAddress";
 import CategoryList from "./Pages/CategoryList";
 import AddCategory from "./Pages/CategoryList/addCategory";
 import SubCategoryList from "./Pages/SubCategoryList";
@@ -31,9 +32,9 @@ import ForgotPassword from "./Pages/ForgotPassword";
 import VerifyAccount from "./Pages/VerifyAccount";
 import ChangePassword from "./Pages/ChangePassword";
 
-
 // Toast
 import toast, { Toaster } from "react-hot-toast";
+import Profile from "./Pages/Profile";
 
 const MyContext = createContext();
 
@@ -54,19 +55,20 @@ function App() {
   });
 
   React.useEffect(() => {
-      const checkAuth = async () => {
-        const response = await fetchDataFromAPI("/api/user/user-details");
-  
-        if (response?.success) {
-          setIsLoggedIn(true);
-          setUserData(response.data);
-        } else {
-          setIsLoggedIn(false);
-        }
-      };
-  
-      checkAuth();
-    }, []);
+  const checkAuth = async () => {
+    console.log("Checking authentication...");
+    const response = await fetchDataFromAPI("/api/user/user-details");
+
+    if (response?.success) {
+      setIsLoggedIn(true);
+      setUserData(response.data);
+    } else {
+      setIsLoggedIn(false);
+    }
+  };
+
+  checkAuth();
+}, []);
 
   // alert box
   const openAlertBox = (status, message) => {
@@ -130,7 +132,7 @@ function App() {
         </>
       ),
     },
-     {
+    {
       path: "/forgot-password",
       element: (
         <>
@@ -286,6 +288,28 @@ function App() {
         </>
       ),
     },
+    {
+      path: "/profile",
+      element: (
+        <>
+          <section className="main">
+            <Header />
+            <div className="contentMain flex">
+              <div
+                className={`overflow-hidden sidebarWrapper ${isSidebarOpen === true ? "w-[20%]" : "w-0 opacity-0"} transition-all`}
+              >
+                <Sidebar />
+              </div>
+              <div
+                className={`contentRight py-4 pr-8  ${isSidebarOpen === false ? "w-full pl-8" : "w-[80%]"} transition-all`}
+              >
+                <Profile />
+              </div>
+            </div>
+          </section>
+        </>
+      ),
+    },
   ]);
 
   return (
@@ -333,9 +357,9 @@ function App() {
 
           {isOpenFullScreenPanel.model === "Add New Sub Category" && (
             <AddSubCategory />
-          )
+          )}
 
-          }
+          {isOpenFullScreenPanel.model === "Add New Address" && <AddAddress />}
         </Dialog>
       </MyContext.Provider>
 
