@@ -48,6 +48,7 @@ const Header = () => {
     await fetchDataFromAPI("/api/user/logout");
     context.setIsLoggedIn(false);
     context.setUserData(null); // add this
+    context.setAddresses([]);
     history("/login");
   };
 

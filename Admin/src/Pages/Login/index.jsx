@@ -12,7 +12,7 @@ import { IoMdEyeOff } from "react-icons/io";
 
 import { MyContext } from "../../App";
 import CircularProgress from "@mui/material/CircularProgress";
-import { postData } from "../../utils/api";
+import { fetchDataFromAPI, postData } from "../../utils/api";
 import { useState } from "react";
 
 const Login = () => {
@@ -72,7 +72,15 @@ const Login = () => {
         context.setIsLoggedIn(true);
         context.setUserData(response.data.userDetails);
 
+        // Navigate immediately
         history("/");
+
+        // Fetch addresses in background
+        fetchDataFromAPI("/api/address/get-address").then((res) => {
+          if (res?.success) {
+            context.setAddresses(res.data);
+          }
+        });
       } else {
         context.openAlertBox("error", response.message);
         setIsLoading(false);

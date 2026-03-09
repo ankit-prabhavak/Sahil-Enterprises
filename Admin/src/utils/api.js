@@ -37,6 +37,16 @@ export const editData = async (url, body) => {
   }
 };
 
+// DELETE
+export const deleteData = async (url) => {
+  try {
+    const { data } = await api.delete(url);
+    return data;
+  } catch (error) {
+    return handleError(error);
+  }
+};
+
 const handleError = (error) => {
   console.error("API ERROR:", error);
 

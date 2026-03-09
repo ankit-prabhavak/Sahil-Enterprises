@@ -8,7 +8,7 @@ import { FcGoogle } from "react-icons/fc";
 import "./style.css";
 import { MyContext } from "../../App";
 import CircularProgress from "@mui/material/CircularProgress";
-import { postData } from "../../utils/api";
+import { fetchDataFromAPI, postData } from "../../utils/api";
 import { useState } from "react";
 
 const Login = () => {
@@ -68,6 +68,12 @@ const Login = () => {
         context.setUserData(response.data.userDetails);
 
         history("/");
+
+        fetchDataFromAPI("/api/address/get-address").then((res) => {
+          if (res?.success) {
+            context.setAddresses(res.data);
+          }
+        });
       } else {
         context.openAlertBox("error", response.message);
         setIsLoading(false);

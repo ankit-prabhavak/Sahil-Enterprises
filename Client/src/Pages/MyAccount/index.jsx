@@ -259,7 +259,7 @@ const MyAccount = () => {
 
         <div className="col2 w-[80%]">
           <div className="card bg-white p-5 shadow-md rounded-md">
-            <h2 className="pb-3">My Profile</h2>
+            <h2 className="font-semibold text-[20px] pb-3">My Profile</h2>
             <Divider className="mb-5!" />
 
             <form className="flex items-center" onSubmit={handleSubmit}>
@@ -356,21 +356,6 @@ const MyAccount = () => {
                   </div>
                 </div>
                 <br />
-                <div className="flex items-center gap-5">
-                  <div className="w-[50%] pr-2">
-                    <TextField
-                      label="Address"
-                      placeholder="eg. 123, Main Street, City"
-                      variant="outlined"
-                      defaultValue={"Ward-17, Thawe, Gopalganj-841440, Bihar"}
-                      multiline
-                      rows={2}
-                      fullWidth
-                      size="small"
-                    />
-                  </div>
-                </div>
-                <br />
                 <div className="flex items-center gap-4">
                   <Button
                     type="submit"
@@ -451,7 +436,7 @@ const MyAccount = () => {
             <Collapse in={showChangePassword}>
               <div className="w-full mt-6 mb-6">
                 <div className="card bg-white p-5 shadow-md rounded-md">
-                  <h2 className="pb-3">Change Password</h2>
+                  <h2 className="font-semibold text-[20px] pb-3">Change Password</h2>
                   <Divider className="mb-5!" />
 
                   <form

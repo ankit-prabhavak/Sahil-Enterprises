@@ -9,7 +9,7 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { MyContext } from "../../App";
 import CircularProgress from "@mui/material/CircularProgress";
-import { editData, postData } from "../../utils/api";
+import { deleteData, editData, postData } from "../../utils/api";
 import { useNavigate } from "react-router-dom";
 import Collapse from "@mui/material/Collapse";
 
@@ -249,6 +249,29 @@ const Profile = () => {
     }
   };
 
+  const deleteAddress = async (id) => {
+    try {
+      const res = await deleteData(`/api/address/delete/${id}`);
+
+      if (res?.success) {
+        context.openAlertBox("success", res.message);
+
+        // remove from UI
+        context.setAddresses((prev) => prev.filter((addr) => addr._id !== id));
+      }
+    } catch (error) {
+      context.openAlertBox("error", "Failed to delete address");
+    }
+  };
+
+  const editAddress = (address) => {
+    context.setIsOpenFullScreenPanel({
+      open: true,
+      model: "Edit Address",
+      data: address,
+    });
+  };
+
   return (
     <>
       <div className="card my-4 p-5 pt-5 shadow-md sm:rounded-lg bg-white">
@@ -324,15 +347,15 @@ const Profile = () => {
               <h3 className="text-[18px] font-semibold mb-4">My Addresses</h3>
 
               {/* ADDRESS LIST */}
-              {context?.userData?.address_details?.length > 0 ? (
+              {context?.addresses.length > 0 ? (
                 <div className="space-y-4">
-                  {context.userData.address_details.map((addr) => (
+                  {context?.addresses.map((addr) => (
                     <div
                       key={addr._id}
                       className="border border-gray-200 rounded-md p-4 bg-white hover:shadow-sm transition"
                     >
-                      {/* Address Info */}
-                      <div className="flex justify-between">
+                      <div className="flex justify-between items-start">
+                        {/* Address Info */}
                         <div>
                           <p className="text-[15px] font-semibold text-gray-800">
                             {addr.address_line}
@@ -349,6 +372,25 @@ const Profile = () => {
                           <p className="text-[14px] mt-1 font-medium">
                             Mobile: {addr.mobile}
                           </p>
+                        </div>
+
+                        {/* ACTION BUTTONS */}
+                        <div className="flex gap-2">
+                          <Button
+                            size="small"
+                            className="btn-blue px-3 py-1 text-[12px] min-w-[60px]"
+                            onClick={() => editAddress(addr)}
+                          >
+                            Edit
+                          </Button>
+
+                          <Button
+                            size="small"
+                            className="btn-blue btn-border px-3 py-1 text-[12px] min-w-[60px]"
+                            onClick={() => deleteAddress(addr._id)}
+                          >
+                            Delete
+                          </Button>
                         </div>
                       </div>
                     </div>

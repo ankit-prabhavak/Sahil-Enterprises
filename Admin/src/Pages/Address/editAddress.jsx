@@ -1,14 +1,16 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
 import { FaCloudUploadAlt } from "react-icons/fa";
 
-import { fetchDataFromAPI, postData } from "../../utils/api";
+import { fetchDataFromAPI, editData } from "../../utils/api";
 import { MyContext } from "../../App";
 
-const AddAddress = () => {
+const EditAddress = () => {
   const context = useContext(MyContext);
+
+  const addressData = context?.isOpenFullScreenPanel?.data;
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -21,6 +23,20 @@ const AddAddress = () => {
     mobile: "",
   });
 
+  // Prefill form when component loads
+  useEffect(() => {
+    if (addressData) {
+      setFormFields({
+        address_line: addressData.address_line || "",
+        city: addressData.city || "",
+        state: addressData.state || "",
+        pincode: addressData.pincode || "",
+        country: addressData.country || "",
+        mobile: addressData.mobile || "",
+      });
+    }
+  }, [addressData]);
+
   const validInput =
     formFields.address_line &&
     formFields.city &&
@@ -29,7 +45,6 @@ const AddAddress = () => {
     formFields.country &&
     formFields.mobile;
 
-  // handle input change
   const onChangeInput = (e) => {
     const { name, value } = e.target;
 
@@ -57,12 +72,14 @@ const AddAddress = () => {
     try {
       setIsLoading(true);
 
-      const res = await postData("/api/address/add-address", formFields);
+      const res = await editData(
+        `/api/address/update/${addressData._id}`,
+        formFields,
+      );
 
       if (res.success) {
         context.openAlertBox("success", res.message);
 
-        // refresh user profile data
         // refresh user data
         const refreshedData = await fetchDataFromAPI("/api/user/user-details");
         const refreshedAddresses = await fetchDataFromAPI(
@@ -79,16 +96,6 @@ const AddAddress = () => {
           model: "",
           data: null,
         }));
-
-        // reset form
-        setFormFields({
-          address_line: "",
-          city: "",
-          state: "",
-          pincode: "",
-          country: "",
-          mobile: "",
-        });
       } else {
         context.openAlertBox("error", res.message);
       }
@@ -105,11 +112,9 @@ const AddAddress = () => {
       <form className="form w-[60%] py-3 p-8" onSubmit={handleSubmit}>
         <div className="scrollHome max-h-[70vh] overflow-y-scroll pr-4">
           <h2 className="text-[14px] font-semibold mb-6">
-            {" "}
-            Enter your delivery address below
+            Update your delivery address
           </h2>
 
-          {/* Address Line */}
           <div className="w-full mb-4">
             <TextField
               label="Address Line"
@@ -123,11 +128,9 @@ const AddAddress = () => {
             />
           </div>
 
-          {/* City + State */}
           <div className="flex gap-5 mb-4">
             <TextField
               label="City"
-              placeholder="eg. Patna"
               variant="outlined"
               fullWidth
               size="small"
@@ -138,7 +141,6 @@ const AddAddress = () => {
 
             <TextField
               label="State"
-              placeholder="eg. Bihar"
               variant="outlined"
               fullWidth
               size="small"
@@ -148,11 +150,9 @@ const AddAddress = () => {
             />
           </div>
 
-          {/* Pincode + Country */}
           <div className="flex gap-5 mb-4">
             <TextField
               label="Pincode"
-              placeholder="eg. 800020"
               variant="outlined"
               fullWidth
               size="small"
@@ -163,7 +163,6 @@ const AddAddress = () => {
 
             <TextField
               label="Mobile Number"
-              placeholder="eg. 9876543210"
               variant="outlined"
               fullWidth
               size="small"
@@ -173,7 +172,6 @@ const AddAddress = () => {
             />
           </div>
 
-          {/* Mobile */}
           <div className="w-full mb-4">
             <TextField
               label="Country"
@@ -190,7 +188,6 @@ const AddAddress = () => {
 
         <br />
 
-        {/* Submit Button */}
         <div className="w-[250px]">
           <Button
             type="submit"
@@ -202,7 +199,7 @@ const AddAddress = () => {
             ) : (
               <>
                 <FaCloudUploadAlt className="text-[20px]" />
-                Save Address
+                Update Address
               </>
             )}
           </Button>
@@ -212,4 +209,4 @@ const AddAddress = () => {
   );
 };
 
-export default AddAddress;
+export default EditAddress;

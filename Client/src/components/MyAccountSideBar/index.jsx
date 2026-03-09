@@ -10,6 +10,7 @@ import { LiaGiftSolid } from "react-icons/lia";
 import { TfiWallet } from "react-icons/tfi";
 import { LiaHeadphonesSolid } from "react-icons/lia";
 import { MyContext } from "../../App";
+import { LuMapPin } from "react-icons/lu";
 
 
 const MyAccountSideBar = () => {
@@ -50,6 +51,14 @@ const MyAccountSideBar = () => {
           </NavLink>
         </li>
         <li className="w-full">
+          <NavLink to="/address" exact={true} activeClassName="active">
+            <Button className="w-full text-left! py-2! px-5! justify-start! capitalize! text-[rgba(0,0,0,0.8)]! rounded-none! flex items-center gap-2">
+              <LuMapPin className="text-[18px]" />
+              Address
+            </Button>
+          </NavLink>
+        </li>
+        <li className="w-full">
           <NavLink to="/my-list" exact={true} activeClassName="active">
             <Button className="w-full text-left! py-2! px-5! justify-start! capitalize! text-[rgba(0,0,0,0.8)]! rounded-none! flex items-center gap-2">
               <IoMdHeartEmpty className="text-[18px]" />
@@ -62,14 +71,6 @@ const MyAccountSideBar = () => {
             <Button className="w-full text-left! py-2! px-5! justify-start! capitalize! text-[rgba(0,0,0,0.8)]! rounded-none! flex items-center gap-2">
               <RiHandbagLine className="text-[18px]" />
               My Orders
-            </Button>
-          </NavLink>
-        </li>
-        <li className="w-full">
-          <NavLink to="/my-rewards" exact={true} activeClassName="active">
-            <Button className="w-full text-left! py-2! px-5! justify-start! capitalize! text-[rgba(0,0,0,0.8)]! rounded-none! flex items-center gap-2">
-              <LiaGiftSolid className="text-[18px]" />
-              Earned Rewards
             </Button>
           </NavLink>
         </li>

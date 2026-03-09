@@ -261,7 +261,7 @@ export async function loginUserController(request, response) {
     response.cookie("accessToken", accessToken, cookiesOption);
     response.cookie("refreshToken", refreshToken, cookiesOption);
 
-    const userDetails = await UserModel.findById(user._id).select("-password -refresh_token").populate("address_details");
+    const userDetails = await UserModel.findById(user._id).select("-password -refresh_token");
 
     return response.json({
       message: "Login successful",
@@ -749,8 +749,7 @@ export async function userDetails(request, response) {
     const userId = request.userId;
 
     const user = await UserModel.findById(userId)
-      .select("-password -refresh_token")
-      .populate("address_details");
+      .select("-password -refresh_token");
     
     
     return response.json({

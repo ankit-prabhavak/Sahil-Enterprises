@@ -34,6 +34,7 @@ import Orders from "./Pages/Orders";
 import MainLayout from "./layouts/MainLayout";
 import { fetchDataFromAPI } from "./utils/api";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Address from "./Pages/MyAccount/address";
 
 const MyContext = createContext();
 
@@ -43,6 +44,7 @@ export default function App() {
   const [fullWidth, setFullWidth] = React.useState(true);
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [userData, setUserData] = React.useState(null);
+  const [addresses, setAddresses] = React.useState([]);
 
   const apiUrl = import.meta.env.VITE_APP_URL;
 
@@ -74,6 +76,22 @@ export default function App() {
     checkAuth();
   }, []);
 
+  const fetchAddresses = async () => {
+      try {
+        const res = await fetchDataFromAPI("/api/address/get-address");
+  
+        if (res?.success) {
+          setAddresses(res.data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+  
+    React.useEffect(() => {
+      fetchAddresses();
+    }, []);
+
   // alert box
   const openAlertBox = (status, message) => {
     if (status === "success") {
@@ -93,6 +111,8 @@ export default function App() {
     setIsLoggedIn,
     userData,
     setUserData,
+    addresses,
+    setAddresses,
   };
 
   return (
@@ -140,6 +160,15 @@ export default function App() {
                 element={
                   <ProtectedRoute>
                     <MyAccount />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/address"
+                element={
+                  <ProtectedRoute>
+                    <Address />
                   </ProtectedRoute>
                 }
               />

@@ -33,16 +33,7 @@ import axios from "axios";
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_APP_URL,
-  withCredentials: true,
-});
-
-// Automatically attach token
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
+  withCredentials: true, // cookies will be sent automatically
 });
 
 export default api;
@@ -77,7 +68,16 @@ export const editData = async (url, body) => {
   }
 };
 
-// shared error handler
+// DELETE
+export const deleteData = async (url) => {
+  try {
+    const { data } = await api.delete(url);
+    return data;
+  } catch (error) {
+    return handleError(error);
+  }
+};
+
 const handleError = (error) => {
   console.error("API ERROR:", error);
 

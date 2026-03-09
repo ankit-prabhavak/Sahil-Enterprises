@@ -35,6 +35,8 @@ import ChangePassword from "./Pages/ChangePassword";
 // Toast
 import toast, { Toaster } from "react-hot-toast";
 import Profile from "./Pages/Profile";
+import { fetchDataFromAPI } from "./utils/api";
+import EditAddress from "./Pages/Address/editAddress";
 
 const MyContext = createContext();
 
@@ -46,29 +48,47 @@ function App() {
   const [isSidebarOpen, setIsSidebarOpen] = React.useState(true);
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [userData, setUserData] = React.useState(null);
+  const [addresses, setAddresses] = React.useState([]);
 
   const apiUrl = import.meta.env.VITE_APP_URL;
 
   const [isOpenFullScreenPanel, setIsOpenFullScreenPanel] = React.useState({
     open: false,
     model: "",
+    data: null,
   });
 
   React.useEffect(() => {
-  const checkAuth = async () => {
-    console.log("Checking authentication...");
-    const response = await fetchDataFromAPI("/api/user/user-details");
+    const checkAuth = async () => {
+      console.log("Checking authentication...");
+      const response = await fetchDataFromAPI("/api/user/user-details");
 
-    if (response?.success) {
-      setIsLoggedIn(true);
-      setUserData(response.data);
-    } else {
-      setIsLoggedIn(false);
+      if (response?.success) {
+        setIsLoggedIn(true);
+        setUserData(response.data);
+      } else {
+        setIsLoggedIn(false);
+      }
+    };
+
+    checkAuth();
+  }, []);
+
+  const fetchAddresses = async () => {
+    try {
+      const res = await fetchDataFromAPI("/api/address/get-address");
+
+      if (res?.success) {
+        setAddresses(res.data);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
-  checkAuth();
-}, []);
+  React.useEffect(() => {
+    fetchAddresses();
+  }, []);
 
   // alert box
   const openAlertBox = (status, message) => {
@@ -91,6 +111,8 @@ function App() {
     openAlertBox,
     userData,
     setUserData,
+    addresses,
+    setAddresses,
   };
 
   const router = createBrowserRouter([
@@ -360,6 +382,8 @@ function App() {
           )}
 
           {isOpenFullScreenPanel.model === "Add New Address" && <AddAddress />}
+
+          {isOpenFullScreenPanel.model === "Edit Address" && <EditAddress />}
         </Dialog>
       </MyContext.Provider>
 

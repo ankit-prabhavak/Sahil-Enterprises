@@ -82,7 +82,7 @@ export async function updateAddress(request, response) {
       request.body,
       { new: true }
     );
-
+    
     return response.json({
       message: "Address updated",
       data: update,
