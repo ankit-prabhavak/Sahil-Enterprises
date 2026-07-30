@@ -6,7 +6,7 @@ dotenv.config();
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
 import helmet from "helmet";
-import connectDB from "./Config/connectionDB.js";
+import connectDB from "./config/connectionDB.js";
 
 import userRouter from "./route/user.route.js";
 import categoryRouter from "./route/category.route.js";
