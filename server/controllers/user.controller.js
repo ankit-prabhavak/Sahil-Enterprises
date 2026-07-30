@@ -250,18 +250,29 @@ export async function loginUserController(request, response) {
       last_login_date: new Date(),
     });
 
-   // only for development, need to change for production
+    // only for development, need to change for production
+    // const cookiesOption = {
+    //   httpOnly: true,
+    //   secure: false,
+    //   sameSite: "Lax",
+    //   maxAge: 30 * 60 * 1000 // 30 minutes
+    // };
+
+    const isProduction = process.env.NODE_ENV === "production";
+
     const cookiesOption = {
       httpOnly: true,
-      secure: false,
-      sameSite: "Lax",
-      maxAge: 30 * 60 * 1000 // 30 minutes
+      secure: isProduction,
+      sameSite: isProduction ? "None" : "Lax",
+      maxAge: 30 * 60 * 1000,
     };
 
     response.cookie("accessToken", accessToken, cookiesOption);
     response.cookie("refreshToken", refreshToken, cookiesOption);
 
-    const userDetails = await UserModel.findById(user._id).select("-password -refresh_token");
+    const userDetails = await UserModel.findById(user._id).select(
+      "-password -refresh_token",
+    );
 
     return response.json({
       message: "Login successful",
@@ -270,7 +281,7 @@ export async function loginUserController(request, response) {
       data: {
         accessToken,
         refreshToken,
-        userDetails
+        userDetails,
       },
     });
   } catch (error) {
@@ -285,7 +296,7 @@ export async function loginUserController(request, response) {
 export async function logoutController(request, response) {
   try {
     const userId = request.userId; //middleware
-    
+
     // only for development, need to change for production
     const cookiesOption = {
       httpOnly: true,
@@ -748,17 +759,16 @@ export async function userDetails(request, response) {
   try {
     const userId = request.userId;
 
-    const user = await UserModel.findById(userId)
-      .select("-password -refresh_token");
-    
-    
+    const user = await UserModel.findById(userId).select(
+      "-password -refresh_token",
+    );
+
     return response.json({
       message: "user details",
       data: user,
       error: false,
       success: true,
     });
-
   } catch (error) {
     return response.status(500).json({
       message: error.message || error,
@@ -776,7 +786,8 @@ export async function changePassword(request, response) {
 
     if (!oldPassword || !newPassword || !confirmPassword) {
       return response.status(400).json({
-        message: "provide required fields oldPassword, newPassword, confirmPassword",
+        message:
+          "provide required fields oldPassword, newPassword, confirmPassword",
         error: true,
         success: false,
       });
@@ -823,7 +834,6 @@ export async function changePassword(request, response) {
       error: false,
       success: true,
     });
-
   } catch (error) {
     return response.status(500).json({
       message: error.message || error,
