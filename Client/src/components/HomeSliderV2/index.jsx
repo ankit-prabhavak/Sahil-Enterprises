@@ -9,8 +9,11 @@ import { EffectFade, Navigation, Pagination } from "swiper/modules";
 
 const HomeSliderV2 = () => {
   const banners = [
-    "https://tbn-prod-assets.s3.dualstack.ap-south-1.amazonaws.com/UI_Enhancement/Winter%20Banner%201200-400%20Web%20GIF/Personal%20care.gif",
-    "https://tbn-prod-assets.s3.dualstack.ap-south-1.amazonaws.com/UI_Enhancement/Winter%20Banner%201200-400%20Web%20GIF/Beverages.gif",
+    "https://res.cloudinary.com/dwmnyuamv/image/upload/v1785419468/cms_1781853541557_oi61ok.webp",
+    "https://res.cloudinary.com/dwmnyuamv/image/upload/v1785419468/cms_1781853541933_adcepc.webp",
+    "https://res.cloudinary.com/dwmnyuamv/image/upload/v1785420221/hp_bcd_m_bcd_250923_400_pps0mx.webp",
+    "https://res.cloudinary.com/dwmnyuamv/image/upload/v1785420222/hp_m_petstore_250923_400_iqdgss.webp",
+    "https://res.cloudinary.com/dwmnyuamv/image/upload/v1785420221/hp_m_health_suppliment_250923_400_ar3han.webp",
   ];
 
   return (

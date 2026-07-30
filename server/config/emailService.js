@@ -1,44 +1,38 @@
-import http from "http";
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 
+const resend = new Resend(process.env.RESEND_API_KEY);
 
-// Create and configure the SMTP transporter object
-// This transporter is responsible for sending emails from your application
-const transporter = nodemailer.createTransport({
-    // SMTP server host (Gmail's SMTP server in this case)
-    host: 'smtp.gmail.com',
+const sendEmail = async (to, subject, text, html) => {
+  try {
+    const { data, error } = await resend.emails.send({
+      from: "Sahil Enterprises <noreply@prabhavak.in>", // change after verifying your domain
+      to,
+      subject,
+      text,
+      html,
+    });
 
-    // Port 465 is used for secure SMTP (SSL)
-    port: 465,
+    if (error) {
+      console.error(error);
 
-    // 'secure: true' means the connection will use SSL encryption
-    secure: true,
-
-    // Authentication details for the email account
-    auth: {
-        // Email address from environment variables (e.g., your Gmail address)
-        user: process.env.EMAIL,
-
-        // App password or email password stored securely in environment variables
-        pass: process.env.EMAIL_PASS,
-    },
-});
-
-// Function to send email
-async function sendEmail(to, subject, text, html) {
-    try {
-        const info = await transporter.sendMail({
-            from: process.env.EMAIL, // sender address
-            to, // list of receivers,
-            subject, // Subject line
-            text, // plain text body,
-            html, // html body
-        });
-        return { success: true, messageId: info.messageId };
-    }catch (error) {
-        console.error('Error sending Email:', error);
-        return { success: false, error: error.message };
+      return {
+        success: false,
+        error: error.message,
+      };
     }
-}
+
+    return {
+      success: true,
+      messageId: data.id,
+    };
+  } catch (error) {
+    console.error(error);
+
+    return {
+      success: false,
+      error: error.message,
+    };
+  }
+};
 
 export { sendEmail };

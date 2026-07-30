@@ -10,74 +10,74 @@ const HomeCatSlider = () => {
   const categories = [
     {
       name: "Chocolates & Candies",
-      img: "https://tbn-prod-assets.s3.ap-south-1.amazonaws.com/MENU_1752752254522.png",
+      img: "https://res.cloudinary.com/dwmnyuamv/image/upload/v1785419468/choco_go1mmj.png",
       link: "/choco",
     },
     {
       name: "Baby Care & Female Hygiene",
-      img: "https://tbn-prod-assets.s3.ap-south-1.amazonaws.com/MENU_1752752271752.png",
+      img: "https://res.cloudinary.com/dwmnyuamv/image/upload/v1785419468/Baby_Care_Female_Hygiene_setsbr.png",
       link: "/baby",
     },
     {
       name: "Snacks & Namkeens",
-      img: "https://tbn-prod-assets.s3.ap-south-1.amazonaws.com/MENU_1752752288039.png",
+      img: "https://res.cloudinary.com/dwmnyuamv/image/upload/v1785419468/MENU_1752752288039_tenbrk.png",
       link: "/snacks",
     },
     {
       name: "Tea Coffee & Cold Drinks",
-      img: "https://tbn-prod-assets.s3.ap-south-1.amazonaws.com/MENU_1752752311246.png",
+      img: "https://res.cloudinary.com/dwmnyuamv/image/upload/v1785419470/MENU_1752752311246_idf1cp.png",
       link: "/drinking",
     },
     {
       name: "Biscuits & Cookies",
-      img: "https://tbn-prod-assets.s3.ap-south-1.amazonaws.com/MENU_1752752382721.png",
+      img: "https://res.cloudinary.com/dwmnyuamv/image/upload/v1785419469/MENU_1752752382721_ispvvk.png",
       link: "/biscuits",
     },
     {
       name: "Cleaning & Laundry",
-      img: "https://tbn-prod-assets.s3.ap-south-1.amazonaws.com/MENU_1752752398821.png",
+      img: "https://res.cloudinary.com/dwmnyuamv/image/upload/v1785419470/MENU_1752752398821_jgyn5x.png",
       link: "/cleaning",
     },
     {
       name: "Face & Oral Care",
-      img: "https://tbn-prod-assets.s3.ap-south-1.amazonaws.com/MENU_1752752457441.png",
+      img: "https://res.cloudinary.com/dwmnyuamv/image/upload/v1785419469/MENU_1752752457441_gkxfsi.png",
       link: "/care",
     },
 
     {
       name: "Stationary & Electrical",
-      img: "https://tbn-prod-assets.s3.ap-south-1.amazonaws.com/MENU_1752752639337.png",
+      img: "https://res.cloudinary.com/dwmnyuamv/image/upload/v1785419468/MENU_1752752639337_bjiecp.png",
       link: "/copy-pen",
     },
     {
       name: "Foodgrains, Oil & Masala",
-      img: "https://tbn-prod-assets.s3.ap-south-1.amazonaws.com/MENU_1752752473944.png",
+      img: "https://res.cloudinary.com/dwmnyuamv/image/upload/v1785419469/MENU_1752752473944_vasx6d.png",
       link: "/grocery",
     },
     {
       name: "Hair & Body Care",
-      img: "https://tbn-prod-assets.s3.ap-south-1.amazonaws.com/MENU_1752752514120.png",
+      img: "https://res.cloudinary.com/dwmnyuamv/image/upload/v1785419469/MENU_1752752514120_weocio.png",
       link: "/body-care",
     },
     {
       name: "Health & Wellness",
-      img: "https://tbn-prod-assets.s3.ap-south-1.amazonaws.com/MENU_1752752532219.png",
+      img: "https://res.cloudinary.com/dwmnyuamv/image/upload/v1785419469/MENU_1752752532219_lyc7er.png",
       link: "/health",
     },
     {
       name: "Instant Packaged Foods",
-      img: "https://tbn-prod-assets.s3.ap-south-1.amazonaws.com/MENU_1752752571216.png",
+      img: "https://res.cloudinary.com/dwmnyuamv/image/upload/v1785419469/MENU_1752752571216_vxskbm.png",
       link: "/instant",
     },
     {
       name: "Paper Goods & Disposables",
-      img: "https://tbn-prod-assets.s3.ap-south-1.amazonaws.com/MENU_1752752592347.png",
+      img: "https://res.cloudinary.com/dwmnyuamv/image/upload/v1785419468/MENU_1752752592347_jmaewd.png",
       link: "/paper",
     },
 
     {
       name: "Sauces, Spreads & Essentials",
-      img: "https://tbn-prod-assets.s3.ap-south-1.amazonaws.com/MENU_1752752614421.png",
+      img: "https://res.cloudinary.com/dwmnyuamv/image/upload/v1785419468/MENU_1752752614421_hbzzy3.png",
       link: "/sauces",
     },
   ];
