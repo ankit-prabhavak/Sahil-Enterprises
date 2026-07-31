@@ -37,10 +37,7 @@ const MyAccount = () => {
   const context = useContext(MyContext);
   const history = useNavigate();
 
-  // const validateValue = Object.values(formFields).every((el) => el);
-
-  const validateValue =
-    formFields.firstName && formFields.mobile && formFields.email;
+  const validateValue = formFields.firstName && formFields.mobile && formFields.email;
 
   const validateValue2 =
     passFields.oldPassword &&
@@ -49,27 +46,22 @@ const MyAccount = () => {
 
   const onChangeInput = (e) => {
     const { name, value } = e.target;
-    setFormFields(() => {
-      return {
-        ...formFields,
-        [name]: value,
-      };
+    setFormFields({
+      ...formFields,
+      [name]: value,
     });
   };
 
   const onChangeInput2 = (e) => {
     const { name, value } = e.target;
-    setPassFields(() => {
-      return {
-        ...passFields,
-        [name]: value,
-      };
+    setPassFields({
+      ...passFields,
+      [name]: value,
     });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     setIsLoading(true);
 
     if (!formFields.firstName) {
@@ -102,18 +94,12 @@ const MyAccount = () => {
       email: formFields.email,
     };
 
-    const response = await editData(
-      `/api/user/${context?.userData._id}`,
-      payload,
-    );
+    const response = await editData(`/api/user/${context?.userData._id}`, payload);
 
     if (response) {
-      // console.log(response);
-
-      if (response?.success == true) {
+      if (response?.success === true) {
         setIsLoading(false);
         context.openAlertBox("success", response.message);
-
         context.setIsLoggedIn(true);
         context.setUserData(response.user);
       } else {
@@ -126,14 +112,12 @@ const MyAccount = () => {
   useEffect(() => {
     if (context?.userData) {
       const nameParts = context.userData.name?.split(" ") || [];
-
       setFormFields({
         firstName: nameParts[0] || "",
         lastName: nameParts.slice(1).join(" ") || "",
         mobile: context.userData.mobile || "",
         email: context.userData.email || "",
       });
-
       setGender(context.userData.gender || "");
     }
   }, [context?.userData]);
@@ -144,7 +128,6 @@ const MyAccount = () => {
 
   const handleSubmitChangePassword = async (e) => {
     e.preventDefault();
-
     setIsLoading2(true);
 
     if (!passFields.oldPassword) {
@@ -166,10 +149,7 @@ const MyAccount = () => {
     }
 
     if (passFields.newPassword !== passFields.confirmPassword) {
-      context.openAlertBox(
-        "error",
-        "New password and confirm password must match!",
-      );
+      context.openAlertBox("error", "New password and confirm password must match!");
       setIsLoading2(false);
       return;
     }
@@ -179,25 +159,16 @@ const MyAccount = () => {
 
       if (response?.success === true) {
         context.openAlertBox("success", response.message);
-
-        // clear password fields
         setPassFields({
           oldPassword: "",
           newPassword: "",
           confirmPassword: "",
         });
-
         setIsLoading2(false);
-
-        // logout user
         context.setIsLoggedIn(false);
-
         history("/login");
       } else {
-        context.openAlertBox(
-          "error",
-          response?.message || "Something went wrong",
-        );
+        context.openAlertBox("error", response?.message || "Something went wrong");
         setIsLoading2(false);
       }
     } catch (error) {
@@ -211,8 +182,6 @@ const MyAccount = () => {
   useEffect(() => {
     setPreviews([context?.userData?.avatar]);
   }, [context?.userData]);
-
-  let selectedImages = [];
 
   const onChangeFile = async (e, apiEndPoint) => {
     try {
@@ -228,20 +197,15 @@ const MyAccount = () => {
             files[i].type === "image/webp")
         ) {
           const file = files[i];
-          selectedImages.push(file);
-          formData.append(`avatar`, file);
+          formData.append("avatar", file);
 
           editData("api/user/user-avatar", formData).then((response) => {
             setUploading(false);
-            // console.log(response);
             setPreviews([response?.avatar]);
           });
         } else {
           setUploading(false);
-          context.openAlertBox(
-            "error",
-            "Please select a valid file type (JPG, PNG, WEBP).",
-          );
+          context.openAlertBox("error", "Please select a valid file type (JPG, PNG, WEBP).");
           return false;
         }
       }
@@ -252,128 +216,107 @@ const MyAccount = () => {
 
   return (
     <section className="w-full py-5 bg-[#f9f9f9] min-h-[80vh]">
-      <div className="container flex gap-5">
-        <div className="col1 w-[20%]">
+      <div className="container mx-auto px-3 sm:px-4 flex flex-col lg:flex-row gap-5">
+        <div className="w-full lg:w-[20%]">
           <MyAccountSideBar />
         </div>
 
-        <div className="col2 w-[80%]">
-          <div className="card bg-white p-5 shadow-md rounded-md">
-            <h2 className="font-semibold text-[20px] pb-3">My Profile</h2>
+        <div className="w-full lg:w-[80%]">
+          <div className="card bg-white p-4 sm:p-5 shadow-md rounded-md">
+            <h2 className="font-semibold text-[18px] sm:text-[20px] pb-3">My Profile</h2>
             <Divider className="mb-5!" />
 
-            <form className="flex items-center" onSubmit={handleSubmit}>
-              <div className="w-[60%]">
-                <div className="flex items-center gap-5">
-                  <div className="w-[50%]">
-                    <TextField
-                      label="First Name"
-                      placeholder="eg. Ankit"
-                      variant="outlined"
-                      // defaultValue={firstName}
-                      fullWidth
-                      size="small"
-                      name="firstName"
-                      value={formFields.firstName}
-                      disabled={isLoading === true ? true : false}
-                      onChange={onChangeInput}
-                    />
-                  </div>
-                  <div className="w-[50%]">
-                    <TextField
-                      label="Last Name (Optional)"
-                      placeholder="eg. Kumar"
-                      variant="outlined"
-                      // defaultValue={lastName}
-                      fullWidth
-                      size="small"
-                      name="lastName"
-                      value={formFields.lastName}
-                      disabled={isLoading === true ? true : false}
-                      onChange={onChangeInput}
-                    />
-                  </div>
+            <form className="flex flex-col xl:flex-row gap-6" onSubmit={handleSubmit}>
+              <div className="w-full xl:w-[60%]">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  <TextField
+                    label="First Name"
+                    placeholder="eg. Ankit"
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                    name="firstName"
+                    value={formFields.firstName}
+                    disabled={isLoading}
+                    onChange={onChangeInput}
+                  />
+
+                  <TextField
+                    label="Last Name (Optional)"
+                    placeholder="eg. Kumar"
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                    name="lastName"
+                    value={formFields.lastName}
+                    disabled={isLoading}
+                    onChange={onChangeInput}
+                  />
+
+                  <TextField
+                    label="Phone Number"
+                    placeholder="eg. 8523697425"
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                    name="mobile"
+                    value={formFields.mobile}
+                    disabled={isLoading}
+                    onChange={onChangeInput}
+                  />
+
+                  <TextField
+                    type="email"
+                    label="Email"
+                    placeholder="eg. user@example.com"
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                    name="email"
+                    value={formFields.email}
+                    disabled={isLoading}
+                    onChange={onChangeInput}
+                  />
+
+                  <TextField
+                    label="GSTIN Number (Optional)"
+                    placeholder="Enter GST number for invoices"
+                    variant="outlined"
+                    defaultValue={"98AXWPG8963D"}
+                    fullWidth
+                    size="small"
+                  />
+
+                  <FormControl fullWidth size="small">
+                    <InputLabel id="my-account-gender">Gender</InputLabel>
+                    <Select
+                      labelId="my-account-gender"
+                      id="my-account-gender"
+                      value={gender}
+                      label="Gender"
+                      onChange={handleChange}
+                    >
+                      <MenuItem value={"Male"}>Male</MenuItem>
+                      <MenuItem value={"Female"}>Female</MenuItem>
+                      <MenuItem value={"Other"}>Other</MenuItem>
+                    </Select>
+                  </FormControl>
                 </div>
-                <br />
-                <div className="flex items-center gap-5">
-                  <div className="w-[50%]">
-                    <TextField
-                      label="Phone Number"
-                      placeholder="eg. 8523697425"
-                      variant="outlined"
-                      // defaultValue={"9876543210"}
-                      fullWidth
-                      size="small"
-                      name="mobile"
-                      value={formFields.mobile}
-                      disabled={isLoading === true ? true : false}
-                      onChange={onChangeInput}
-                    />
-                  </div>
-                  <div className="w-[50%]">
-                    <TextField
-                      type="email"
-                      label="Email"
-                      placeholder="eg. user@example.com"
-                      variant="outlined"
-                      // defaultValue={context?.userData.email}
-                      fullWidth
-                      size="small"
-                      name="email"
-                      value={formFields.email}
-                      disabled={isLoading === true ? true : false}
-                      onChange={onChangeInput}
-                    />
-                  </div>
-                </div>
-                <br />
-                <div className="flex items-center gap-5">
-                  <div className="w-[50%]">
-                    <TextField
-                      label="GSTIN Number (Optional)"
-                      placeholder="Enter GST number for invoices"
-                      variant="outlined"
-                      defaultValue={"98AXWPG8963D"}
-                      fullWidth
-                      size="small"
-                    />
-                  </div>
-                  <div className="w-[50%]">
-                    <FormControl className="w-[50%]" size="small">
-                      <InputLabel id="my-account-gender">Gender</InputLabel>
-                      <Select
-                        labelId="my-account-gender"
-                        id="my-account-gender"
-                        value={gender}
-                        label="Gender"
-                        onChange={handleChange}
-                      >
-                        <MenuItem value={"Male"}>Male</MenuItem>
-                        <MenuItem value={"Female"}>Female</MenuItem>
-                        <MenuItem value={"Other"}>Other</MenuItem>
-                      </Select>
-                    </FormControl>
-                  </div>
-                </div>
-                <br />
-                <div className="flex items-center gap-4">
+
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 mt-6">
                   <Button
                     type="submit"
                     disabled={!validateValue}
-                    className="btn-org btn-lg w-[100px]"
+                    className="btn-org btn-lg w-full sm:w-[100px]"
                   >
-                    {isLoading === true ? (
-                      <CircularProgress color="inherit" />
-                    ) : (
-                      "Save"
-                    )}
+                    {isLoading ? <CircularProgress color="inherit" /> : "Save"}
                   </Button>
-                  {showChangePassword === false && (
+
+                  {!showChangePassword && (
                     <Button
-                      className="btn-org btn-border btn-lg w-[215px]"
+                      className="btn-org btn-border btn-lg w-full sm:w-[215px]"
                       onClick={() => {
                         setShowChangePassword(!showChangePassword);
-
                         setPassFields({
                           oldPassword: "",
                           newPassword: "",
@@ -387,9 +330,9 @@ const MyAccount = () => {
                 </div>
               </div>
 
-              <div className="w-[40%]">
+              <div className="w-full xl:w-[40%]">
                 <div className="w-full p-5 flex items-center justify-center flex-col">
-                  <div className="w-40 h-40 rounded-full overflow-hidden mb-3 relative group flex items-center justify-center bg-gray-200">
+                  <div className="w-32 h-32 sm:w-40 sm:h-40 rounded-full overflow-hidden mb-3 relative group flex items-center justify-center bg-gray-200">
                     {uploading ? (
                       <CircularProgress color="inherit" />
                     ) : previews && previews.length > 0 && previews[0] ? (
@@ -416,15 +359,13 @@ const MyAccount = () => {
                         multiple
                         className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
                         accept="image/*"
-                        onChange={(e) =>
-                          onChangeFile(e, "/api/user/user-avatar")
-                        }
+                        onChange={(e) => onChangeFile(e, "/api/user/user-avatar")}
                         name="avatar"
                       />
                     </div>
                   </div>
 
-                  <h4 className="text-[18px] font-semibold mb-1">
+                  <h4 className="text-[16px] sm:text-[18px] font-semibold mb-1">
                     Profile Image
                   </h4>
                 </div>
@@ -432,114 +373,79 @@ const MyAccount = () => {
             </form>
           </div>
 
-          {showChangePassword === true && (
+          {showChangePassword && (
             <Collapse in={showChangePassword}>
               <div className="w-full mt-6 mb-6">
-                <div className="card bg-white p-5 shadow-md rounded-md">
-                  <h2 className="font-semibold text-[20px] pb-3">Change Password</h2>
+                <div className="card bg-white p-4 sm:p-5 shadow-md rounded-md">
+                  <h2 className="font-semibold text-[18px] sm:text-[20px] pb-3">
+                    Change Password
+                  </h2>
                   <Divider className="mb-5!" />
 
                   <form
-                    className="flex items-center"
+                    className="flex flex-col gap-5"
                     onSubmit={handleSubmitChangePassword}
                   >
-                    <div className="w-full">
-                      <div className="flex items-center gap-5">
-                        <div className="w-[50%]">
-                          <TextField
-                            type="password"
-                            label="Old Password"
-                            // placeholder="eg. Ankit"
-                            variant="outlined"
-                            // defaultValue={firstName}
-                            fullWidth
-                            size="small"
-                            name="oldPassword"
-                            value={passFields.oldPassword}
-                            disabled={isLoading2 === true ? true : false}
-                            autoComplete="new-password"
-                            onChange={onChangeInput2}
-                          />
-                        </div>
-                        <div className="w-[50%]">
-                          <TextField
-                            type="password"
-                            label="New Password"
-                            // placeholder="eg. Ankit"
-                            variant="outlined"
-                            // defaultValue={firstName}
-                            fullWidth
-                            size="small"
-                            name="newPassword"
-                            value={passFields.newPassword}
-                            disabled={isLoading2 === true ? true : false}
-                            autoComplete="new-password"
-                            onChange={onChangeInput2}
-                          />
-                        </div>
-                        <div className="w-[50%]">
-                          <TextField
-                            type="password"
-                            label="Confirm Password"
-                            // placeholder="eg. Ankit"
-                            variant="outlined"
-                            // defaultValue={firstName}
-                            fullWidth
-                            size="small"
-                            name="confirmPassword"
-                            value={passFields.confirmPassword}
-                            disabled={isLoading2 === true ? true : false}
-                            autoComplete="new-password"
-                            onChange={onChangeInput2}
-                          />
-                        </div>
-                      </div>
-                      <br />
-                      <div className="flex items-center gap-4">
-                        <Button
-                          type="submit"
-                          disabled={!validateValue2}
-                          className="btn-org btn-lg"
-                        >
-                          {isLoading2 === true ? (
-                            <CircularProgress color="inherit" />
-                          ) : (
-                            "Change"
-                          )}
-                        </Button>
-                        {
-                          <Button
-                            className="btn-org btn-border btn-lg w-[100px]"
-                            onClick={() => setShowChangePassword(false)}
-                          >
-                            Cancel
-                          </Button>
-                        }
-                      </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
+                      <TextField
+                        type="password"
+                        label="Old Password"
+                        variant="outlined"
+                        fullWidth
+                        size="small"
+                        name="oldPassword"
+                        value={passFields.oldPassword}
+                        disabled={isLoading2}
+                        autoComplete="new-password"
+                        onChange={onChangeInput2}
+                      />
+                      <TextField
+                        type="password"
+                        label="New Password"
+                        variant="outlined"
+                        fullWidth
+                        size="small"
+                        name="newPassword"
+                        value={passFields.newPassword}
+                        disabled={isLoading2}
+                        autoComplete="new-password"
+                        onChange={onChangeInput2}
+                      />
+                      <TextField
+                        type="password"
+                        label="Confirm Password"
+                        variant="outlined"
+                        fullWidth
+                        size="small"
+                        name="confirmPassword"
+                        value={passFields.confirmPassword}
+                        disabled={isLoading2}
+                        autoComplete="new-password"
+                        onChange={onChangeInput2}
+                      />
+                    </div>
+
+                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+                      <Button
+                        type="submit"
+                        disabled={!validateValue2}
+                        className="btn-org btn-lg w-full sm:w-[120px]"
+                      >
+                        {isLoading2 ? <CircularProgress color="inherit" /> : "Change"}
+                      </Button>
+
+                      <Button
+                        className="btn-org btn-border btn-lg w-full sm:w-[100px]"
+                        onClick={() => setShowChangePassword(false)}
+                      >
+                        Cancel
+                      </Button>
                     </div>
                   </form>
                 </div>
               </div>
             </Collapse>
           )}
-
-          {/* <div className="card bg-white p-5 shadow-md rounded-md mt-5 border border-red-200">
-            <h2 className="pb-3 text-red-600">Danger Zone</h2>
-            <Divider className="mb-5!" />
-
-            <div className="flex items-center justify-between">
-              <div>
-                <h4 className="font-semibold">Delete Account</h4>
-                <p className="text-sm text-gray-500">
-                  Permanently delete your account and all associated data.
-                </p>
-              </div>
-
-              <Button color="error" variant="outlined">
-                Delete Account
-              </Button>
-            </div>
-          </div> */}
         </div>
       </div>
     </section>

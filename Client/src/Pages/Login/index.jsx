@@ -1,20 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { IoMdEye } from "react-icons/io";
-import { IoMdEyeOff } from "react-icons/io";
+import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
-import "./style.css";
-import { MyContext } from "../../App";
 import CircularProgress from "@mui/material/CircularProgress";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import { MyContext } from "../../App";
 import { fetchDataFromAPI, postData } from "../../utils/api";
-import { useState } from "react";
+import "./style.css";
 
 const Login = () => {
-  const [isShowPassword, setIsShowPassword] = React.useState(false);
+  const [isShowPassword, setIsShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [formFields, setFormFields] = React.useState({
+  const [formFields, setFormFields] = useState({
     email: "",
     password: "",
   });
@@ -26,35 +25,32 @@ const Login = () => {
 
   const onChangeInput = (e) => {
     const { name, value } = e.target;
-    setFormFields(() => {
-      return {
-        ...formFields,
-        [name]: value,
-      };
+    setFormFields({
+      ...formFields,
+      [name]: value,
     });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     setIsLoading(true);
 
     if (!formFields.email) {
       context.openAlertBox("error", "Please Enter Email!");
+      setIsLoading(false);
       return;
     }
 
     if (!formFields.password) {
       context.openAlertBox("error", "Please Enter Password!");
+      setIsLoading(false);
       return;
     }
 
     const response = await postData("/api/user/login", formFields);
 
     if (response) {
-      // console.log(response);
-
-      if (response?.success == true) {
+      if (response?.success === true) {
         setIsLoading(false);
         context.openAlertBox("success", response.message);
 
@@ -62,8 +58,7 @@ const Login = () => {
           email: "",
           password: "",
         });
-        // localStorage.setItem("accessToken", response?.data?.accessToken);
-        // localStorage.setItem("refreshToken", response?.data?.refreshToken);
+
         context.setIsLoggedIn(true);
         context.setUserData(response.data.userDetails);
 
@@ -88,16 +83,12 @@ const Login = () => {
     } else {
       localStorage.setItem("userEmail", formFields.email);
       localStorage.setItem("actionType", "forgot-password");
-      // context.openAlertBox("success", `OTP sent to ${formFields.email}`);
-      // alert(`Verifying OTP: ${otp}`);
+
       postData("/api/user/forgot-password", {
         email: formFields.email,
       }).then((response) => {
         if (response?.error === false) {
           context.openAlertBox("success", response.message);
-          // show only one message
-          // context.openAlertBox("success", `OTP sent to ${formFields.email}`);
-          // localStorage.removeItem("userEmail");
           history("/verify");
         } else {
           context.openAlertBox("error", response.message);
@@ -107,18 +98,30 @@ const Login = () => {
   };
 
   return (
-    <section className="section bg-white">
-      <div className="auth-bg">
+    <section className="section bg-white min-h-screen">
+      <div className="auth-bg min-h-screen">
         <div className="bg-wave"></div>
 
-        <section className="section py-10  relative z-10">
-          <div className="container">
-            <div className="card shadow-md w-[400px] m-auto rounded-md bg-white p-5 px-10">
-              <div className="flex items-center justify-between">
-                <h3 className="text-center text-[24px]  text-black font-semibold">
+        <section className="section py-6 sm:py-10 relative z-10 min-h-screen flex items-center justify-center">
+          <div className="container px-3 sm:px-4 w-full">
+            <div className="card shadow-md w-full max-w-[400px] m-auto rounded-md bg-white p-4 sm:p-5 sm:px-10">
+              <div className="flex items-center justify-between gap-3 mb-4">
+                <Button
+                  onClick={() => history(-1)}
+                  className="!min-w-[40px] !w-[40px] !h-[40px] !rounded-full !bg-[#f1f1f1] !text-black"
+                >
+                  <ArrowBackIosNewIcon className="!text-[16px]" />
+                </Button>
+
+                <h3 className="text-center text-[20px] sm:text-[24px] text-black font-semibold flex-1">
                   Login
                 </h3>
-                <img src="/Sahil.png" alt="logo" className="h-[50%] w-[50%]" />
+
+                <img
+                  src="/Sahil.png"
+                  alt="logo"
+                  className="h-[40px] sm:h-[50px] w-auto"
+                />
               </div>
 
               <form className="w-full mt-5" onSubmit={handleSubmit}>
@@ -131,30 +134,34 @@ const Login = () => {
                     className="w-full"
                     name="email"
                     value={formFields.email}
-                    disabled={isLoading === true ? true : false}
+                    disabled={isLoading}
                     onChange={onChangeInput}
+                    fullWidth
                   />
                 </div>
+
                 <div className="form-group w-full mb-5 relative">
                   <TextField
-                    type={isShowPassword === false ? "password" : "text"}
+                    type={isShowPassword ? "text" : "password"}
                     id="password"
                     label="Password"
                     variant="outlined"
                     className="w-full"
                     name="password"
                     value={formFields.password}
-                    disabled={isLoading === true ? true : false}
+                    disabled={isLoading}
                     onChange={onChangeInput}
+                    fullWidth
                   />
                   <Button
+                    type="button"
                     className="absolute! top-2.5 right-2.5 z-50 w-[35px]! h-[35px]! min-w-[35px]! rounded-full! text-black!"
                     onClick={() => setIsShowPassword(!isShowPassword)}
                   >
-                    {isShowPassword === false ? (
-                      <IoMdEye className="text-[20px] opacity-75" />
-                    ) : (
+                    {isShowPassword ? (
                       <IoMdEyeOff className="text-[20px] opacity-75" />
+                    ) : (
+                      <IoMdEye className="text-[20px] opacity-75" />
                     )}
                   </Button>
                 </div>
@@ -172,11 +179,7 @@ const Login = () => {
                     disabled={!validateValue}
                     className="btn-org btn-lg w-full"
                   >
-                    {isLoading === true ? (
-                      <CircularProgress color="inherit" />
-                    ) : (
-                      "Login"
-                    )}
+                    {isLoading ? <CircularProgress color="inherit" /> : "Login"}
                   </Button>
                 </div>
 
@@ -203,9 +206,50 @@ const Login = () => {
           </div>
         </section>
       </div>
-      {/* <br />
-      <br />
-      <br /> */}
+
+      <style>{`
+        @media (max-width: 640px) {
+          .auth-bg {
+            background: none !important;
+            min-height: 100vh !important;
+          }
+
+          .bg-wave {
+            display: none !important;
+          }
+
+          .section.bg-white {
+            background: #fff !important;
+          }
+
+          .section.py-6,
+          .section.py-10 {
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+          }
+
+          .section.relative.z-10 {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            min-height: 100vh !important;
+          }
+
+          .container {
+            width: 100% !important;
+            padding-left: 16px !important;
+            padding-right: 16px !important;
+          }
+
+          .card {
+            width: 100% !important;
+            max-width: 100% !important;
+            margin: 0 auto !important;
+            border-radius: 16px !important;
+            box-shadow: none !important;
+          }
+        }
+      `}</style>
     </section>
   );
 };

@@ -43,7 +43,6 @@ const HomeCatSlider = () => {
       img: "https://res.cloudinary.com/dwmnyuamv/image/upload/v1785419469/MENU_1752752457441_gkxfsi.png",
       link: "/care",
     },
-
     {
       name: "Stationary & Electrical",
       img: "https://res.cloudinary.com/dwmnyuamv/image/upload/v1785419468/MENU_1752752639337_bjiecp.png",
@@ -74,31 +73,31 @@ const HomeCatSlider = () => {
       img: "https://res.cloudinary.com/dwmnyuamv/image/upload/v1785419468/MENU_1752752592347_jmaewd.png",
       link: "/paper",
     },
-
     {
       name: "Sauces, Spreads & Essentials",
       img: "https://res.cloudinary.com/dwmnyuamv/image/upload/v1785419468/MENU_1752752614421_hbzzy3.png",
       link: "/sauces",
     },
   ];
-const bgColors = [
-  "bg-[#FFD7A8]", // warm orange
-  "bg-[#B8F2E6]", // teal mint
-  "bg-[#C7DFFF]", // soft denim blue
-  "bg-[#FFC4D6]", // rose pink
-  "bg-[#E7FF9E]", // lime pastel
-  "bg-[#BFD4FF]", // sky blue
-  "bg-[#EAC8FF]", // lavender purple
-  "bg-[#CFFFE0]", // fresh green
-];
+
+  const bgColors = [
+    "bg-[#FFD7A8]",
+    "bg-[#B8F2E6]",
+    "bg-[#C7DFFF]",
+    "bg-[#FFC4D6]",
+    "bg-[#E7FF9E]",
+    "bg-[#BFD4FF]",
+    "bg-[#EAC8FF]",
+    "bg-[#CFFFE0]",
+  ];
 
   return (
-    <div className="homeCatSlider w-full md:w-[97%] lg:w-[96%] mx-auto py-1 pt-1 mb-3">
+    <div className="homeCatSlider w-full px-2 sm:px-0 md:w-[97%] lg:w-[96%] mx-auto py-2 mb-3">
       <Swiper
         modules={[Navigation, Autoplay]}
         speed={800}
         spaceBetween={10}
-        slidesPerView={8}
+        slidesPerView={2}
         navigation
         autoplay={{
           delay: 3500,
@@ -106,26 +105,28 @@ const bgColors = [
         }}
         loop={true}
         breakpoints={{
-          320: { slidesPerView: 2 },
-          640: { slidesPerView: 3 },
-          1024: { slidesPerView: 7 },
+          320: { slidesPerView: 2, spaceBetween: 10 },
+          480: { slidesPerView: 3, spaceBetween: 10 },
+          768: { slidesPerView: 5, spaceBetween: 12 },
+          1024: { slidesPerView: 7, spaceBetween: 12 },
         }}
-        className="mySwiper"
+        className="mySwiper !items-stretch"
       >
         {categories.map((cat, index) => (
-          <SwiperSlide key={index}>
+          <SwiperSlide key={index} className="!h-auto">
             <Link
               to={cat.link}
-              className={`item h-[145px] w-full rounded-md text-center flex flex-col items-center justify-between py-2 px-1 transition hover:shadow-lg ${
-                bgColors[index % bgColors.length]
-              }`}
+              className={`item w-full h-full rounded-md text-center flex flex-col items-center justify-start py-3 px-2 transition hover:shadow-lg ${bgColors[index % bgColors.length]}`}
             >
-              <img
-                src={cat.img}
-                alt={cat.name}
-                className="w-[110px] h-[115px] object-contain mb-2 transition-transform duration-300 hover:scale-105"
-              />
-              <h3 className="text-gray-800 font-medium text-sm mb-1">
+              <div className="w-full h-[78px] sm:h-[95px] md:h-[110px] flex items-center justify-center shrink-0">
+                <img
+                  src={cat.img}
+                  alt={cat.name}
+                  className="max-w-[78px] max-h-[78px] sm:max-w-[95px] sm:max-h-[95px] md:max-w-[110px] md:max-h-[110px] w-auto h-auto object-contain transition-transform duration-300 hover:scale-105"
+                />
+              </div>
+
+              <h3 className="w-full text-gray-800 font-medium text-[11px] sm:text-sm leading-tight px-1 mt-2 line-clamp-2 min-h-[2.4em] sm:min-h-[2.6em] flex items-start justify-center">
                 {cat.name}
               </h3>
             </Link>

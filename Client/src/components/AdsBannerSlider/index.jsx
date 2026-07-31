@@ -11,10 +11,17 @@ const AdsBannerSlider = ({ items = 3, banners = [] }) => {
     <div className="py-5 w-full">
       <Swiper
         modules={[Navigation]}
-        spaceBetween={7}
-        slidesPerView={items}
+        spaceBetween={10}
         navigation={true}
         className="mySwiper"
+        slidesPerView={1.1}
+        breakpoints={{
+          320: { slidesPerView: 1.1, spaceBetween: 8 },
+          480: { slidesPerView: 1.5, spaceBetween: 10 },
+          640: { slidesPerView: 2, spaceBetween: 10 },
+          768: { slidesPerView: 2.5, spaceBetween: 10 },
+          1024: { slidesPerView: items, spaceBetween: 7 },
+        }}
       >
         {banners.map((banner, index) => (
           <SwiperSlide key={index}>

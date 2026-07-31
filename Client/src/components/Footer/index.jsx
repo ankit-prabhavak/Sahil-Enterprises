@@ -8,7 +8,6 @@ import { Link } from "react-router-dom";
 import { PiChats } from "react-icons/pi";
 import Button from "@mui/material/Button";
 
-import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 
@@ -23,50 +22,62 @@ const Footer = () => {
     <>
       <footer className="py-6">
         <div className="container">
-          <div className="flex items-center justify-center gap-2 py-10 pb-10">
-            <div className="col flex items-center justify-center flex-col group w-[15%]">
-              <LiaShippingFastSolid className="text-[50px] transition-all duration-300 group-hover:text-[#ff5252] group-hover:translate-y-1" />
-              <h3 className="text-[16px] font-semibold mt-3">Free Shipping</h3>
-              <p className="text-[12px] font-normal">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 py-6 md:py-10 text-center">
+            <div className="col flex items-center justify-center flex-col group">
+              <LiaShippingFastSolid className="text-[38px] md:text-[50px] transition-all duration-300 group-hover:text-[#ff5252] group-hover:translate-y-1" />
+              <h3 className="text-[14px] md:text-[16px] font-semibold mt-3">
+                Free Shipping
+              </h3>
+              <p className="text-[11px] md:text-[12px] font-normal">
                 For all Orders Over ₹5000
               </p>
             </div>
 
-            <div className="col flex items-center justify-center flex-col group w-[15%]">
-              <PiKeyReturn className="text-[50px] transition-all duration-300 group-hover:text-[#ff5252] group-hover:translate-y-1" />
-              <h3 className="text-[16px] font-semibold mt-3">
+            <div className="col flex items-center justify-center flex-col group">
+              <PiKeyReturn className="text-[38px] md:text-[50px] transition-all duration-300 group-hover:text-[#ff5252] group-hover:translate-y-1" />
+              <h3 className="text-[14px] md:text-[16px] font-semibold mt-3">
                 30 Days Returns
               </h3>
-              <p className="text-[12px] font-normal">For an Exchange Product</p>
+              <p className="text-[11px] md:text-[12px] font-normal">
+                For an Exchange Product
+              </p>
             </div>
 
-            <div className="col flex items-center justify-center flex-col group w-[15%]">
-              <RiSecurePaymentFill className="text-[50px] transition-all duration-300 group-hover:text-[#ff5252] group-hover:translate-y-1" />
-              <h3 className="text-[16px] font-semibold mt-3">
+            <div className="col flex items-center justify-center flex-col group">
+              <RiSecurePaymentFill className="text-[38px] md:text-[50px] transition-all duration-300 group-hover:text-[#ff5252] group-hover:translate-y-1" />
+              <h3 className="text-[14px] md:text-[16px] font-semibold mt-3">
                 Secured Payment
               </h3>
-              <p className="text-[12px] font-normal">Payments Cards Accepted</p>
+              <p className="text-[11px] md:text-[12px] font-normal">
+                Payments Cards Accepted
+              </p>
             </div>
 
-            <div className="col flex items-center justify-center flex-col group w-[15%]">
-              <LiaGiftSolid className="text-[50px] transition-all duration-300 group-hover:text-[#ff5252] group-hover:translate-y-1" />
-              <h3 className="text-[16px] font-semibold mt-3">Special Gifts</h3>
-              <p className="text-[12px] font-normal">On First Product Order</p>
+            <div className="col flex items-center justify-center flex-col group">
+              <LiaGiftSolid className="text-[38px] md:text-[50px] transition-all duration-300 group-hover:text-[#ff5252] group-hover:translate-y-1" />
+              <h3 className="text-[14px] md:text-[16px] font-semibold mt-3">
+                Special Gifts
+              </h3>
+              <p className="text-[11px] md:text-[12px] font-normal">
+                On First Product Order
+              </p>
             </div>
 
-            <div className="col flex items-center justify-center flex-col group w-[15%]">
-              <BiSupport className="text-[50px] transition-all duration-300 group-hover:text-[#ff5252] group-hover:translate-y-1" />
-              <h3 className="text-[16px] font-semibold mt-3">Support 24/7</h3>
-              <p className="text-[12px] font-normal">Contact Us Anytime</p>
+            <div className="col flex items-center justify-center flex-col group col-span-2 md:col-span-3 lg:col-span-1">
+              <BiSupport className="text-[38px] md:text-[50px] transition-all duration-300 group-hover:text-[#ff5252] group-hover:translate-y-1" />
+              <h3 className="text-[14px] md:text-[16px] font-semibold mt-3">
+                Support 24/7
+              </h3>
+              <p className="text-[11px] md:text-[12px] font-normal">
+                Contact Us Anytime
+              </p>
             </div>
           </div>
 
-          <br />
-
           <hr className="border border-gray-200" />
 
-          <div className="footer flex py-8">
-            <div className="part1 w-[25%] border-r border-[rgba(0,0,0,0.1)] pl-8">
+          <div className="footer grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[25%_40%_35%] gap-8 py-8">
+            <div className="part1 w-full lg:border-r lg:border-[rgba(0,0,0,0.1)] lg:pr-8">
               <h2 className="text-[18px] font-semibold mb-4">Contact Us</h2>
               <p className="text-[14px] text-gray-500 font-medium pb-4">
                 Sahil Enterprises, Thawe
@@ -77,19 +88,19 @@ const Footer = () => {
               </p>
 
               <Link
-                className="link text-[14px] text-gray-500 font-medium pb-4"
-                to="mailto:support@sethawe.in"
+                className="link text-[14px] text-gray-500 font-medium pb-4 block"
+                to="mailto:support@sahilenterprises.in"
               >
                 support@sahilenterprises.in
               </Link>
 
-              <span className="text-[18px] font-bold block w-full mt-3 mb-4 text-[#ff5252]">
+              <span className="text-[16px] md:text-[18px] font-bold block w-full mt-3 mb-4 text-[#ff5252]">
                 (+91) 9876-543-210
               </span>
 
               <div className="flex items-center gap-2">
-                <PiChats className="text-[50px] text-[#ff5252]" />
-                <span className="text-[18px] font-semibold pl">
+                <PiChats className="text-[40px] md:text-[50px] text-[#ff5252]" />
+                <span className="text-[16px] md:text-[18px] font-semibold">
                   Online Chat
                   <br />
                   Get Expert Help
@@ -97,10 +108,9 @@ const Footer = () => {
               </div>
             </div>
 
-            <div className="part2 w-[40%] flex pl-8">
-              <div className="part2_col1 w-[50%]">
+            <div className="part2 w-full flex flex-col sm:flex-row gap-8 lg:pl-8">
+              <div className="part2_col1 w-full sm:w-1/2">
                 <h2 className="text-[18px] font-semibold mb-4">Products</h2>
-
                 <ul className="list">
                   <li className="list-none text-[14px] text-gray-500 font-medium w-full mb-2">
                     <Link to="/" className="link">
@@ -140,11 +150,10 @@ const Footer = () => {
                 </ul>
               </div>
 
-              <div className="part2_col2 w-[50%]">
+              <div className="part2_col2 w-full sm:w-1/2">
                 <h2 className="text-[18px] font-semibold mb-4">
                   Our Enterprise
                 </h2>
-
                 <ul className="list">
                   <li className="list-none text-[14px] text-gray-500 font-medium w-full mb-2">
                     <Link to="/" className="link">
@@ -185,7 +194,7 @@ const Footer = () => {
               </div>
             </div>
 
-            <div className="part3 w-[35%] flex pl-8 flex-col pr-16">
+            <div className="part3 w-full flex flex-col lg:pl-8 lg:pr-16">
               <h2 className="text-[18px] font-semibold mb-4">
                 Subscribe to Newsletter
               </h2>
@@ -193,18 +202,21 @@ const Footer = () => {
                 Get notified about new stock, wholesale deals, and special
                 discounts.
               </p>
+
               <form className="mt-5">
                 <input
                   type="text"
-                  className="w-full h-[45px] border  border-[rgba(0,0,0,0.1)] outline-none pl-4 pr-4 rounded-sm mb-4 focus:border-[rgba(0,0,0,0.3)]"
+                  className="w-full h-[45px] border border-[rgba(0,0,0,0.1)] outline-none pl-4 pr-4 rounded-sm mb-4 focus:border-[rgba(0,0,0,0.3)]"
                   placeholder="Your Email Address"
                 />
-                <Button className="btn-org">SUBSCRIBE</Button>
+                <Button className="btn-org w-full sm:w-auto">SUBSCRIBE</Button>
 
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label="I agree to the terms and conditions and the privacy policy"
-                />
+                <div className="mt-3">
+                  <FormControlLabel
+                    control={<Checkbox />}
+                    label="I agree to the terms and conditions and the privacy policy"
+                  />
+                </div>
               </form>
             </div>
           </div>
@@ -212,7 +224,7 @@ const Footer = () => {
       </footer>
 
       <div className="bottomStrip border-t border-[rgba(0,0,0,0.2)] py-3 bg-white">
-        <div className="container flex items-center justify-between">
+        <div className="container flex flex-col md:flex-row items-center justify-between gap-4">
           <ul className="flex items-center gap-2">
             <li className="list-none">
               <Link
@@ -261,10 +273,16 @@ const Footer = () => {
             </li>
           </ul>
 
-          <p className="text-[13px] text-center text-[rgba(0,0,0,0.4)]">© 2025 - Sahil Enterprises, Thawe</p>
+          <p className="text-[13px] text-center text-[rgba(0,0,0,0.4)]">
+            © 2025 - Sahil Enterprises, Thawe
+          </p>
 
-          <div className="flex items-center">
-            <img src="/visa.svg" alt="visa" />
+          <div className="flex items-center justify-center md:justify-end w-full lg:w-auto">
+            <img
+              src="/visa.svg"
+              alt="visa"
+              className="w-[180px] sm:w-[160px] md:w-[170px] lg:w-[220px] h-auto object-contain"
+            />
           </div>
         </div>
       </div>

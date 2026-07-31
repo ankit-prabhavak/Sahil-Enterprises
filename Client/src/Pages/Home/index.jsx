@@ -8,7 +8,6 @@ import Tab from "@mui/material/Tab";
 import ProductsSlider from "../../components/ProductsSlider";
 import Footer from "../../components/Footer";
 
-// Blog Section imports
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -27,15 +26,14 @@ const Home = () => {
 
   return (
     <>
-      {/* <HomeSlider /> */}
-
       <section className="py-2.5">
-        <div className="container flex gap-5">
-          <div className="part1 w-[75%]">
+        <div className="container flex flex-col lg:flex-row gap-3 lg:gap-4">
+          <div className="part1 w-full lg:w-[70%]">
             <HomeSliderV2 />
           </div>
 
-          <div className="part2 w-[25%] flex items-center justify-between flex-col">
+          {/* Hidden on mobile/tablet, shown only on large screens */}
+          <div className="part2 hidden lg:flex lg:w-[30%] flex-col gap-2 lg:gap-3">
             <BannerBoxV2 />
           </div>
         </div>
@@ -45,21 +43,24 @@ const Home = () => {
 
       <section className="bg-white py-8">
         <div className="container">
-          <div className="flex items-center justify-between">
-            <div className="leftSec">
-              <h2 className="text-[20px] font-semibold">Popular Products</h2>
-              <p className="text-[14px] font-normal">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+            <div className="leftSec w-full lg:w-auto">
+              <h2 className="text-[18px] md:text-[20px] font-semibold">
+                Popular Products
+              </h2>
+              <p className="text-[13px] md:text-[14px] font-normal">
                 Grab the best deals before they’re gone this month!
               </p>
             </div>
 
-            <div className="rightSec w-[60%]">
+            <div className="rightSec w-full lg:w-[60%]">
               <Tabs
                 value={value}
                 onChange={handleChange}
                 variant="scrollable"
                 scrollButtons="auto"
                 aria-label="scrollable auto tabs example"
+                className="w-full"
               >
                 <Tab label="All" />
                 <Tab label="Cadbury" />
@@ -74,6 +75,7 @@ const Home = () => {
               </Tabs>
             </div>
           </div>
+
           <ProductsSlider
             items={6}
             products={[
@@ -83,7 +85,7 @@ const Home = () => {
                 title: "Dairy Milk Chocolate 100g",
                 img: "https://m.media-amazon.com/images/I/51MDI2rJVAL._SY300_SX300_QL70_FMwebp_.jpg",
                 img2: "https://m.media-amazon.com/images/I/61qwHjs7mRL._SX679_PIbundle-3,TopRight,0,0_AA679SH20_.jpg",
-                description: "Smooth creamy chocolate made from cocoa beans.",
+                description: "Smooth chocolate made from cocoa beans.",
                 price: 54,
                 oldPrice: 58,
                 discount: -10,
@@ -102,7 +104,7 @@ const Home = () => {
               {
                 id: 3,
                 brand: "Sunfeast",
-                title: "Mom's Magic Rich Cashew Almond Cookies (544 g)",
+                title: "Mom's Magic Cashew Cookies (544 g)",
                 img: "https://m.media-amazon.com/images/I/81MN-1kvlSL._SX679_.jpg",
                 img2: "https://m.media-amazon.com/images/I/81O4uBJ+mXL._SX679_.jpg",
                 description: "Cashew Almond Biscuit",
@@ -116,12 +118,11 @@ const Home = () => {
                 title: "Kuch Kuch All In 1",
                 img: "https://m.media-amazon.com/images/I/81H3CZgadKL._SL1500_.jpg",
                 img2: "https://m.media-amazon.com/images/I/81g70OkKY1L._SX679_.jpg",
-                description: "Crunchy & Flavourful | Perfect Tea-time Partner",
+                description: "Crunchy & Perfect Tea-time Partner",
                 price: 399,
                 oldPrice: 480,
                 discount: -15,
               },
-
               {
                 id: 5,
                 brand: "Nestle",
@@ -160,24 +161,25 @@ const Home = () => {
         </div>
       </section>
 
-      <section className="py-4 pt-2  bg-white">
+      <section className="py-4 pt-2 bg-white">
         <div className="container">
-          <div className="freeShipping w-[80%] m-auto py-4 p-4 border-2 border-[#ff5252] flex items-center justify-between rounded-md mb-7">
+          <div className="freeShipping w-full lg:w-[80%] m-auto py-4 p-4 border-2 border-[#ff5252] flex flex-col md:flex-row items-start md:items-center justify-between rounded-md mb-7 gap-3 md:gap-4 text-center md:text-left">
             <div className="col1 flex items-center gap-4">
-              <LiaShippingFastSolid className="text-[50px]" />
-              <span className="text-[20px] font-semibold uppercase">
-                {" "}
-                Free Shipping{" "}
+              <LiaShippingFastSolid className="text-[40px] md:text-[50px]" />
+              <span className="text-[16px] md:text-[20px] font-semibold uppercase">
+                Free Shipping
               </span>
             </div>
 
-            <div className="col2">
-              <p className="mb-0 font-medium">
+            <div className="col2 flex-1">
+              <p className="mb-0 font-medium text-[13px] md:text-[16px]">
                 Free Delivery Now On Your First Order and Over ₹5000
               </p>
             </div>
 
-            <p className="font-bold text-[25px]">- Only ₹5000*</p>
+            <p className="font-bold text-[18px] md:text-[25px]">
+              - Only ₹5000*
+            </p>
           </div>
 
           <AdsBannerSlider
@@ -194,7 +196,9 @@ const Home = () => {
 
       <section className="py-5 pt-0 bg-white">
         <div className="container">
-          <h2 className="text-[20px] font-semibold">Latest Products</h2>
+          <h2 className="text-[18px] md:text-[20px] font-semibold">
+            Latest Products
+          </h2>
           <ProductsSlider
             items={6}
             products={[
@@ -234,7 +238,7 @@ const Home = () => {
               {
                 id: 4,
                 brand: "Uncle Chips",
-                title: "Uncle Chips Kaxilu Uncle Spicy Potato Chips,50 Gram",
+                title: "Uncle Spicy Potato Chips,50 Gram",
                 img: "https://m.media-amazon.com/images/I/61WHJE3SjBL._SX679_.jpg",
                 img2: "https://m.media-amazon.com/images/I/61RVyQgSMXL._SX679_.jpg",
                 description: "Crunchy & Spicy",
@@ -242,7 +246,6 @@ const Home = () => {
                 oldPrice: 30,
                 discount: -15,
               },
-
               {
                 id: 5,
                 brand: "Bikaji",
@@ -301,7 +304,9 @@ const Home = () => {
 
       <section className="py-5 pt-0 bg-white">
         <div className="container">
-          <h2 className="text-[20px] font-semibold">Best in Personal Care</h2>
+          <h2 className="text-[18px] md:text-[20px] font-semibold">
+            Best in Personal Care
+          </h2>
           <ProductsSlider
             items={6}
             products={[
@@ -344,13 +349,11 @@ const Home = () => {
                 title: "Ponds Bright Facewash",
                 img: "https://m.media-amazon.com/images/I/512dChFNuXL._SX679_.jpg",
                 img2: "https://m.media-amazon.com/images/I/61CtoN-rMQL._SX679_.jpg",
-                description:
-                  "For Glass-Skin Like Shine and with 4X Visibly Brighter Skin, 200gm",
+                description: "For Glass-Skin Glow | 100% Natural | 100g",
                 price: 218,
                 oldPrice: 449,
                 discount: -38,
               },
-
               {
                 id: 5,
                 brand: "Pampers",
@@ -398,14 +401,20 @@ const Home = () => {
 
       <section className="py-5 pt-0 pb-8 bg-white blogSection">
         <div className="container">
-          <h2 className="text-[20px] font-semibold mb-4">Latest Blogs</h2>
+          <h2 className="text-[18px] md:text-[20px] font-semibold mb-4">
+            Latest Blogs
+          </h2>
 
           <Swiper
-            slidesPerView={4}
-            spaceBetween={20}
-            navigation={false}
+            slidesPerView={1}
+            spaceBetween={14}
+            navigation={true}
             modules={[Navigation]}
-            className="blogSlider"
+            className="blogSlider sm:!slidesPerView-2 lg:!slidesPerView-4"
+            breakpoints={{
+              640: { slidesPerView: 2, spaceBetween: 16 },
+              1024: { slidesPerView: 4, spaceBetween: 20 },
+            }}
           >
             {[
               {
@@ -444,8 +453,6 @@ const Home = () => {
           </Swiper>
         </div>
       </section>
-
-      
     </>
   );
 };

@@ -7,15 +7,22 @@ import ProductItem from "../ProductItem";
 
 const ProductsSlider = ({ items = 4, navi = true, products = [] }) => {
   return (
-    <div className="productsSlider py-5">
+    <div className="productsSlider py-5 w-full">
       <Swiper
         modules={[Navigation]}
-        navigation = {navi}
-        spaceBetween={10}
-        slidesPerView={items}
+        navigation={navi}
+        spaceBetween={12}
+        slidesPerView={1.2}
+        breakpoints={{
+          320: { slidesPerView: 1.2, spaceBetween: 10 },
+          480: { slidesPerView: 1.6, spaceBetween: 10 },
+          640: { slidesPerView: 2.2, spaceBetween: 12 },
+          768: { slidesPerView: 3, spaceBetween: 12 },
+          1024: { slidesPerView: items, spaceBetween: 10 },
+        }}
       >
         {products.map((product) => (
-          <SwiperSlide key={product.id}>
+          <SwiperSlide key={product.id} className="h-auto">
             <ProductItem {...product} />
           </SwiperSlide>
         ))}

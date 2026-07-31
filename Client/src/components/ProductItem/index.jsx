@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import "./style.css"; // <-- correct path
+import "./style.css";
 import { Link } from "react-router-dom";
 import Rating from "@mui/material/Rating";
 import Button from "@mui/material/Button";
@@ -18,13 +18,13 @@ const ProductItem = ({
   oldPrice,
   discount,
 }) => {
-
   const context = useContext(MyContext);
+
   return (
-    <div className="productItem shadow-lg rounded-md overflow-hidden border-[rgba(0,0,0,0.1)] border">
-      <div className="group imgWrapper w-full h-[230px] overflow-hidden rounded-md relative">
-        <Link to="/">
-          <div className="img h-[225px] w-full overflow-hidden relative">
+    <div className="productItem shadow-lg rounded-md overflow-hidden border-[rgba(0,0,0,0.1)] border h-full flex flex-col">
+      <div className="group imgWrapper w-full aspect-[4/5] sm:aspect-square overflow-hidden rounded-md relative shrink-0">
+        <Link to="/" className="block w-full h-full">
+          <div className="img w-full h-full overflow-hidden relative">
             <img
               src={img}
               alt={title}
@@ -48,7 +48,10 @@ const ProductItem = ({
         )}
 
         <div className="actions absolute top-[-200px] right-[5px] z-50 flex flex-col gap-2 transition-all duration-300 opacity-0 group-hover:opacity-100 group-hover:top-[15px]">
-          <Button className="!w-[35px] !h-[35px] !min-w-[35px] !rounded-full !bg-white !text-black hover:!bg-[#ff5252] hover:!text-white" onClick={()=>context.setOpenProductDetail(true)}>
+          <Button
+            className="!w-[35px] !h-[35px] !min-w-[35px] !rounded-full !bg-white !text-black hover:!bg-[#ff5252] hover:!text-white"
+            onClick={() => context.setOpenProductDetail(true)}
+          >
             <MdZoomOutMap />
           </Button>
 
@@ -62,7 +65,7 @@ const ProductItem = ({
         </div>
       </div>
 
-      <div className="info p-3 py-4">
+      <div className="info p-3 py-4 flex flex-col flex-1">
         <h6 className="text-[13px]">
           <Link to="/">{brand}</Link>
         </h6>
@@ -77,13 +80,15 @@ const ProductItem = ({
 
         <Rating size="small" value={4} readOnly />
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 mt-auto pt-2">
           {oldPrice && (
             <span className="line-through text-gray-500 text-[15px] font-medium">
               ₹{oldPrice}
             </span>
           )}
-          <span className="text-[#ff5252] font-semibold text-[15px]">₹{price}</span>
+          <span className="text-[#ff5252] font-semibold text-[15px]">
+            ₹{price}
+          </span>
         </div>
       </div>
     </div>
