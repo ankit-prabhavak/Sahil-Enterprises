@@ -1,0 +1,8 @@
+.mySwiper {
+  width: 100%;
+  overflow: hidden;
+}
+
+.mySwiper .swiper-slide {
+  height: auto;
+}

@@ -5,6 +5,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/autoplay";
 import { Navigation, Autoplay } from "swiper/modules";
+import "../HomecatSlider/style.css";
 
 const HomeCatSlider = () => {
   const categories = [
@@ -96,31 +97,32 @@ const HomeCatSlider = () => {
       <Swiper
         modules={[Navigation, Autoplay]}
         speed={800}
-        spaceBetween={8}
-        slidesPerView={1.6}
         navigation
         autoplay={{
           delay: 3500,
           disableOnInteraction: false,
         }}
-        loop={true}
+        loop
+        watchOverflow
+        slidesPerView={1}
+        spaceBetween={8}
         breakpoints={{
-          320: { slidesPerView: 1.6, spaceBetween: 8 },
+          320: { slidesPerView: 1, spaceBetween: 8 },
           400: { slidesPerView: 2, spaceBetween: 8 },
           480: { slidesPerView: 3, spaceBetween: 10 },
           640: { slidesPerView: 4, spaceBetween: 10 },
           768: { slidesPerView: 5, spaceBetween: 12 },
           1024: { slidesPerView: 7, spaceBetween: 12 },
         }}
-        className="mySwiper !items-stretch"
+        className="mySwiper w-full"
       >
         {categories.map((cat, index) => (
-          <SwiperSlide key={index} className="!h-auto">
+          <SwiperSlide key={index} className="!h-auto flex">
             <Link
               to={cat.link}
-              className={`item w-full h-full rounded-md text-center flex flex-col items-center justify-start py-3 px-2 transition hover:shadow-lg ${bgColors[index % bgColors.length]}`}
+              className={`item w-full h-full min-h-[160px] rounded-md text-center flex flex-col items-center justify-start py-3 px-2 transition hover:shadow-lg ${bgColors[index % bgColors.length]}`}
             >
-              <div className="w-full h-[78px] sm:h-[95px] md:h-[110px] flex items-center justify-center shrink-0">
+              <div className="w-full flex-1 flex items-center justify-center shrink-0">
                 <img
                   src={cat.img}
                   alt={cat.name}
@@ -128,7 +130,7 @@ const HomeCatSlider = () => {
                 />
               </div>
 
-              <h3 className="w-full text-gray-800 font-medium text-[11px] sm:text-sm leading-tight px-1 mt-2 line-clamp-2 min-h-[2.4em] sm:min-h-[2.6em] flex items-start justify-center">
+              <h3 className="w-full text-gray-800 font-medium text-[11px] sm:text-sm leading-tight px-1 mt-2 line-clamp-2 min-h-[2.6em] flex items-start justify-center">
                 {cat.name}
               </h3>
             </Link>

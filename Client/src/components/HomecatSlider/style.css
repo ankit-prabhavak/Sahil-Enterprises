@@ -1,0 +1,13 @@
+.homeCatSlider .swiper-wrapper {
+  align-items: stretch;
+}
+
+.homeCatSlider .swiper-slide {
+  height: auto !important;
+  display: flex;
+}
+
+.homeCatSlider .item {
+  height: 100%;
+  width: 100%;
+}
