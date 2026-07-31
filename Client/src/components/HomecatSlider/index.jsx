@@ -92,12 +92,12 @@ const HomeCatSlider = () => {
   ];
 
   return (
-    <div className="homeCatSlider w-full px-2 sm:px-0 md:w-[97%] lg:w-[96%] mx-auto py-2 mb-3">
+    <div className="homeCatSlider w-full px-2 sm:px-0 md:w-[97%] lg:w-[96%] mx-auto py-2 mb-3 overflow-hidden">
       <Swiper
         modules={[Navigation, Autoplay]}
         speed={800}
-        spaceBetween={10}
-        slidesPerView={2}
+        spaceBetween={8}
+        slidesPerView={1.6}
         navigation
         autoplay={{
           delay: 3500,
@@ -105,8 +105,10 @@ const HomeCatSlider = () => {
         }}
         loop={true}
         breakpoints={{
-          320: { slidesPerView: 2, spaceBetween: 10 },
+          320: { slidesPerView: 1.6, spaceBetween: 8 },
+          400: { slidesPerView: 2, spaceBetween: 8 },
           480: { slidesPerView: 3, spaceBetween: 10 },
+          640: { slidesPerView: 4, spaceBetween: 10 },
           768: { slidesPerView: 5, spaceBetween: 12 },
           1024: { slidesPerView: 7, spaceBetween: 12 },
         }}
